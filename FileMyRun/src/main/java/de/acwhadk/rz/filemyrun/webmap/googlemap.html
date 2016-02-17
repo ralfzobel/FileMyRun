@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0px; padding: 0px }
+  #map { height: 100%; background-color: #666666; }
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD0mINqjwTHJSJWuyrMFugocVLuRNjWWY&callback=initMap"
+        async defer></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false">
+</script>
+<script type="text/javascript">
+  function initialize() {
+    var latlng = new google.maps.LatLng(51.71, 6.18);
+    var myOptions = {
+      zoom: 15,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: false,
+      navigationControl: false,
+      streetViewControl: false,
+      backgroundColor: "#666666"
+    };    
+    document.map = new google.maps.Map(document.getElementById("map"),myOptions);
+    
+    var overlay;
+    var pointarray;
+	var	marker = new google.maps.Marker({
+    	position: latlng,
+		map: null,
+    	title: 'TrackPoint'
+  	});
+   
+    
+    document.clearTrackPoint = function clearTrackPoint() {
+		marker.setMap(null);
+		// force redraw :-(    	
+  		var z = document.map.getZoom();
+  		document.map.setZoom(z-1);
+  		document.map.setZoom(z);
+    }
+    document.markTrackPoint = function markTrackPoint(lat, lon) {
+    	latlng = new google.maps.LatLng(lat,lon);
+    	marker.setPosition(latlng);
+    	marker.setMap(document.map);
+     }
+    
+    document.startTrack = function startTrack() {
+    	pointarray = [];
+    }
+    document.addTrackPoint = function addTrackPoint(lat, lon) {
+    	latlng = new google.maps.LatLng(lat,lon);
+    	pointarray.push(latlng);
+    }
+    document.commitTrack = function commitTrack() {
+	    if (overlay) {
+	    	overlay.setMap(null);
+	    }
+  		overlay = new google.maps.Polyline({
+		    path: pointarray,
+		    geodesic: true,
+		    strokeColor: '#FF0000',
+		    strokeOpacity: 1.0,
+		    strokeWeight: 2
+		    });
+		overlay.setMap(document.map);
+    }
+    
+    document.setBounds = function setBounds(minLat, minLon, maxLat, maxLon) {
+    	var sw = new google.maps.LatLng(minLat, minLon);
+    	var ne = new google.maps.LatLng(maxLat, maxLon);
+    	var bounds = new google.maps.LatLngBounds(sw, ne);
+        document.map.fitBounds(bounds);
+        var center = new google.maps.LatLng((minLat+maxLat)/2.0 , (minLon+maxLon)/2.0);
+   		document.map.setCenter(center);
+   		document.map.panTo(center);
+    }
+    
+    document.zoomIn = function zoomIn() {
+    	var zoomLevel = document.map.getZoom();
+    	if (zoomLevel <= 20) document.map.setZoom(zoomLevel + 1);
+    }
+    
+    document.zoomOut = function zoomOut() {
+    	var zoomLevel = document.map.getZoom();
+    	if (zoomLevel > 0) document.map.setZoom(zoomLevel - 1);
+    }
+    
+    document.setMapTypeRoad = function setMapTypeRoad() {
+    	document.map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+    }
+    document.setMapTypeSatellite = function setMapTypeSatellite() {
+    	document.map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+    }
+    document.setMapTypeHybrid = function setMapTypeHybrid() {
+    	document.map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+    }
+    document.setMapTypeTerrain = function setMapTypeTerrain() {
+    	document.map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+    }    
+//    java.finished();
+  }
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map" style="width:100%; height:100%"></div>
+</body>
+</html>

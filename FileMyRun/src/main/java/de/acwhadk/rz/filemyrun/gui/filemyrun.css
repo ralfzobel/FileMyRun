@@ -1,0 +1,71 @@
+.root {
+    -fx-background-color: white ;
+    -fx-font-family: Arial ;
+    -fx-text-fill: darkblue ;
+    -fx-font-size: 14;
+}
+
+.small-label {
+    -fx-font-size: 12;
+}
+
+.text-field {
+    -fx-text-fill: darkblue ;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+    -fx-background-radius: 0, 0, 0, 0;
+
+    -fx-box-border: none;
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
+}
+
+.big-textfield {
+    -fx-font-size: 24;
+}
+
+.medium-textfield {
+    -fx-font-size: 18;
+}
+
+.small-textfield {
+    -fx-font-size: 12;
+}
+
+.text-area {
+    -fx-text-fill: darkblue ;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+    -fx-background-radius: 0, 0, 0, 0;
+
+    -fx-box-border: none;
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
+}
+
+.combo-box {
+    -fx-font-size: 12;
+    -fx-text-fill: darkblue ;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+    -fx-background-radius: 0, 0, 0, 0;
+
+    -fx-box-border: none;
+    -fx-focus-color: -fx-control-inner-background;
+    -fx-faint-focus-color: -fx-control-inner-background;
+    -fx-text-box-border: -fx-control-inner-background;
+    -fx-border-width: -1;
+}
+
+.list-cell:filled:selected {
+    -fx-font-size: 12;
+    -fx-text-fill: darkblue;
+}
+
+.column-right-align { 
+  -fx-alignment: center-right; 
+} 

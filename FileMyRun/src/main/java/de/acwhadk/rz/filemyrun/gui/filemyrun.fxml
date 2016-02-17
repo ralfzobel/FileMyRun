@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1500.0" styleClass="root" stylesheets="@filemyrun.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.acwhadk.rz.filemyrun.controller.Controller">
+   <children>
+      <SplitPane fx:id="hSplitPane" dividerPositions="0.27303070761014686" styleClass="root" stylesheets="@filemyrun.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0">
+                          <items>
+                            <Button fx:id="btnFilterTreeView" mnemonicParsing="false" text="Filter" />
+                              <Label text="Filter-Text" />
+                          </items>
+                        </ToolBar>
+                        <StackPane fx:id="stackPaneTree">
+                           <children>
+                              <TreeView fx:id="activityTreeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="752.0" prefWidth="399.0">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TreeView>
+                              <TreeView fx:id="lapTreeView" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </TreeView>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TabPane fx:id="tabPane" layoutY="14.0" prefHeight="649.0" prefWidth="811.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                    <tabs>
+                      <Tab fx:id="tabOverview" text="Übersicht">
+                        <content>
+                          <AnchorPane>
+                                 <children>
+                                    <HBox alignment="TOP_CENTER" prefHeight="620.0" prefWidth="811.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                       <children>
+                                          <VBox prefHeight="592.0" prefWidth="504.0" spacing="5.0">
+                                             <children>
+                                                <ComboBox fx:id="cbxActivityType" promptText="Intervalltraining" style="-fx-text-fill: darkblue;">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </ComboBox>
+                                                <TextField fx:id="txtActivityDate" styleClass="medium-textfield" text="01.12.2015 13:58:00">
+                                                   <VBox.margin>
+                                                      <Insets />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="txtActivityName" prefHeight="60.0" prefWidth="336.0" styleClass="big-textfield" text="ruhiger DL">
+                                                   <padding>
+                                                      <Insets bottom="50.0" left="10.0" right="10.0" top="50.0" />
+                                                   </padding>
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextArea fx:id="txtAreaDescription" prefHeight="200.0" prefWidth="300.0" styleClass="small-textfield" text="Beschreibung" />
+                                                <ComboBox fx:id="cbxEquipmentType1" layoutX="20.0" layoutY="20.0" promptText="Equipment1" style="-fx-text-fill: darkblue;">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </ComboBox>
+                                                <ComboBox fx:id="cbxEquipmentType2" layoutX="20.0" layoutY="433.0" promptText="Equipment2" style="-fx-text-fill: darkblue;">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </ComboBox>
+                                                <ComboBox fx:id="cbxEquipmentType3" layoutX="20.0" layoutY="461.0" promptText="Equipment3" style="-fx-text-fill: darkblue;">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </ComboBox>
+                                                <Button fx:id="btnEditEquipment" mnemonicParsing="false" text="Equipment bearbeiten">
+                                                   <VBox.margin>
+                                                      <Insets left="12.0" />
+                                                   </VBox.margin>
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font size="10.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="10.0" right="50.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox>
+                                             <children>
+                                                <Label styleClass="small-label" text="Distanz">
+                                                   <padding>
+                                                      <Insets top="20.0" />
+                                                   </padding></Label>
+                                                <TextField fx:id="txtActivityDistance" styleClass="big-textfield" text="12 km">
+                                                </TextField>
+                                                <Label styleClass="small-label" text="Zeit">
+                                                </Label>
+                                                <TextField fx:id="txtActivityTime" styleClass="big-textfield" text="1:32:43">
+                                                 </TextField>
+                                                <Label styleClass="small-label" text="Pace">
+                                               </Label>
+                                                <TextField fx:id="txtActivityPace" styleClass="big-textfield" text="5:46">
+                                                </TextField>
+                                                <TextField styleClass="big-textfield" />
+                                                <Label layoutX="20.0" layoutY="156.0" styleClass="small-label" text="Bergauf" />
+                                                <TextField fx:id="txtActivityAscent" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="123 hm" />
+                                                <Label layoutX="20.0" layoutY="214.0" styleClass="small-label" text="Bergab" />
+                                                <TextField fx:id="txtActivityDescent" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="113 hm" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                             <children>
+                                                <Label styleClass="small-label" text="Hf">
+                                                   <padding>
+                                                      <Insets top="20.0" />
+                                                   </padding></Label>
+                                                <TextField fx:id="txtActivityAvgHeartRate" styleClass="big-textfield" text="161 bpm" />
+                                                <Label styleClass="small-label" text="HfMax" />
+                                                <TextField fx:id="txtActivityMaxHeartRate" styleClass="big-textfield" text="172 bpm" />
+                                                <Label layoutX="20.0" layoutY="98.0" styleClass="small-label" text="Kalorien" />
+                                                <TextField fx:id="txtActivityCalories" layoutX="20.0" layoutY="113.0" styleClass="big-textfield" text="800 kcal" />
+                                                <TextField styleClass="big-textfield" />
+                                                <Label layoutX="20.0" layoutY="156.0" styleClass="small-label" text="min. Höhe" />
+                                                <TextField fx:id="txtActivityMinAltitude" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="212 m" />
+                                                <Label layoutX="20.0" layoutY="214.0" styleClass="small-label" text="max. Höhe" />
+                                                <TextField fx:id="txtActivityMaxAltitude" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="288" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                    <ButtonBar layoutX="634.0" layoutY="682.0" prefHeight="40.0" prefWidth="215.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="70.0">
+                                      <buttons>
+                                        <Button fx:id="btnActivityEdit" defaultButton="true" mnemonicParsing="false" text="Bearbeiten" />
+                                          <Button fx:id="btnActivityCancel" cancelButton="true" mnemonicParsing="false" text="Abbrechen" />
+                                      </buttons>
+                                    </ButtonBar>
+                                    <ButtonBar layoutX="918.0" layoutY="682.0" prefHeight="40.0" prefWidth="87.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="70.0">
+                                       <buttons>
+                                          <Button fx:id="btnActivityDelete" defaultButton="true" mnemonicParsing="false" text="Löschen" />
+                                       </buttons>
+                                    </ButtonBar>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab fx:id="tabSplits" text="Splits">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="tableSplits" layoutX="100.0" layoutY="48.0" prefHeight="407.0" prefWidth="567.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="50.0">
+                                      <columns>
+                                        <TableColumn fx:id="colSplitRound" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Runde" />
+                                          <TableColumn fx:id="colSplitTotalTime" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Gesamtzeit" />
+                                        <TableColumn fx:id="colSplitTime" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Zeit" />
+                                          <TableColumn fx:id="colSplitTotalDistance" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="GesamtDistanz" />
+                                          <TableColumn fx:id="colSplitDistance" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Distanz" />
+                                          <TableColumn fx:id="colSplitPace" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Pace" />
+                                          <TableColumn fx:id="colSplitAverageHeartRate" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Hf" />
+                                          <TableColumn fx:id="colSplitMaximumHeartRate" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="max. Hf" />
+                                          <TableColumn fx:id="colSplitAscent" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Bergauf" />
+                                          <TableColumn fx:id="colSplitDescent" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Bergab" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                    <HBox layoutX="100.0" layoutY="612.0" prefHeight="50.0" AnchorPane.bottomAnchor="30.0">
+                                       <children>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="small-label" text="beste Zeit" />
+                                                <TextField fx:id="txtBestTimeSplit" styleClass="medium-textfield" text="0:59,3" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="small-label" text="mittlere Zeit" />
+                                                <TextField fx:id="txtAverageTimeSplit" styleClass="medium-textfield" text="1:02,4" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="small-label" text="Gesamt-Zeit" />
+                                                <TextField fx:id="txtTotalTimeSplit" styleClass="medium-textfield" text="1:02,4" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="small-label" text="Gesamt-Distanz" />
+                                                <TextField fx:id="txtTotalDistanceSplit" styleClass="medium-textfield" text="12,3" />
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="small-label" text="beste Pace" />
+                                                <TextField fx:id="txtBestPaceSplit" styleClass="medium-textfield" text="4:15:8" />
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <Label styleClass="small-label" text="mittlerePace" />
+                                                <TextField fx:id="txtAveragePaceSplit" styleClass="medium-textfield" text="4:17,9" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <CheckBox fx:id="chkBoxSplitSnapIn" layoutX="891.0" layoutY="612.0" mnemonicParsing="false" text="Snap In" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab fx:id="tabCharts" text="Diagramme">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <StackPane fx:id="stackPaneCharts" prefHeight="742.0" prefWidth="1065.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0" />
+                                    <ComboBox fx:id="cbxChartType" layoutX="451.0" layoutY="2.0" promptText="Chart1" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0" />
+                                    <ComboBox fx:id="cbxChartType2" layoutX="60.0" layoutY="10.0" promptText="Chart2" AnchorPane.leftAnchor="225.0" AnchorPane.topAnchor="0.0" />
+                                    <ComboBox fx:id="cbxChartType3" layoutX="235.0" layoutY="10.0" promptText="Chart3" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="0.0" />
+                                    <ComboBox fx:id="cbxTimeDistance" promptText="TimeDistance" AnchorPane.leftAnchor="575.0" AnchorPane.topAnchor="0.0" />
+                                    <ComboBox fx:id="cbxSmoothFactor" layoutX="901.0" layoutY="2.0" promptText="Glättung" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
+                                    <Label fx:id="lblChartTime" layoutX="115.0" layoutY="734.0" text="Zeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" />
+                                    <Label fx:id="lblChartDistance" layoutX="177.0" layoutY="726.0" text="Distanz" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="225.0" />
+                                    <Label fx:id="lblChartAlitude" layoutX="251.0" layoutY="734.0" text="Höhe" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" />
+                                    <Label fx:id="lblChartHeartRate" layoutX="410.0" layoutY="736.0" text="Hf" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="575.0" />
+                                    <Label fx:id="lblChartPace" layoutX="329.0" layoutY="726.0" text="Pace" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="750.0" />
+                                    <Label fx:id="lblChartSplitPace" layoutX="396.0" layoutY="726.0" text="SplitPace" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="925.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab fx:id="tabMap" text="Karte">
+                           <content>
+                              <AnchorPane fx:id="tabMapAnchorPane">
+                                 <children>
+                                    <HBox AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ToggleButton fx:id="btnRoadMap" mnemonicParsing="false" text="Karte">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin></ToggleButton>
+                                          <ToggleButton fx:id="btnSatellite" mnemonicParsing="false" text="Satellit">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin></ToggleButton>
+                                          <ToggleButton fx:id="btnHybrid" mnemonicParsing="false" text="Hybrid">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin></ToggleButton>
+                                          <ToggleButton fx:id="btnLandscape" mnemonicParsing="false" text="Gelände">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin></ToggleButton>
+                                       </children>
+                                    </HBox>
+                                    <StackPane fx:id="stackPaneMap" prefHeight="716.0" prefWidth="1065.0" AnchorPane.topAnchor="25.0">
+                                       <children>
+                                          <WebView fx:id="webMapView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" />
+                                       </children>
+                                    </StackPane>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="tabStatistic" text="Statistik">
+                           <content>
+                              <AnchorPane fx:id="tabMapAnchorPane1">
+                                 <children>
+                                    <StackPane fx:id="stackPaneStatistic" layoutY="14.0" prefHeight="742.0" prefWidth="1065.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                                    <HBox layoutX="50.0">
+                                       <children>
+                                          <ComboBox fx:id="cbxStatisticPredefined" promptText="Zeitraum" />
+                                          <Label text="von">
+                                             <HBox.margin>
+                                                <Insets left="30.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="20.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <DatePicker fx:id="dateStatisticFrom" />
+                                          <Label layoutX="100.0" layoutY="10.0" text="bis">
+                                             <HBox.margin>
+                                                <Insets left="30.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="20.0" top="3.0" />
+                                             </padding>
+                                          </Label>
+                                          <DatePicker fx:id="dateStatisticTo" layoutX="123.0" layoutY="10.0" />
+                                          <ComboBox fx:id="cbxStatisticType" layoutX="10.0" layoutY="10.0" promptText="Statistik">
+                                             <HBox.margin>
+                                                <Insets left="30.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
