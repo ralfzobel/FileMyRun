@@ -182,6 +182,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
+                                    <CheckBox fx:id="chkBoxSplitSnapIn" layoutX="880.0" layoutY="687.0" mnemonicParsing="false" text="Snap In" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="20.0" />
                                     <TableView fx:id="tableSplits" layoutX="100.0" layoutY="48.0" prefHeight="407.0" prefWidth="567.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="50.0">
                                       <columns>
                                         <TableColumn fx:id="colSplitRound" editable="false" prefWidth="75.0" sortable="false" styleClass="column-right-align" text="Runde" />
@@ -239,7 +240,6 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <CheckBox fx:id="chkBoxSplitSnapIn" layoutX="891.0" layoutY="612.0" mnemonicParsing="false" text="Snap In" />
                                  </children>
                               </AnchorPane>
                         </content>

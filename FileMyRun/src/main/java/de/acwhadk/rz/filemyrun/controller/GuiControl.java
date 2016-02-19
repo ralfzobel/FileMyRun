@@ -151,6 +151,7 @@ public class GuiControl {
 				guiTabMap.initActivity();
 			}		
 			if (newTab == controller.getTabStatistic()) {
+				controller.getActivityTreeView().toFront();
 				controller.getBtnFilterTreeView().setDisable(true);
 				guiTabStatistic.initStatistic();
 			}		
