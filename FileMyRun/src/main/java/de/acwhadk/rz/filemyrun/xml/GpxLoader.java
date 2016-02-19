@@ -9,6 +9,14 @@ import javax.xml.bind.Unmarshaller;
 
 import com.topografix.gpx.GpxType;
 
+/**
+ * A Loader for garmin gpx files.
+ * When the tcx files are imported, it is also checked if there is a gpx file too.
+ * If so, it is read for some additional data that is not contained in the tcx file.
+ * 
+ * @author Ralf
+ *
+ */
 public class GpxLoader {
 
 	public GpxType loadGpx(File file) throws JAXBException {

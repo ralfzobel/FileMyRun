@@ -13,7 +13,14 @@ import javax.xml.namespace.QName;
 
 import de.acwhadk.rz.filemyrun.equipment.EquipmentContainer;
 
-
+/**
+ * EquipmentContainerToXML is used to read and write the xml file that contains
+ * the equipment data. This is the definition of the equipment and the use of
+ * the equipment too.
+ * 
+ * @author Ralf
+ *
+ */
 public class EquipmentContainerToXML {
 
 	private static final String JAXB_PACKAGES = "de.acwhadk.rz.filemyrun.equipment";
