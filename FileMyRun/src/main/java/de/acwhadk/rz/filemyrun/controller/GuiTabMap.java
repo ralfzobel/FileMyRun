@@ -17,6 +17,12 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.util.Callback;
 
+/**
+ * This class controls the contents of the map tab.
+ * 
+ * @author Ralf
+ *
+ */
 public class GuiTabMap {
 
 	private Controller controller;

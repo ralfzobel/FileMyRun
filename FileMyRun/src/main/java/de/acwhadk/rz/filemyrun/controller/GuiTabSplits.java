@@ -17,6 +17,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+/**
+ * This class controls the contents of the split times tab.
+ * 
+ * @author Ralf
+ *
+ */
 public class GuiTabSplits {
 
 	private Controller controller;

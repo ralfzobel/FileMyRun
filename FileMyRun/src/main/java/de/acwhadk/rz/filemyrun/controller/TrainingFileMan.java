@@ -34,6 +34,14 @@ import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 import de.acwhadk.rz.filemyrun.xml.TrainingFileContainerToXML;
 import javafx.concurrent.Task;
 
+/**
+ * This class is a manager for training files.
+ * On instantiation it looks if there are new files to import.
+ * After that it gives access to the training files.
+ * 
+ * @author Ralf
+ *
+ */
 public class TrainingFileMan {
 
 	private String workdir;

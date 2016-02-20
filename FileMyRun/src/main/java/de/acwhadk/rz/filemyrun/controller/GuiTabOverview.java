@@ -21,6 +21,12 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
+/**
+ * This class controls the contents of the overview tab.
+ * 
+ * @author Ralf
+ *
+ */
 public class GuiTabOverview {
 
 	private static final int MAX_EQUIPMENT_TYPES = 3;

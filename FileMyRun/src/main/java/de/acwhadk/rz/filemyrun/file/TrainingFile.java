@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * a bean used to describe one training and get access to the trx file.
+ * A bean used to hold the main data of one training activity
+ * including the access path to the trx file that holds the detailed data.
  * 
  * @author Ralf
  *

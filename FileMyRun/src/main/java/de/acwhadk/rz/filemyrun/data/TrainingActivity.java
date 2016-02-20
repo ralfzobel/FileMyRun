@@ -16,10 +16,7 @@ import de.acwhadk.rz.filemyrun.file.TrainingFile;
  * This is the central data storage for a training activity.
  * 
  * It contains the data from the garmin tcx file (class TrainingCenterDatabaseT) 
- * and adds some missing data like name, type or description. 
- * 
- * Furthermore it has some data copied from the tcx file like distance.
- * TODO check if the copied data is necessary
+ * and the additional data from the training file. 
  * 
  * @author Ralf
  *

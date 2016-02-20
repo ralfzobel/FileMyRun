@@ -16,6 +16,12 @@ import de.acwhadk.rz.filemyrun.dialog.FileFilter;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
 import javafx.scene.control.TreeItem;
 
+/**
+ * This class holds the data that is used to display the tree with the activities.
+ * 
+ * @author Ralf
+ *
+ */
 public class FileTree {
 
 	private Map<String, TrainingFile> files = new HashMap<>();

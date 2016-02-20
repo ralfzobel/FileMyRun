@@ -16,6 +16,12 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 
+/**
+ * This class controls the activity tree and the selected tab in the main window.
+ * 
+ * @author Ralf
+ *
+ */
 public class GuiControl {
 
 	private Stage primaryStage;

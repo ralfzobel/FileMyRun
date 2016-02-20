@@ -9,6 +9,12 @@ import javax.xml.bind.Unmarshaller;
 
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
+/**
+ * A loader for garmin tcx files.
+ * 
+ * @author Ralf
+ *
+ */
 public class TcxLoader {
 
 	public TrainingCenterDatabaseT loadTcx(File file) throws JAXBException {

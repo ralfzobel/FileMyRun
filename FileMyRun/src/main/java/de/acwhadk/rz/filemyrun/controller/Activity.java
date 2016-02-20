@@ -23,6 +23,15 @@ import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
 import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 
+/**
+ * This class provides the methods that the gui needs.
+ * It implements getters for data that may be used at it is (e.g. name).
+ * It implements methods that calculate the data from the raw data (most of the methods do that).
+ * It supplies methods to manipulate the data (e.g. setters and the split* methods).
+ *  
+ * @author Ralf
+ *
+ */
 public class Activity {
 
 	private static final double THRESHOLD = 5.0;

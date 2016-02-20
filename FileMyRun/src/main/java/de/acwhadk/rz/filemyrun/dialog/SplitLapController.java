@@ -7,6 +7,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
+/**
+ * The controller for the split lap dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class SplitLapController {
 
 

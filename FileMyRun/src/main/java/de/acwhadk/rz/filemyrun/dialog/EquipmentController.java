@@ -22,6 +22,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
+/**
+ * The controller class for the equipment definition dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class EquipmentController {
 
     private static final int MAX_TYPES = 3;

@@ -13,6 +13,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+/**
+ * Show a track on google maps by calling the javascript methods by a java fx web engine.
+ * 
+ * @author Ralf
+ *
+ */
 public class WebMap {
 	private WebEngine webEngine;
 	private Tab tab;

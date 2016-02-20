@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * a bean used to hold one type of equipment (e.g. shoes) and its defined items.
+ * A bean used to hold one type of equipment (e.g. shoes) and its defined items.
  * 
  * @author Ralf
  *

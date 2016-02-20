@@ -9,6 +9,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * A simple list of all training files building the file index.
+ * 
+ * @author Ralf
+ *
+ */
 @XmlRootElement(name="TrainingFileContainer")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TrainingFileContainer", namespace = "http://rz.acwhadk.de/file/filemyrun/", propOrder = {

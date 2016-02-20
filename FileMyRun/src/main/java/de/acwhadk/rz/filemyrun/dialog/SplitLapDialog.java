@@ -8,6 +8,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * The split lap dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class SplitLapDialog {
 
 	public enum SplitType { None, HalfTime, HalfDist, AtDist }; 

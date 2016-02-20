@@ -1,5 +1,11 @@
 package de.acwhadk.rz.filemyrun.controller;
 
+/**
+ * A bean holding the data needed for display of one row in the split time table.
+ * 
+ * @author Ralf
+ *
+ */
 public class Lap {
 	
 	private String round;

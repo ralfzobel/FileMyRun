@@ -13,6 +13,12 @@ import javax.xml.namespace.QName;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 
+/**
+ * Read and write an xml file for a single activity.
+ * 
+ * @author Ralf
+ *
+ */
 public class TrainingActivityToXML {
 
 	private static final String JAXB_PACKAGES = "com.topografix.gpx:com.garmin.tpextensionsv1:de.acwhadk.rz.filemyrun.data";

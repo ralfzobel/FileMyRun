@@ -24,6 +24,12 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.util.StringConverter;
 
+/**
+ * This class controls the contents of the statistic tab.
+ * 
+ * @author Ralf
+ *
+ */
 public class GuiTabStatistic {
 
 	private static final String THIS_YEAR = "dieses Jahr";

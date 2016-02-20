@@ -5,6 +5,12 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * A utility class dealing with formatting.
+ * 
+ * @author Ralf
+ *
+ */
 public class Formatter {
 
 	private Formatter() {

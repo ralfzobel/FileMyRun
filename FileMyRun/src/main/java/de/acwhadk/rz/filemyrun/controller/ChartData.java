@@ -14,6 +14,12 @@ import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 
+/**
+ * This class contains the data that is needed to display charts.
+ * 
+ * @author Ralf
+ *
+ */
 public class ChartData {
 
 	private boolean hasHeartRateData=false;

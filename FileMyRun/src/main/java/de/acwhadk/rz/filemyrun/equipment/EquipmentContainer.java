@@ -9,6 +9,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * The container holding all equipment related data.
+ * 
+ * @author Ralf
+ *
+ */
 @XmlRootElement(name="EquipmentContainer")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EquipmentContainer", namespace = "http://rz.acwhadk.de/file/filemyrun/", propOrder = {

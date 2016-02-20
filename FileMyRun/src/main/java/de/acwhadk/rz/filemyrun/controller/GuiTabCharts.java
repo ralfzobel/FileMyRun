@@ -15,6 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 
+/**
+ * This class controls the contents of the chart tab.
+ * 
+ * @author Ralf
+ *
+ */
 public class GuiTabCharts {
 
 	private static String[] TimeDist = { "Zeit", "Distanz" };

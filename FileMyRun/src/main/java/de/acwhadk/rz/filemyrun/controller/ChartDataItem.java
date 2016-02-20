@@ -1,5 +1,11 @@
 package de.acwhadk.rz.filemyrun.controller;
 
+/**
+ * A bean for a single point in a chart.
+ * 
+ * @author Ralf
+ *
+ */
 public class ChartDataItem {
 
 	private long time;

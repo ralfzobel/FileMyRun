@@ -10,6 +10,13 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.Properties;
 
+/**
+ * Create a simple setup for the program.
+ * TODO make the setup editable by the user.
+ * 
+ * @author Ralf
+ *
+ */
 public class Setup {
 
 	private static final String APP_NAME = "FileMyRun";

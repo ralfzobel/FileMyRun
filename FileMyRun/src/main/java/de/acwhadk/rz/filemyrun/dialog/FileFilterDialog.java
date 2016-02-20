@@ -9,6 +9,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * The file filter dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class FileFilterDialog {
 
 	private Stage primaryStage;

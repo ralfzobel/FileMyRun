@@ -11,6 +11,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * The controller for the file filter dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class FileFilterController {
 
 	@FXML

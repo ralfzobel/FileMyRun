@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * a bean used to describe one equipment item, e.g. a specific shoe
+ * A bean used to describe one equipment item, e.g. a specific shoe.
  * 
  * @author Ralf
  *

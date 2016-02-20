@@ -10,6 +10,12 @@ import com.garmin.tcdbv2.TrackpointT;
 
 import javafx.scene.control.TreeItem;
 
+/**
+ * This class holds the data that is needed to display the lap tree at the left side of the map.
+ * 
+ * @author Ralf
+ *
+ */
 public class LapTree {
 
 	private TreeItem<String> root;

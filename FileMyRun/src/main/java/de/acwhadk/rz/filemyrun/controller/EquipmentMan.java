@@ -17,6 +17,16 @@ import de.acwhadk.rz.filemyrun.equipment.EquipmentUsedEntry;
 import de.acwhadk.rz.filemyrun.setup.Setup;
 import de.acwhadk.rz.filemyrun.xml.EquipmentContainerToXML;
 
+/**
+ * A manager class to deal with equipment.
+ * It reads the equipment definitions and the used equipment
+ * and supplies access to this data for the gui.
+ * 
+ * This class could have also be implemented as a singleton.
+ *  
+ * @author Ralf
+ *
+ */
 public class EquipmentMan {
 
 	private String workdir;

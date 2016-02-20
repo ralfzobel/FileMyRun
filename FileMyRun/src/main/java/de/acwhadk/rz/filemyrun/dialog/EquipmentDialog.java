@@ -10,6 +10,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * The equipment definition dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class EquipmentDialog {
 
 	private Stage primaryStage;

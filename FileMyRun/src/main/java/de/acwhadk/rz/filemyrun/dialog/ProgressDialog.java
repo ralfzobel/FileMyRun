@@ -11,6 +11,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * A dialog showing a progress bar.
+ * 
+ * @author Ralf
+ *
+ */
 public class ProgressDialog {
 
 	private final Stage dialogStage;

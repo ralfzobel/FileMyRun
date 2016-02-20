@@ -2,6 +2,12 @@ package de.acwhadk.rz.filemyrun.dialog;
 
 import java.time.LocalDate;
 
+/**
+ * A bean containing the data the user entered in the file filter dialog.
+ * 
+ * @author Ralf
+ *
+ */
 public class FileFilter {
 
 	private boolean timeFilter;

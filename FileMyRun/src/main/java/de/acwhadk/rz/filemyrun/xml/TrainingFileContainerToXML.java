@@ -13,6 +13,13 @@ import javax.xml.namespace.QName;
 
 import de.acwhadk.rz.filemyrun.file.TrainingFileContainer;
 
+/**
+ * Read and write an index xml file for all activities referencing the activity files
+ * and containing some important data.
+ * 
+ * @author Ralf
+ *
+ */
 public class TrainingFileContainerToXML {
 
 	private static final String JAXB_PACKAGES = "de.acwhadk.rz.filemyrun.file";

@@ -12,6 +12,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * The App class contains the start method that is called by java fx.
+ * 
+ * @author Ralf
+ *
+ */
 public class App extends Application {
 
 	@Override
