@@ -6,4 +6,4 @@ When you start FileMyRun, the download folder will be scanned for new
 tcx files. The found files are imported and moved to a backup directory.
 Then you can add some more data to your activity and analize it.
 
-Have fun.
+Have fun and don't forget to run.
