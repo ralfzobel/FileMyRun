@@ -15,6 +15,7 @@ import com.garmin.tcdbv2.HeartRateInBeatsPerMinuteT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
+import de.acwhadk.rz.filemyrun.file.TrainingFile;
 import de.acwhadk.rz.filemyrun.xml.TcxLoader;
 import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 
@@ -24,21 +25,23 @@ public class TestTcxLoader {
 	@Test
 	public void test() throws JAXBException, IOException {
 		TcxLoader tcx = new TcxLoader();
-		TrainingCenterDatabaseT t = tcx.loadTcx(new File("C:\\Users\\Ralf\\Downloads\\imported\\activity_917243787.tcx"));
+		TrainingCenterDatabaseT t = tcx.loadTcx(new File("src/test/resources/sample_activity.tcx"));
 		ActivityT a = t.getActivities().getActivity().get(0);
 		ActivityLapT b = a.getLap().get(0);
 		HeartRateInBeatsPerMinuteT c = b.getAverageHeartRateBpm();
 		short hr = c.getValue();
-		assertEquals(168, (int) hr);
+		assertEquals(149, (int) hr);
 		
+		TrainingFile tf = new TrainingFile();
 		TrainingActivity tr = new TrainingActivity();
+		tr.setTrainingFile(tf);
 		tr.setName("Hugo");
 		tr.setTrainingCenterDatabase(t);
 		
-		TrainingActivityToXML.save("C:\\Users\\Ralf\\Downloads\\activity_917243787.trx", tr);
+		TrainingActivityToXML.save("src/test/resources/sample_activity.trx", tr);
 		
-		File file = new File("C:\\Users\\Ralf\\Downloads\\activity_917243787.trx");
+		File file = new File("src/test/resources/sample_activity.trx");
 		TrainingActivity trz = TrainingActivityToXML.load(file);
-		System.out.println(trz.getName());
+		assertEquals("Hugo", trz.getName());
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.xml.bind.JAXBException;
 
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import de.acwhadk.rz.filemyrun.equipment.EquipmentContainer;
@@ -39,9 +40,9 @@ public class TestEquipment {
 		container.getequipmentUsedEntryList().add(use1);
 		
 		try {
-			EquipmentContainerToXML.save("equip.xml", container);
-			EquipmentContainer container2 = EquipmentContainerToXML.load(new File("equip.xml"));
-			System.out.println(container2);
+			EquipmentContainerToXML.save("src/test/resources/equip.xml", container);
+			EquipmentContainer container2 = EquipmentContainerToXML.load(new File("src/test/resources/equip.xml"));
+			assertEquals(container.getCurrentId(), container2.getCurrentId());
 		} catch (IOException | JAXBException e) {
 			e.printStackTrace();
 			throw e;

@@ -3,26 +3,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>rz.acwhadk.de</groupId>
 	<artifactId>FileMyRun</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.6.RELEASE</version>
-	</parent>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<properties>
 		<jdk.version>1.8</jdk.version>
 		<mainClass>de.acwhadk.rz.filemyrun.gui.App</mainClass>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>4.12</version>
 		</dependency>
 	</dependencies>
 
@@ -31,6 +24,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
@@ -91,7 +85,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/FileMyRun.exe</outfile>
-							<jar>target/FileMyRun-0.0.1-SNAPSHOT.jar</jar>
+							<jar>target/FileMyRun-0.0.2-SNAPSHOT.jar</jar>
 							<errTitle>FileMyRun</errTitle>
 							<icon>running_man_32.ico</icon>
 							<classPath>

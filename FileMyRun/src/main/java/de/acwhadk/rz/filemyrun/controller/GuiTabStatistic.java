@@ -156,9 +156,7 @@ public class GuiTabStatistic {
 			XYChart.Series<Number, Number> series = new XYChart.Series<>();
 			for(Entry<Integer, LocalDate> entry : dates.entrySet()) {
 				int i = entry.getKey();
-				LocalDate ldate = entry.getValue();
 				Double y = distances.get(i);
-				System.out.println("index " + i +", date " + ldate + ", y " + y);
 				series.getData().add(new XYChart.Data<Number,Number>(i, y));
 			}
 			initXAxis(weekly, dates);

@@ -23,12 +23,12 @@ public class TestGpxLoader {
 	@Test
 	public void test() throws JAXBException {
 		GpxLoader gpx = new GpxLoader();
-		GpxType t = gpx.loadGpx(new File("C:\\Users\\Ralf\\Downloads\\activity_911196904.gpx"));
+		GpxType t = gpx.loadGpx(new File("src/test/resources/sample_activity.gpx"));
 		TrkType a = t.getTrk().get(0);
 		TrksegType b = a.getTrkseg().get(0);
 		WptType c = b.getTrkpt().get(0);
 		Short hr = getHeartRate(c);
-		assertEquals(107, (int) hr);
+		assertEquals(103, (int) hr);
 	}
 
 	private Short getHeartRate(WptType tp) {
