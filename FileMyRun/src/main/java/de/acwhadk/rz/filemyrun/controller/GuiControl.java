@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import de.acwhadk.rz.filemyrun.dialog.FileFilter;
 import de.acwhadk.rz.filemyrun.dialog.FileFilterDialog;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
  */
 public class GuiControl {
 
+	final static Logger logger = Logger.getLogger(GuiControl.class);
 	private Stage primaryStage;
 	private Controller controller;
 	private Activity activity;
@@ -192,6 +195,7 @@ public class GuiControl {
 	}
 
 	public static void showException(Exception e) {
+		logger.error("got exception:", e);
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Exception");
         alert.setHeaderText("Exception");

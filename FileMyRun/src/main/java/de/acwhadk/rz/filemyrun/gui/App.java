@@ -1,11 +1,14 @@
 package de.acwhadk.rz.filemyrun.gui;
 
+import org.apache.log4j.Logger;
+
 import de.acwhadk.rz.filemyrun.controller.Controller;
 import de.acwhadk.rz.filemyrun.controller.EquipmentMan;
 import de.acwhadk.rz.filemyrun.controller.GuiControl;
 import de.acwhadk.rz.filemyrun.controller.TrainingFileMan;
 import de.acwhadk.rz.filemyrun.setup.Setup;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,8 +23,11 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
+	final static Logger logger = Logger.getLogger(App.class);
+	
 	@Override
 	public void start(Stage primaryStage) {
+		logger.info("FileMyRun started");
 		System.setProperty("java.net.useSystemProxies", "true");
 		try {
 			Setup setup = Setup.getInstance();
@@ -48,7 +54,7 @@ public class App extends Application {
 			primaryStage.setTitle(setup.getApplicationName());
 		} catch (Exception e) {
 			GuiControl.showException(e);
-			System.exit(1);
+			Platform.exit();
 		}
 		
 		primaryStage.show();
