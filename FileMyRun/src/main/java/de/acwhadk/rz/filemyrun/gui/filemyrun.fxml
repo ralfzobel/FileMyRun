@@ -57,7 +57,7 @@
                                                       <Insets left="5.0" />
                                                    </padding>
                                                 </ComboBox>
-                                                <TextField fx:id="txtActivityDate" styleClass="medium-textfield" text="01.12.2015 13:58:00">
+                                                <TextField fx:id="txtActivityDate" editable="false" styleClass="medium-textfield" text="01.12.2015 13:58:00">
                                                    <VBox.margin>
                                                       <Insets />
                                                    </VBox.margin>
@@ -118,17 +118,17 @@
                                                 </TextField>
                                                 <Label styleClass="small-label" text="Zeit">
                                                 </Label>
-                                                <TextField fx:id="txtActivityTime" styleClass="big-textfield" text="1:32:43">
+                                                <TextField fx:id="txtActivityTime" editable="false" styleClass="big-textfield" text="1:32:43">
                                                  </TextField>
                                                 <Label styleClass="small-label" text="Pace">
                                                </Label>
-                                                <TextField fx:id="txtActivityPace" styleClass="big-textfield" text="5:46">
+                                                <TextField fx:id="txtActivityPace" editable="false" styleClass="big-textfield" text="5:46">
                                                 </TextField>
                                                 <TextField styleClass="big-textfield" />
                                                 <Label layoutX="20.0" layoutY="156.0" styleClass="small-label" text="Bergauf" />
-                                                <TextField fx:id="txtActivityAscent" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="123 hm" />
+                                                <TextField fx:id="txtActivityAscent" editable="false" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="123 hm" />
                                                 <Label layoutX="20.0" layoutY="214.0" styleClass="small-label" text="Bergab" />
-                                                <TextField fx:id="txtActivityDescent" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="113 hm" />
+                                                <TextField fx:id="txtActivityDescent" editable="false" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="113 hm" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -143,16 +143,16 @@
                                                    <padding>
                                                       <Insets top="20.0" />
                                                    </padding></Label>
-                                                <TextField fx:id="txtActivityAvgHeartRate" styleClass="big-textfield" text="161 bpm" />
+                                                <TextField fx:id="txtActivityAvgHeartRate" editable="false" styleClass="big-textfield" text="161 bpm" />
                                                 <Label styleClass="small-label" text="HfMax" />
-                                                <TextField fx:id="txtActivityMaxHeartRate" styleClass="big-textfield" text="172 bpm" />
+                                                <TextField fx:id="txtActivityMaxHeartRate" editable="false" styleClass="big-textfield" text="172 bpm" />
                                                 <Label layoutX="20.0" layoutY="98.0" styleClass="small-label" text="Kalorien" />
-                                                <TextField fx:id="txtActivityCalories" layoutX="20.0" layoutY="113.0" styleClass="big-textfield" text="800 kcal" />
+                                                <TextField fx:id="txtActivityCalories" editable="false" layoutX="20.0" layoutY="113.0" styleClass="big-textfield" text="800 kcal" />
                                                 <TextField styleClass="big-textfield" />
                                                 <Label layoutX="20.0" layoutY="156.0" styleClass="small-label" text="min. Höhe" />
-                                                <TextField fx:id="txtActivityMinAltitude" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="212 m" />
+                                                <TextField fx:id="txtActivityMinAltitude" editable="false" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="212 m" />
                                                 <Label layoutX="20.0" layoutY="214.0" styleClass="small-label" text="max. Höhe" />
-                                                <TextField fx:id="txtActivityMaxAltitude" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="288" />
+                                                <TextField fx:id="txtActivityMaxAltitude" editable="false" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="288" />
                                              </children>
                                           </VBox>
                                        </children>
