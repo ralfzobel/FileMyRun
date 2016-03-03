@@ -33,7 +33,7 @@ public class EquipmentDialog {
 		FXMLLoader loader = new FXMLLoader(res );
 		AnchorPane page = (AnchorPane) loader.load();
 		Stage dialogStage = new Stage();
-		dialogStage.setTitle("Equipment bearbeiten");
+		dialogStage.setTitle("Ausrüstung bearbeiten");
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(primaryStage);
 		Scene scene = new Scene(page);
