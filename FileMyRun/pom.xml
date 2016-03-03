@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>rz.acwhadk.de</groupId>
 	<artifactId>FileMyRun</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.2</version>
 
 	<properties>
 		<jdk.version>1.8</jdk.version>
@@ -110,7 +110,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/FileMyRun.exe</outfile>
-							<jar>target/FileMyRun-0.0.2-SNAPSHOT.jar</jar>
+							<jar>target/FileMyRun-0.0.2.jar</jar>
 							<errTitle>FileMyRun</errTitle>
 							<icon>running_man_32.ico</icon>
 							<classPath>
