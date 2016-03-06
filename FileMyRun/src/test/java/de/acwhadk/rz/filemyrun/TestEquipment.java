@@ -37,7 +37,7 @@ public class TestEquipment {
 		use1.setType("Schuhe");
 		use1.setUsedDistance(10.0);
 		use1.setUsedTime(3600);
-		container.getequipmentUsedEntryList().add(use1);
+		container.getEquipmentUsedEntryList().add(use1);
 		
 		try {
 			EquipmentContainerToXML.save("src/test/resources/equip.xml", container);

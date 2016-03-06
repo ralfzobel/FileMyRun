@@ -37,7 +37,7 @@ public class EquipmentContainer implements Serializable {
 		return equipmentDefinitionList;
 	}
 
-	public List<EquipmentUsedEntry> getequipmentUsedEntryList() {
+	public List<EquipmentUsedEntry> getEquipmentUsedEntryList() {
 		if (equipmentUsedEntryList == null) {
 			equipmentUsedEntryList = new ArrayList<>();
 		}

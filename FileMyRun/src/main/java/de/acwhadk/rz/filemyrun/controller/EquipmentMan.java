@@ -127,7 +127,7 @@ public class EquipmentMan {
 			entry = new EquipmentUsedEntry();
 			entry.setActivity(activity);
 			entry.setType(type);
-			equipment.getequipmentUsedEntryList().add(entry);
+			equipment.getEquipmentUsedEntryList().add(entry);
 		}
 		entry.setId(id);
 		entry.setUsedTime(usedTime);
@@ -137,12 +137,12 @@ public class EquipmentMan {
 	
 	public void removeEquipmentUsedEntry(Date activity, String type) throws Exception {
 		EquipmentUsedEntry entry = getEquipmentUsedEntry(activity, type);
-		equipment.getequipmentUsedEntryList().remove(entry);
+		equipment.getEquipmentUsedEntryList().remove(entry);
 		save();
 	}
 	
 	private EquipmentUsedEntry getEquipmentUsedEntry(Date activity, String type) {
-		for(EquipmentUsedEntry entry : equipment.getequipmentUsedEntryList()) {
+		for(EquipmentUsedEntry entry : equipment.getEquipmentUsedEntryList()) {
 			if (entry.getActivity().equals(activity) && entry.getType().equals(type)) {
 				return entry;
 			}
@@ -182,4 +182,7 @@ public class EquipmentMan {
 		equipment.getEquipmentDefinitionList().add(new EquipmentDefinition(type));
 	}
 
+	public List<EquipmentUsedEntry> getEquipmentUsedEntryList() {
+		return equipment.getEquipmentUsedEntryList();
+	}
 }

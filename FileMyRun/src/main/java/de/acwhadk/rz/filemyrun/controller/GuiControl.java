@@ -40,7 +40,8 @@ public class GuiControl {
 	private GuiTabSplits guiTabSplits;	
 	private GuiTabCharts guiTabCharts;	
 	private GuiTabMap guiTabMap;
-	private GuiTabStatistic guiTabStatistic;	
+	private GuiTabStatistic guiTabStatistic;
+	private GuiTabEquipment guiTabEquipment;	
 
 	public GuiControl(Controller controller, TrainingFileMan trainingFileMan, EquipmentMan equipmentMan, Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -54,6 +55,7 @@ public class GuiControl {
 		this.guiTabCharts = new GuiTabCharts(controller, this);
 		this.guiTabMap = new GuiTabMap(controller, this);
 		this.guiTabStatistic = new GuiTabStatistic(controller, this);
+		this.guiTabEquipment = new GuiTabEquipment(controller, this);
 		
 		fileTree = new FileTree(trainingFileMan, null);
 		
@@ -163,6 +165,11 @@ public class GuiControl {
 				controller.getActivityTreeView().toFront();
 				controller.getBtnFilterTreeView().setDisable(true);
 				guiTabStatistic.initStatistic();
+			}		
+			if (newTab == controller.getTabEquipment()) {
+				controller.getActivityTreeView().toFront();
+				controller.getBtnFilterTreeView().setDisable(true);
+				guiTabEquipment.initStatistic();
 			}		
 		} catch (Exception e) {
 			showException(e);

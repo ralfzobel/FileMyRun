@@ -245,6 +245,15 @@ public class Controller {
     @FXML
     private ComboBox<String> cbxStatisticType;
 
+    @FXML
+    private Tab tabEquipment;
+
+    @FXML
+    private StackPane stackPaneEquipment;
+
+    @FXML
+    private ComboBox<String> cbxStatisticEquipment;
+    
     /*
      * Getters for all Gui Controls...
      */
@@ -539,6 +548,18 @@ public class Controller {
 
 	public ComboBox<String> getCbxStatisticType() {
 		return cbxStatisticType;
+	}
+
+	public ComboBox<String> getCbxStatisticEquipment() {
+		return cbxStatisticEquipment;
+	}
+
+	public Tab getTabEquipment() {
+		return tabEquipment;
+	}
+
+	public StackPane getStackPaneEquipment() {
+		return stackPaneEquipment;
 	}
 
 }

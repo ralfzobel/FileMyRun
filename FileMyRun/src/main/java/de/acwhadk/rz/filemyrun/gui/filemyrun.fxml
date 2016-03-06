@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1500.0" styleClass="root" stylesheets="@filemyrun.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.acwhadk.rz.filemyrun.controller.Controller">
+<AnchorPane prefHeight="732.0" prefWidth="1284.0" styleClass="root" stylesheets="@filemyrun.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.acwhadk.rz.filemyrun.controller.Controller">
    <children>
       <SplitPane fx:id="hSplitPane" dividerPositions="0.27303070761014686" styleClass="root" stylesheets="@filemyrun.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -268,7 +268,7 @@
                            <content>
                               <AnchorPane fx:id="tabMapAnchorPane">
                                  <children>
-                                    <HBox AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <HBox AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <ToggleButton fx:id="btnRoadMap" mnemonicParsing="false" text="Karte">
                                              <HBox.margin>
@@ -288,7 +288,7 @@
                                              </HBox.margin></ToggleButton>
                                        </children>
                                     </HBox>
-                                    <StackPane fx:id="stackPaneMap" prefHeight="716.0" prefWidth="1065.0" AnchorPane.topAnchor="25.0">
+                                    <StackPane fx:id="stackPaneMap" AnchorPane.topAnchor="28.0">
                                        <children>
                                           <WebView fx:id="webMapView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" />
                                        </children>
@@ -327,6 +327,20 @@
                                                 <Insets left="30.0" />
                                              </HBox.margin>
                                           </ComboBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab fx:id="tabEquipment" text="Ausrüstung">
+                           <content>
+                              <AnchorPane fx:id="tabMapAnchorPane11">
+                                 <children>
+                                    <StackPane fx:id="stackPaneEquipment" layoutY="14.0" prefHeight="742.0" prefWidth="1065.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                                    <HBox layoutX="50.0">
+                                       <children>
+                                          <ComboBox fx:id="cbxStatisticEquipment" promptText="Ausrüstung" />
                                        </children>
                                     </HBox>
                                  </children>
