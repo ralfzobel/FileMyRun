@@ -10,34 +10,26 @@
 
 <AnchorPane prefHeight="732.0" prefWidth="1284.0" styleClass="root" stylesheets="@filemyrun.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.acwhadk.rz.filemyrun.controller.Controller">
    <children>
-      <SplitPane fx:id="hSplitPane" dividerPositions="0.27303070761014686" styleClass="root" stylesheets="@filemyrun.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="hSplitPane" dividerPositions="0.25" styleClass="root" stylesheets="@filemyrun.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Button fx:id="btnFilterTreeView" mnemonicParsing="false" text="Filter" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="2.0" />
+                  <Label text="Filter-Text" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="7.0" />
+                  <StackPane fx:id="stackPaneTree" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                      <children>
-                        <ToolBar prefHeight="40.0" prefWidth="200.0">
-                          <items>
-                            <Button fx:id="btnFilterTreeView" mnemonicParsing="false" text="Filter" />
-                              <Label text="Filter-Text" />
-                          </items>
-                        </ToolBar>
-                        <StackPane fx:id="stackPaneTree">
-                           <children>
-                              <TreeView fx:id="activityTreeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="752.0" prefWidth="399.0">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </TreeView>
-                              <TreeView fx:id="lapTreeView" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </TreeView>
-                           </children>
-                        </StackPane>
+                        <TreeView fx:id="activityTreeView">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </TreeView>
+                        <TreeView fx:id="lapTreeView" layoutX="10.0" layoutY="10.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </TreeView>
                      </children>
-                  </VBox>
+                  </StackPane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
