@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +27,8 @@ import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 import de.acwhadk.rz.filemyrun.dialog.ProgressDialog;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
 import de.acwhadk.rz.filemyrun.file.TrainingFileContainer;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import de.acwhadk.rz.filemyrun.setup.Setup;
 import de.acwhadk.rz.filemyrun.xml.GpxLoader;
 import de.acwhadk.rz.filemyrun.xml.TcxLoader;
@@ -75,7 +77,7 @@ public class TrainingFileMan {
 	
 	private void readTrainingFileListXML() {
 		files = new ArrayList<>();
-		File file = new File(workdir + "/files.xml");
+		File file = new File(workdir + File.separator + Const.INDEX_FILE);
 		try {
 			TrainingFileContainer container = TrainingFileContainerToXML.load(file);
 			files.addAll(container.getFilelist());
@@ -85,7 +87,7 @@ public class TrainingFileMan {
 	}
 
 	private void rebuildTrainingFileList() {
-		ProgressDialog pb = new ProgressDialog("Training File Index wird erstellt");
+		ProgressDialog pb = new ProgressDialog(Lang.get().text(Lang.PROCESS_DLG_INDEX));
 		Task<Void> task = new Task<Void>() {
             @Override
             public Void call() {
@@ -94,7 +96,7 @@ public class TrainingFileMan {
         		int cnt = 0;
         		for(File file : trxFiles) {
         			++cnt;
-        			if (!file.getName().toLowerCase().matches(".*trx")) {
+        			if (!file.getName().toLowerCase().matches(Const.PATTERN_TRX)) {
         				continue;
         			}
         			try {
@@ -107,7 +109,9 @@ public class TrainingFileMan {
         					updateProgress(cnt, max);
         				}
         			} catch (Exception e) {
-        				System.out.println("cannot read TRX-File " + file.getName() + ": " + e);
+        				String msg = String.format(Lang.get().text(Lang.TFM_READ_TRX_FAILED), file.getName());
+        				Exception e2 = new RuntimeException(msg, e);
+        				GuiControl.showException(e2);
         			}
         		}		
 				return null;            	
@@ -132,11 +136,11 @@ public class TrainingFileMan {
     }
 
 	private void importTrainingFilesFromTcx() {
-		Format formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+		Format formatter = new SimpleDateFormat(Const.FORMAT_FILE_DATE);
 		File[] tcxFiles = new File(importdir).listFiles();
 		for(File file : tcxFiles) {
 			try {
-				if (!file.getName().toLowerCase().matches(".*tcx")) {
+				if (!file.getName().toLowerCase().matches(Const.PATTERN_TCX)) {
 					continue;
 				}
 				TcxLoader tcxLoader = new TcxLoader();
@@ -149,33 +153,37 @@ public class TrainingFileMan {
 
 					addGpxData(file, activity);
 
-					String filename = workdir + "/" + formatter.format(date) + ".trx";
-					tf = new TrainingFile("<n/a>", date, filename);
+					String filename = workdir + File.separator + formatter.format(date) + Const.SUFFIX_TRX;
+					tf = new TrainingFile(Lang.get().text(Lang.NOT_AVAILABLE), date, filename);
 					activity.setTrainingFile(tf);
 					TrainingActivityToXML.save(filename, activity);
 					files.add(tf);
 				}
 			} catch (IOException | JAXBException e) {
-				System.out.println("cannot import file " + file.getAbsolutePath() + ": " + e);
-			}
+				String msg = String.format(Lang.get().text(Lang.TFM_READ_TCX_FAILED), file.getAbsolutePath());
+				Exception e2 = new RuntimeException(msg, e);
+  				GuiControl.showException(e2);
+  			}
 			moveFile(file);
 		}
 	}
 
 	private void moveFile(File file) {
 		String oldPathName = file.getAbsolutePath();
-		String newPathName = importeddir + "/" + file.getName();
+		String newPathName = importeddir + File.separator + file.getName();
 		Path source = Paths.get(oldPathName);
 		Path target = Paths.get(newPathName);
 		try {
 			Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
-			System.out.println("cannot move file " + file.getAbsolutePath() + " to imported directory: " + e);
+			String msg = String.format(Lang.get().text(Lang.TFM_MOVE_TCX_FAILED), file.getAbsolutePath());
+			Exception e2 = new RuntimeException(msg, e);
+			GuiControl.showException(e2);
 		}
 	}
 
 	private void addGpxData(File file, TrainingActivity activity) throws JAXBException {
-		String filename = file.getAbsolutePath().toLowerCase().replace(".tcx", ".gpx");
+		String filename = file.getAbsolutePath().toLowerCase().replace(Const.SUFFIX_TCX, Const.SUFFIX_GPX);
 		GpxLoader gpx = new GpxLoader();
 		File gpxFile = new File(filename);
 		if (gpxFile.exists()) {
@@ -212,24 +220,25 @@ public class TrainingFileMan {
 	public void save() throws IOException, JAXBException {
 		TrainingFileContainer container = new TrainingFileContainer();
 		container.setFileList(files);
-//		writeTrainingFileList(container);
-		TrainingFileContainerToXML.save(workdir + "/files.xml", container);
+		TrainingFileContainerToXML.save(workdir + File.separator + Const.INDEX_FILE, container);
 	}
 
 	public void deleteFile(TrainingFile trainingFile) {
-		if (!files.remove(trainingFile)) {
-			System.out.println("couldn't delete training file " + trainingFile.getName() + " from file list");
-		}
-		
+		files.remove(trainingFile);
+
 		try {
 			save();
 		} catch (IOException | JAXBException e) {
-			System.out.println("couldn't write new training file list: " + e);
+			String msg = Lang.get().text(Lang.TFM_SAVE_INDEX_FAILED);
+			Exception e2 = new RuntimeException(msg, e);
+			GuiControl.showException(e2);
 		}
 		
 		File file = new File(trainingFile.getTrainingFile());
 		if (!file.delete()) {
-			System.out.println("couldn't delete training file " + trainingFile.getName() + " from file system");
+			String msg = String.format(Lang.get().text(Lang.TFM_REMOVE_FAILED), file.getName());
+			Exception e = new RuntimeException(msg);
+			GuiControl.showException(e);
 		}
 	}
 	

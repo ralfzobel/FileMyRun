@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -14,6 +14,8 @@ import java.util.SortedMap;
 
 import de.acwhadk.rz.filemyrun.dialog.FileFilter;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -30,7 +32,7 @@ public class FileTree {
 	private Map<String, TreeItem<String>> items = new HashMap<>();
 	
 	public FileTree(TrainingFileMan trainingFileMan, FileFilter filter) {
-		root = new TreeItem<>("Root");
+		root = new TreeItem<>(Const.ROOT);
 		root.setExpanded(true);
 		SortedMap<Date, TrainingFile> trainingFiles = trainingFileMan.getTrainingFiles();
 		for(TrainingFile file : trainingFiles.values()) {
@@ -45,11 +47,13 @@ public class FileTree {
 	}
 	
 	public String getName(TrainingFile file) {
-		Format formatter = new SimpleDateFormat("E., dd."); 
-		String name = formatter.format(file.getTime()) + " - " + (file.getName() != null ? file.getName() : "???");
+		Format formatter = new SimpleDateFormat(Const.FORMAT_DAYNAME_DAY); 
+		String name = formatter.format(file.getTime()) + Const.SPACE + Const.DASH + 
+				Const.SPACE + (file.getName() != null ? file.getName() : Lang.get().text(Lang.UNKNOWN_NAME));
 		if (file.getDistance() != null && file.getDistance() > 0.0) {
-			DecimalFormat df = new DecimalFormat("#.0");
-			name += ", " + df.format(file.getDistance()) + " km";
+			DecimalFormat df = new DecimalFormat(Const.FORMAT_DECIMAL_1);
+			name += Const.KOMMA + Const.SPACE + df.format(file.getDistance()) + Const.SPACE + 
+					Lang.get().text(Lang.DISTANCE_ABBREVIATED);
 		}
 		return name;
 	}
@@ -79,7 +83,7 @@ public class FileTree {
 	}
 
 	private String getYearMonthName(Date time) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat sdf = new SimpleDateFormat(Const.FORMAT_YEAR_MONTH);
 		return sdf.format(time); 
 	}
 

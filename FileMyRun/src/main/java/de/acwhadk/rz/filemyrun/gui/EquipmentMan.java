@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,6 +14,8 @@ import de.acwhadk.rz.filemyrun.equipment.EquipmentContainer;
 import de.acwhadk.rz.filemyrun.equipment.EquipmentDefinition;
 import de.acwhadk.rz.filemyrun.equipment.EquipmentItem;
 import de.acwhadk.rz.filemyrun.equipment.EquipmentUsedEntry;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import de.acwhadk.rz.filemyrun.setup.Setup;
 import de.acwhadk.rz.filemyrun.xml.EquipmentContainerToXML;
 
@@ -34,7 +36,7 @@ public class EquipmentMan {
 
 	public EquipmentMan() {
 		this.workdir = Setup.getInstance().getActivitiesFolder();
-		File file = new File(workdir + "/equipment.xml");
+		File file = new File(workdir + File.separator + Setup.EQUIPMENT_FILENAME);
 		try {
 			equipment = EquipmentContainerToXML.load(file);
 		} catch (JAXBException e) {
@@ -98,7 +100,7 @@ public class EquipmentMan {
 		long id = getEquipmentUsedId(activity, type);
 		Map<Long, String> items = getEquipmentItems(type);
 		String name = items.get(id);
-		return name == null ? "" : name;
+		return name == null ? Const.EMPTY : name;
 	}
 	
 	public long getEquipmentUsedTime(Date activity, String type) {
@@ -160,11 +162,12 @@ public class EquipmentMan {
 				}
 			}
 		}
-		throw new RuntimeException("Equipment with type " + type + " and name " + itemName + " is unknown");
+		String message = String.format(Lang.get().text(Lang.EQUIPMENT_UNKNOWN), type, itemName);
+		throw new RuntimeException(message);
 	}
 
 	public void save() throws Exception {
-		EquipmentContainerToXML.save(workdir + "/equipment.xml", equipment);		
+		EquipmentContainerToXML.save(workdir + File.separator + Setup.EQUIPMENT_FILENAME, equipment);		
 	}
 
 	public Long getNextId() {

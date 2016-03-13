@@ -1,5 +1,7 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,8 +25,8 @@ import javafx.util.StringConverter;
  */
 public class GuiTabCharts {
 
-	private static String[] TimeDist = { "Zeit", "Distanz" };
-	private static String[] ChartType = { "Herzfrequenz", "Höhe", "Pace", "Split-Pace" };
+	private static String[] timeDist;
+	private static String[] chartType;
 
 	private Controller controller;
 	@SuppressWarnings("unused")
@@ -54,10 +56,20 @@ public class GuiTabCharts {
 	}
 
 	private void initialize() {
+		timeDist = new String[2];
+		timeDist[0] = Lang.get().text(Lang.CHART_LABEL_TIME);
+		timeDist[1] = Lang.get().text(Lang.CHART_LABEL_DISTANCE);
+		
+		chartType = new String[4];
+		chartType[0] = Lang.get().text(Lang.CHART_LABEL_HEARTRATE);
+		chartType[1] = Lang.get().text(Lang.CHART_LABEL_ALTITUDE);
+		chartType[2] = Lang.get().text(Lang.CHART_LABEL_PACE);
+		chartType[3] = Lang.get().text(Lang.CHART_LABEL_SPLIT_PACE);
+		
 		controller.getCbxTimeDistance().setEditable(false);
 
 		ObservableList<String> comboBoxItemsTimeDist = FXCollections.observableArrayList();
-		comboBoxItemsTimeDist.addAll(TimeDist);
+		comboBoxItemsTimeDist.addAll(timeDist);
 		controller.getCbxTimeDistance().setItems(comboBoxItemsTimeDist);
 		controller.getCbxTimeDistance().getSelectionModel().selectFirst();
 		controller.getCbxTimeDistance().setEditable(false);
@@ -69,6 +81,7 @@ public class GuiTabCharts {
 
 		comboBoxItemsSmooth.addAll(0L, 5L, 10L, 15L, 20L, 30L, 60L);
 		controller.getCbxSmoothFactor().setItems(comboBoxItemsSmooth);
+		controller.getCbxSmoothFactor().setPromptText(Lang.get().text(Lang.CHART_LABEL_SMOOTHING));
 		controller.getCbxSmoothFactor().setEditable(false);
 		controller.getCbxSmoothFactor().valueProperty().addListener((ChangeListener<Long>) (ov, t, t1) -> initActivity());
 
@@ -119,23 +132,23 @@ public class GuiTabCharts {
 	}		
 
 	private Series<Number,Number> getSeries(ComboBox<String> comboBox, boolean firstChart) throws Exception {
-		String chartType = comboBox.getSelectionModel().getSelectedItem();
-		if (chartType.equals(ChartType[0])) {
+		String selectedChartType = comboBox.getSelectionModel().getSelectedItem();
+		if (selectedChartType.equals(chartType[0])) {
 			if (chartData.hasHeartRateData()) {
 				return heartRate(chartData, firstChart);
 			}
 		}
-		if (chartType.equals(ChartType[1])) {
+		if (selectedChartType.equals(chartType[1])) {
 			if (chartData.hasAltitudeData()) {
 				return altitude(chartData, firstChart);
 			}
 		}
-		if (chartType.equals(ChartType[2])) {
+		if (selectedChartType.equals(chartType[2])) {
 			if (chartData.hasSecondPerKmData()) {
 				return pace(chartData, firstChart);
 			}
 		}
-		if (chartType.equals(ChartType[3])) {
+		if (selectedChartType.equals(chartType[3])) {
 			if (chartData.hasSecondPerKmData()) {
 				return splitPace(chartData, firstChart);
 			}
@@ -146,9 +159,9 @@ public class GuiTabCharts {
 	private void initChartComboBox(ComboBox<String> comboBox, boolean addEmpty) {
 		ObservableList<String> comboBoxItemsChartType = FXCollections.observableArrayList();
 		if (addEmpty) {
-			comboBoxItemsChartType.add("");
+			comboBoxItemsChartType.add(Const.EMPTY);
 		}
-		comboBoxItemsChartType.addAll(ChartType);
+		comboBoxItemsChartType.addAll(chartType);
 		comboBox.setItems(comboBoxItemsChartType);
 		comboBox.getSelectionModel().selectFirst();
 		comboBox.setEditable(false);
@@ -290,7 +303,6 @@ public class GuiTabCharts {
 			x.setUpperBound(distanceOnXAxis ? activity.getTrackDistance() : activity.getTotalTime());
 			x.setTickUnit(distanceOnXAxis ? 1000. : 300.);
 		}
-//		chart.getXAxis().setLabel(distanceOnXAxis);
 	}
 
 	private void initYAxis() throws Exception {
@@ -318,7 +330,6 @@ public class GuiTabCharts {
 			}
 			y.setTickUnit(Math.round((upperBound-lowerBound)/10.));
 		}
-		//		chart.getYAxis().setLabel(label);
 	}
 
 	private void setDefaultChartProperties(final XYChart<Number, Number> chart) {
@@ -331,13 +342,19 @@ public class GuiTabCharts {
 		final Axis<Number> yAxis = lineChart.getYAxis();
 
 		final Label lblTime = controller.getLblChartTime();
+		lblTime.setText(Lang.get().text(Lang.CHART_LABEL_TIME));
 		final Label lblDistance = controller.getLblChartDistance();
+		lblDistance.setText(Lang.get().text(Lang.CHART_LABEL_DISTANCE));
 		final Label lblAltitude = controller.getLblChartAlitude();
+		lblAltitude.setText(Lang.get().text(Lang.CHART_LABEL_ALTITUDE));
 		final Label lblHeartRate = controller.getLblChartHeartRate();
+		lblHeartRate.setText(Lang.get().text(Lang.CHART_LABEL_HEARTRATE));
 		final Label lblPace = controller.getLblChartPace();
+		lblPace.setText(Lang.get().text(Lang.CHART_LABEL_PACE));
 		final Label lblSplitPace = controller.getLblChartSplitPace();
+		lblSplitPace.setText(Lang.get().text(Lang.CHART_LABEL_SPLIT_PACE));
 
-		final Node chartBackground = lineChart.lookup(".chart-plot-background");
+		final Node chartBackground = lineChart.lookup(Const.CSS_CHART_PLOT_BACKGROUND);
 		for (Node n: chartBackground.getParent().getChildrenUnmodifiable()) {
 			if (n != chartBackground && n != xAxis && n != yAxis) {
 				n.setMouseTransparent(true);
@@ -359,12 +376,18 @@ public class GuiTabCharts {
 			@Override public void handle(MouseEvent mouseEvent) {
 				ChartDataItem chartItem = chartData.getChartItem(xAxis.getValueForDisplay(mouseEvent.getX()), distanceOnXAxis);
 				if (chartItem != null) {
-					lblTime.setText("Zeit: " + Formatter.formatSecondsForCharts(chartItem.getTime()));
-					lblDistance.setText("Distanz: "+ Formatter.formatDistanceToKm(chartItem.getDistance()));
-					lblAltitude.setText("Höhe: " + Formatter.formatAsInteger(chartItem.getAltitude()));
-					lblHeartRate.setText("Hf: " + Formatter.formatAsInteger(chartItem.getHeartrate()));
-					lblPace.setText("Pace: " + Formatter.formatPace(chartItem.getSecondsPerKm()));
-					lblSplitPace.setText("SplitPace: " + Formatter.formatPace(chartItem.getSplitSecondsPerKm()));
+					lblTime.setText(Lang.get().text(Lang.CHART_LABEL_TIME) + Const.COLON + Const.SPACE + 
+							Formatter.formatSecondsForCharts(chartItem.getTime()));
+					lblDistance.setText(Lang.get().text(Lang.CHART_LABEL_DISTANCE) + Const.COLON + Const.SPACE + 
+							Formatter.formatDistanceToKm(chartItem.getDistance()));
+					lblAltitude.setText(Lang.get().text(Lang.CHART_LABEL_ALTITUDE) + Const.COLON + Const.SPACE + 
+							Formatter.formatAsInteger(chartItem.getAltitude()));
+					lblHeartRate.setText(Lang.get().text(Lang.CHART_LABEL_HEARTRATE) + Const.COLON + Const.SPACE + 
+							Formatter.formatAsInteger(chartItem.getHeartrate()));
+					lblPace.setText(Lang.get().text(Lang.CHART_LABEL_PACE) + Const.COLON + Const.SPACE + 
+							Formatter.formatPace(chartItem.getSecondsPerKm()));
+					lblSplitPace.setText(Lang.get().text(Lang.CHART_LABEL_SPLIT_PACE) + Const.COLON + Const.SPACE + 
+							Formatter.formatPace(chartItem.getSplitSecondsPerKm()));
 				}
 			}
 		});
@@ -379,52 +402,5 @@ public class GuiTabCharts {
 				lblSplitPace.setVisible(false);
 			}
 		});
-/*
-		xAxis.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent mouseEvent) {
-				lblTime.setVisible(true);
-			}
-		});
-
-		xAxis.setOnMouseMoved(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent mouseEvent) {
-				lblTime.setText(
-						String.format(
-								"x = %.2f",
-								xAxis.getValueForDisplay(mouseEvent.getX())
-								)
-						);
-			}
-		});
-
-		xAxis.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent mouseEvent) {
-				lblTime.setVisible(false);
-			}
-		});
-
-		yAxis.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent mouseEvent) {
-				lblTime.setVisible(true);
-			}
-		});
-
-		yAxis.setOnMouseMoved(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent mouseEvent) {
-				lblTime.setText(
-						String.format(
-								"y = %.2f",
-								yAxis.getValueForDisplay(mouseEvent.getY())
-								)
-						);
-			}
-		});
-
-		yAxis.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override public void handle(MouseEvent mouseEvent) {
-				lblTime.setVisible(false);
-			}
-		});
-*/
 	}
 }

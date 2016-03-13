@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -13,6 +13,7 @@ import com.garmin.tcdbv2.TrackpointT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 
 /**
  * This class contains the data that is needed to display charts.
@@ -42,7 +43,8 @@ public class ChartData {
 		TrainingCenterDatabaseT tcxData = activity.getTrainingCenterDatabase();
 		ActivityListT activityList = tcxData.getActivities();
 		if (activityList.getActivity().size() != 1) {
-			throw new RuntimeException("TCX File contains " + activityList.getActivity().size() + " activities. Should be exactly one activity");
+			String msg = String.format(Lang.get().text(Lang.NOT_ONE_ACTIVICTY), activityList.getActivity().size());
+			throw new RuntimeException(msg);
 		}
 		ActivityT tcxActivity = activityList.getActivity().get(0);
 		List<ActivityLapT> laps = tcxActivity.getLap();

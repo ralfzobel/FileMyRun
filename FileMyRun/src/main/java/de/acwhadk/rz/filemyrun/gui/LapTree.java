@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import com.garmin.tcdbv2.TrackpointT;
 
+import de.acwhadk.rz.filemyrun.setup.Const;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -22,7 +23,7 @@ public class LapTree {
 	private Map<String, TrackpointT> items = new HashMap<>();
 
 	public LapTree(Activity activity) {
-		root = new TreeItem<>("Root");
+		root = new TreeItem<>(Const.ROOT);
 		root.setExpanded(true);
 		Map<String, List<TrackpointT>> lapMap = activity.getTrackPoints();
 		for(Entry<String, List<TrackpointT>> entry : lapMap.entrySet()) {
@@ -34,7 +35,7 @@ public class LapTree {
 				GregorianCalendar cal = tp.getTime().toGregorianCalendar(null, null, null);
 				String tpName = Formatter.formatDate(cal.getTime());
 				if (tp.getDistanceMeters() != null) {					
-					tpName += " - " + Formatter.formatDistanceToKm3(tp.getDistanceMeters());
+					tpName += Const.SPACED_DASH + Formatter.formatDistanceToKm3(tp.getDistanceMeters());
 				}
 				lapItem.getChildren().add(new TreeItem<String>(tpName));
 				items.put(tpName, tp);

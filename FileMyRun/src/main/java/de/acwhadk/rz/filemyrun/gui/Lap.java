@@ -1,4 +1,6 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
+
+import de.acwhadk.rz.filemyrun.setup.Const;
 
 /**
  * A bean holding the data needed for display of one row in the split time table.
@@ -23,15 +25,15 @@ public class Lap {
 	private String totalDistance;
 
 	public Lap() {
-		this.round = "";
-		this.time = "";
-		this.distance = "";
-		this.pace = "";
-		this.totalTime = "";
-		this.averageHeartRate = "";
-		this.maximumHeartRate = "";
-		this.ascent = "";
-		this.descent = "";
+		this.round = Const.EMPTY;
+		this.time = Const.EMPTY;
+		this.distance = Const.EMPTY;
+		this.pace = Const.EMPTY;
+		this.totalTime = Const.EMPTY;
+		this.averageHeartRate = Const.EMPTY;
+		this.maximumHeartRate = Const.EMPTY;
+		this.ascent = Const.EMPTY;
+		this.descent = Const.EMPTY;
 	}
 	public String getRound() {
 		return round;

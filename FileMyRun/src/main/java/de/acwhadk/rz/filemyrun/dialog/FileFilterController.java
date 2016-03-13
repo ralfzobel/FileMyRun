@@ -1,6 +1,8 @@
 package de.acwhadk.rz.filemyrun.dialog;
 
-import de.acwhadk.rz.filemyrun.controller.GuiControl;
+import de.acwhadk.rz.filemyrun.gui.GuiControl;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -55,16 +57,31 @@ public class FileFilterController {
 	@FXML
 	private Button btnFileFilterCancel;
 	
-	private String[] comboBoxStrings = { 
-			"", "Wettkampf", "Intervalltraining", "Tempolauf", 
-			"Dauerlauf", "Lauf-ABC", "RUNNING", "BIKING" };
+	private String[] comboBoxStrings;
 
 	private Stage dialogStage;
 	private FileFilter filter;
 	
 	@FXML
 	private void initialize() {
+		comboBoxStrings = new String[9];
+		comboBoxStrings[0] = Const.EMPTY;
+		comboBoxStrings[1] = Lang.get().text(Lang.OVERVIEW_CBX_COMPETITION);
+		comboBoxStrings[2] = Lang.get().text(Lang.OVERVIEW_CBX_INTERVAL);
+		comboBoxStrings[3] = Lang.get().text(Lang.OVERVIEW_CBX_TEMPO);
+		comboBoxStrings[4] = Lang.get().text(Lang.OVERVIEW_CBX_RUN);
+		comboBoxStrings[5] = Lang.get().text(Lang.OVERVIEW_CBX_ABC);
+		comboBoxStrings[6] = Const.GARMIN_RUNNING;
+		comboBoxStrings[7] = Const.GARMIN_BIKING;
+		
+		cbFileFilterTime.setText(Lang.get().text(Lang.FILEFILTER_LBL_TIME));
+		cbFileFilterDist.setText(Lang.get().text(Lang.FILEFILTER_LBL_DISTANCE));
+		cbFileFilterType.setText(Lang.get().text(Lang.FILEFILTER_LBL_TYPE));
+		cbFileFilterText.setText(Lang.get().text(Lang.FILEFILTER_LBL_TEXT));
+		
+		btnFileFilterOk.setText(Lang.get().text(Lang.GENERAL_BTN_OK));
 		btnFileFilterOk.setOnAction(e -> handleOk());
+		btnFileFilterCancel.setText(Lang.get().text(Lang.GENERAL_BTN_CANCEL));
 		btnFileFilterCancel.setOnAction(e -> handleCancel());
 		ObservableList<String> types = FXCollections.observableArrayList();
 		types.addAll(comboBoxStrings);
@@ -85,7 +102,8 @@ public class FileFilterController {
 			filter = new FileFilter();
 			filter.setTimeFilter(cbFileFilterTime.isSelected());
 			if (cbFileFilterTime.isSelected() && (dpFileFilterFrom.getValue() == null || dpFileFilterTo.getValue() == null)) {
-				GuiControl.showException(new IllegalArgumentException("Ungültige Eingabe in Datum-Feldern"));
+				String msg = Lang.get().text(Lang.FILEFILTER_INVALID_DATE);
+				GuiControl.showException(new IllegalArgumentException(msg));
 				return null;
 			}
 			filter.setFromTime(dpFileFilterFrom.getValue());
@@ -99,7 +117,8 @@ public class FileFilterController {
 					fromDist = Double.parseDouble(txtFileFilterDistFrom.getText());
 					toDist = Double.parseDouble(txtFileFilterDistTo.getText());
 				} catch(NumberFormatException e) {
-					GuiControl.showException(new IllegalArgumentException("Ungültige Eingabe in Distanz-Feldern"));
+					String msg = Lang.get().text(Lang.FILEFILTER_INVALID_DISTANCE);
+					GuiControl.showException(new IllegalArgumentException(msg));
 					return null;
 				}
 			}
@@ -108,14 +127,16 @@ public class FileFilterController {
 			
 			filter.setTypeFilter(cbFileFilterType.isSelected());
 			if (cbFileFilterType.isSelected() && cbxFileFilterType.getSelectionModel().getSelectedItem() == null) {
-				GuiControl.showException(new IllegalArgumentException("Ungültige Eingabe in Typ-Feld"));
+				String msg = Lang.get().text(Lang.FILEFILTER_INVALID_TYPE);
+				GuiControl.showException(new IllegalArgumentException(msg));
 				return null;
 			}
 			filter.setType(cbxFileFilterType.getSelectionModel().getSelectedItem());
 			
 			filter.setTextFilter(cbFileFilterText.isSelected());
 			if (cbFileFilterText.isSelected() && (txtFileFilterText.getText() == null || txtFileFilterText.getText().isEmpty())) {
-				GuiControl.showException(new IllegalArgumentException("Ungültige Eingabe in Text-Feld"));
+				String msg = Lang.get().text(Lang.FILEFILTER_INVALID_TEXT);
+				GuiControl.showException(new IllegalArgumentException(msg));
 				return null;
 			}
 			filter.setText(txtFileFilterText.getText());

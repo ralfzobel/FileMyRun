@@ -85,6 +85,4 @@ public class FileFilter {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	
 }

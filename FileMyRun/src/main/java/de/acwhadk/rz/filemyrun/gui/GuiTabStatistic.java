@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 
 import java.util.TreeMap;
 
@@ -32,29 +34,8 @@ import javafx.util.StringConverter;
  */
 public class GuiTabStatistic {
 
-	private static final String THIS_YEAR = "dieses Jahr";
-	private static final String LAST_CALENDAR_YEAR = "letztes Kalenderjahr";
-	private static final String LAST_YEAR = "letztes Jahr";
-	private static final String LAST_3_MONTH = "die letzten 3 Monate";
-	private static final String LAST_6_MONTH = "die letzten 6 Monate";
-	private static final String USER_DEFINED = "benutzerdefiniert";
-	
-	private static final String WEEK_DIST = "Wochen-km";
-	private static final String MONTH_DIST = "Monats-km";
-	
-	private static String[] PredefinedTimes = { 
-			THIS_YEAR,
-			LAST_CALENDAR_YEAR,
-			LAST_YEAR,
-			LAST_3_MONTH, 
-			LAST_6_MONTH, 
-			USER_DEFINED 
-			};	
-	
-	private static String[] AggregationType = { 
-			WEEK_DIST, 
-			MONTH_DIST 
-			};
+	private static String[] predefinedTimes;	
+	private static String[] aggregationType;
 
 	private Controller controller;
 	private GuiControl guiControl; 
@@ -76,15 +57,25 @@ public class GuiTabStatistic {
 		
 		controller.getCbxTimeDistance().setEditable(false);
 
+		predefinedTimes = new String[6];
+		predefinedTimes[0] = Lang.get().text(Lang.STATISTIC_CBX_THIS_YEAR);
+		predefinedTimes[1] = Lang.get().text(Lang.STATISTIC_CBX_LAST_YEAR);
+		predefinedTimes[2] = Lang.get().text(Lang.STATISTIC_CBX_12_MONTH);
+		predefinedTimes[3] = Lang.get().text(Lang.STATISTIC_CBX_6_MONTH);
+		predefinedTimes[4] = Lang.get().text(Lang.STATISTIC_CBX_3_MONTH);
+		predefinedTimes[5] = Lang.get().text(Lang.STATISTIC_CBX_USER_DEFINED);
 		ObservableList<String> comboBoxItemsPredefined = FXCollections.observableArrayList();
-		comboBoxItemsPredefined.addAll(PredefinedTimes);
+		comboBoxItemsPredefined.addAll(predefinedTimes);
 		controller.getCbxStatisticPredefined().setItems(comboBoxItemsPredefined);
 		controller.getCbxStatisticPredefined().getSelectionModel().selectFirst();
 		controller.getCbxStatisticPredefined().setEditable(false);
 		controller.getCbxStatisticPredefined().valueProperty().addListener((ChangeListener<String>) (ov, t, t1) -> handlePredefined());
 
+		aggregationType = new String[2];
+		aggregationType[0] = Lang.get().text(Lang.STATISTIC_CBX_WEEK_DIST);
+		aggregationType[1] = Lang.get().text(Lang.STATISTIC_CBX_MONTH_DIST);
 		ObservableList<String> comboBoxItemsType = FXCollections.observableArrayList();
-		comboBoxItemsType.addAll(AggregationType);
+		comboBoxItemsType.addAll(aggregationType);
 		controller.getCbxStatisticType().setItems(comboBoxItemsType);
 		controller.getCbxStatisticType().getSelectionModel().selectFirst();
 		controller.getCbxStatisticType().setEditable(false);
@@ -105,7 +96,7 @@ public class GuiTabStatistic {
 			Map<Integer, Double> distances = new TreeMap<>();
 			Map<Integer, LocalDate> dates = new TreeMap<>();
 			Map<LocalDate, Integer> indices = new HashMap<>();
-			boolean weekly = controller.getCbxStatisticType().getSelectionModel().getSelectedItem().equals(WEEK_DIST);
+			boolean weekly = controller.getCbxStatisticType().getSelectionModel().getSelectedIndex() == 0;
 			LocalDate firstDate = controller.getDateStatisticFrom().getValue();
 			LocalDate lastDate = controller.getDateStatisticTo().getValue();
 			int index=0;
@@ -123,6 +114,7 @@ public class GuiTabStatistic {
 				}
 			} else {
 				LocalDate curDate = firstDate;			
+				lastDate = lastDate.plusMonths(1);
 				if (firstDate.getDayOfMonth() > 1) {
 					curDate = firstDate.minusDays(firstDate.getDayOfMonth()-1);
 				}
@@ -149,7 +141,6 @@ public class GuiTabStatistic {
 				Double dist = distances.get(index);
 				if (dist != null && file.getDistance() != null) {
 					dist += file.getDistance();
-					index = indices.get(ldate);
 					distances.put(index, dist);
 				}
 			}
@@ -190,9 +181,13 @@ public class GuiTabStatistic {
 		int toYear = fromYear;
 		int toMonth = fromMonth;
 		int toDay = fromDay;
-		String item = controller.getCbxStatisticPredefined().getSelectionModel().getSelectedItem();
+		int item = controller.getCbxStatisticPredefined().getSelectionModel().getSelectedIndex();
 		switch (item) {
-		case LAST_CALENDAR_YEAR:
+		case 0: // this year
+			fromMonth = 0;
+			fromDay = 1;
+			break;
+		case 1: // last year
 			--fromYear;
 			fromMonth = 0;
 			fromDay = 1;
@@ -200,22 +195,18 @@ public class GuiTabStatistic {
 			toMonth = 11;
 			toDay = 31;
 			break;
-		case THIS_YEAR:
-			fromMonth = 0;
-			fromDay = 1;
-			break;
-		case LAST_YEAR:
+		case 2: // last 12 month
 			--fromYear;
 			break;
-		case LAST_3_MONTH:
-			fromMonth -= 3;
+		case 3: // last 6 month
+			fromMonth -= 6;
 			if (fromMonth < 0) {
 				--fromYear;
 				fromMonth += 12;
 			}
 			break;
-		case LAST_6_MONTH:
-			fromMonth -= 6;
+		case 4: // last 3 month
+			fromMonth -= 3;
 			if (fromMonth < 0) {
 				--fromYear;
 				fromMonth += 12;
@@ -248,11 +239,13 @@ public class GuiTabStatistic {
 					}
 					DateTimeFormatter formatter = null;
 					if (weekly) {
-						if (date.getDayOfMonth() > 7) {
-							return null;
-						}
+						formatter = DateTimeFormatter.ofPattern(Const.FORMAT_DAY_MONTH);
+						return date.format(formatter);
+//						if (date.getDayOfMonth() > 7) {
+//							return null;
+//						}
 					}
-					formatter = DateTimeFormatter.ofPattern("MMM");
+					formatter = DateTimeFormatter.ofPattern(Const.FORMAT_MONTH);
 					return date.format(formatter);
 				}
 			});

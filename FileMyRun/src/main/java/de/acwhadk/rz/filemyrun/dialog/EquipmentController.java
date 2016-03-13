@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.acwhadk.rz.filemyrun.controller.EquipmentMan;
-import de.acwhadk.rz.filemyrun.controller.GuiControl;
+import de.acwhadk.rz.filemyrun.gui.EquipmentMan;
+import de.acwhadk.rz.filemyrun.gui.GuiControl;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
@@ -32,7 +35,13 @@ public class EquipmentController {
 
     private static final int MAX_TYPES = 3;
 
-	@FXML
+    @FXML
+    private Label lblTypes;
+
+    @FXML
+    private Label lblItems;
+
+    @FXML
     private ComboBox<String> cbxEquipmentTypes;
 
     @FXML
@@ -69,6 +78,18 @@ public class EquipmentController {
 	 */
 	@FXML
 	private void initialize() {
+		items = new HashMap<>();
+
+		lblTypes.setText(Lang.get().text(Lang.EQUIPMENT_DLG_LBL_TYPES));
+		lblItems.setText(Lang.get().text(Lang.EQUIPMENT_DLG_LBL_ITEMS));
+		
+		btnEquipmentOk.setText(Lang.get().text(Lang.GENERAL_BTN_OK));
+		btnEquipmentCancel.setText(Lang.get().text(Lang.GENERAL_BTN_CANCEL));
+		btnEquipmentNewType.setText(Lang.get().text(Lang.GENERAL_BTN_NEW));
+		btnEquipmentDeleteType.setText(Lang.get().text(Lang.GENERAL_BTN_DELETE));
+		btnEquipmentNewItem.setText(Lang.get().text(Lang.GENERAL_BTN_NEW));
+		btnEquipmentDeleteItem.setText(Lang.get().text(Lang.GENERAL_BTN_DELETE));
+		
 		btnEquipmentOk.setOnAction(e -> handleOk());
 		btnEquipmentCancel.setOnAction(e -> handleCancel());
 		btnEquipmentNewType.setOnAction(e -> handleNewType());
@@ -133,9 +154,10 @@ public class EquipmentController {
 			return;
 		}
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete Equipment Type");
-		alert.setHeaderText("Do you really want to delete?");
-		alert.setContentText("Equipment associated to the type '" + type + "' will be lost");
+		alert.setTitle(Lang.get().text(Lang.ALERT_CONFIRM));
+		alert.setHeaderText(Lang.get().text(Lang.ALERT_DELETE_EQUIPMENT_SHORT));
+		String context = String.format(Lang.get().text(Lang.ALERT_DELETE_EQUIPMENT_LONG), type);
+		alert.setContentText(context);
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
@@ -146,10 +168,10 @@ public class EquipmentController {
 	}
 
 	private void handleNewType() {
-		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setTitle("New Equipment type");
-		dialog.setHeaderText("Please enter the new type");
-		dialog.setContentText("");
+		TextInputDialog dialog = new TextInputDialog(Const.EMPTY);
+		dialog.setTitle(Lang.get().text(Lang.EQUIPMENT_NEW_TYPE_TITLE));
+		dialog.setHeaderText(Lang.get().text(Lang.EQUIPMENT_NEW_TYPE_HEADER));
+		dialog.setContentText(Const.EMPTY);
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
@@ -185,9 +207,10 @@ public class EquipmentController {
 	}
 
 	private void handleNewItem() {
-		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setTitle("New Equipment");
-		dialog.setContentText("Please enter the new equipment:");
+		TextInputDialog dialog = new TextInputDialog(Const.EMPTY);
+		dialog.setTitle(Lang.get().text(Lang.EQUIPMENT_NEW_ITEM_TITLE));
+		dialog.setHeaderText(Lang.get().text(Lang.EQUIPMENT_NEW_ITEM_HEADER));
+		dialog.setContentText(Const.EMPTY);
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
@@ -208,7 +231,6 @@ public class EquipmentController {
 			cbxEquipmentTypes.getSelectionModel().selectFirst();
 		}
 		
-		items = new HashMap<>();
 		for(String t : types) {
 			 Map<Long, String> itemMap = equipmentMan.getEquipmentItems(t);
 			 items.put(t, itemMap);

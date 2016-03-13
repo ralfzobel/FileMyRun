@@ -1,8 +1,10 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 
 import de.acwhadk.rz.filemyrun.dialog.SplitLapDialog;
 import de.acwhadk.rz.filemyrun.dialog.SplitLapDialog.SplitType;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -52,16 +54,34 @@ public class GuiTabSplits {
 	}
 
 	private void initialize() {
-		controller.getColSplitRound().setCellValueFactory(new PropertyValueFactory<>("round"));
-		controller.getColSplitTime().setCellValueFactory(new PropertyValueFactory<>("time"));
-		controller.getColSplitTotalDistance().setCellValueFactory(new PropertyValueFactory<>("totalDistance"));
-		controller.getColSplitDistance().setCellValueFactory(new PropertyValueFactory<>("distance"));
-		controller.getColSplitPace().setCellValueFactory(new PropertyValueFactory<>("pace"));
-		controller.getColSplitTotalTime().setCellValueFactory(new PropertyValueFactory<>("totalTime"));
-		controller.getColSplitAverageHeartRate().setCellValueFactory(new PropertyValueFactory<>("averageHeartRate"));
-		controller.getColSplitMaximumHeartRate().setCellValueFactory(new PropertyValueFactory<>("maximumHeartRate"));
-		controller.getColSplitAscent().setCellValueFactory(new PropertyValueFactory<>("ascent"));
-		controller.getColSplitDescent().setCellValueFactory(new PropertyValueFactory<>("descent"));
+		controller.getColSplitRound().setText(Lang.get().text(Lang.SPLIT_COL_ROUND));
+		controller.getColSplitTime().setText(Lang.get().text(Lang.SPLIT_COL_TIME));
+		controller.getColSplitTotalDistance().setText(Lang.get().text(Lang.SPLIT_COL_TOTAL_DISTANCE));
+		controller.getColSplitDistance().setText(Lang.get().text(Lang.SPLIT_COL_DISTANCE));
+		controller.getColSplitPace().setText(Lang.get().text(Lang.SPLIT_COL_PACE));
+		controller.getColSplitTotalTime().setText(Lang.get().text(Lang.SPLIT_COL_TOTAL_TIME));
+		controller.getColSplitAverageHeartRate().setText(Lang.get().text(Lang.SPLIT_COL_AVERAGE_HEARTRATE));
+		controller.getColSplitMaximumHeartRate().setText(Lang.get().text(Lang.SPLIT_COL_MAXIMUM_HEARTRATE));
+		controller.getColSplitAscent().setText(Lang.get().text(Lang.SPLIT_COL_ASCENT));
+		controller.getColSplitDescent().setText(Lang.get().text(Lang.SPLIT_COL_DESCENT));
+		
+		controller.getColSplitRound().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_ROUND));
+		controller.getColSplitTime().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_TIME));
+		controller.getColSplitTotalDistance().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_TOTAL_DISTANCE));
+		controller.getColSplitDistance().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_DISTANCE));
+		controller.getColSplitPace().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_PACE));
+		controller.getColSplitTotalTime().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_TOTAL_TIME));
+		controller.getColSplitAverageHeartRate().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_AVERAGE_HEARTRATE));
+		controller.getColSplitMaximumHeartRate().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_MAXIMUM_HEARTRATE));
+		controller.getColSplitAscent().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_ASCENT));
+		controller.getColSplitDescent().setCellValueFactory(new PropertyValueFactory<>(Const.SPLIT_DESCENT));
+		
+		controller.getLblSplitBestTime().setText(Lang.get().text(Lang.SPLIT_LBL_BEST_TIME));
+		controller.getLblSplitAvgTime().setText(Lang.get().text(Lang.SPLIT_LBL_AVG_TIME));
+		controller.getLblSplitTotalTime().setText(Lang.get().text(Lang.SPLIT_LBL_TOTAL_TIME));
+		controller.getLblSplitTotalDist().setText(Lang.get().text(Lang.SPLIT_LBL_TOTAL_DISTANCE));
+		controller.getLblSplitBestPace().setText(Lang.get().text(Lang.SPLIT_LBL_BEST_PACE));
+		controller.getLblSplitAvgPace().setText(Lang.get().text(Lang.SPLIT_LBL_AVG_PACE));
 		
 		controller.getTableSplits().setRowFactory(
 			    new Callback<TableView<Lap>, TableRow<Lap>>() {
@@ -69,14 +89,14 @@ public class GuiTabSplits {
 			  public TableRow<Lap> call(TableView<Lap> tableView) {
 			    final TableRow<Lap> row = new TableRow<>();
 			    final ContextMenu rowMenu = new ContextMenu();
-			    MenuItem editItem = new MenuItem("Split");
+			    MenuItem editItem = new MenuItem(Lang.get().text(Lang.SPLIT_MENU_SPLIT));
 			    editItem.setOnAction(new EventHandler<ActionEvent>() {
 			        @Override
 			        public void handle(ActionEvent event) {
 			        	splitLap(row.getItem());
 			        }
 			      });
-			    MenuItem removeItem = new MenuItem("Join with Successor");
+			    MenuItem removeItem = new MenuItem(Lang.get().text(Lang.SPLIT_MENU_JOIN_SUCCESSOR));
 			    removeItem.setOnAction(new EventHandler<ActionEvent>() {
 			        @Override
 			        public void handle(ActionEvent event) {
@@ -102,6 +122,7 @@ public class GuiTabSplits {
 			}
 		});
 		
+		controller.getChkBoxSplitSnapIn().setText(Lang.get().text(Lang.SPLIT_SNAPIN));
 		controller.getChkBoxSplitSnapIn().selectedProperty().addListener(( observable, old_val, new_val) -> initActivity());
 		
 		setEmptySplitAverages();
@@ -181,12 +202,12 @@ public class GuiTabSplits {
     }
     
 	private void setEmptySplitAverages() {
-    	controller.getTxtBestTimeSplit().setText("");
-    	controller.getTxtAverageTimeSplit().setText("");
-    	controller.getTxtTotalTimeSplit().setText("");
-    	controller.getTxtTotalDistanceSplit().setText("");
-    	controller.getTxtBestPaceSplit().setText("");
-    	controller.getTxtAveragePaceSplit().setText("");
+    	controller.getTxtBestTimeSplit().setText(Const.EMPTY);
+    	controller.getTxtAverageTimeSplit().setText(Const.EMPTY);
+    	controller.getTxtTotalTimeSplit().setText(Const.EMPTY);
+    	controller.getTxtTotalDistanceSplit().setText(Const.EMPTY);
+    	controller.getTxtBestPaceSplit().setText(Const.EMPTY);
+    	controller.getTxtAveragePaceSplit().setText(Const.EMPTY);
 	}
 	
 }

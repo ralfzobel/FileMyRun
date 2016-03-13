@@ -7,7 +7,7 @@
 
 	<properties>
 		<jdk.version>1.8</jdk.version>
-		<mainClass>de.acwhadk.rz.filemyrun.gui.App</mainClass>
+		<mainClass>de.acwhadk.rz.filemyrun.app.App</mainClass>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -114,7 +114,7 @@
 							<errTitle>FileMyRun</errTitle>
 							<icon>running_man_32.ico</icon>
 							<classPath>
-								<mainClass>de.acwhadk.rz.filemyrun.gui.App</mainClass>
+								<mainClass>de.acwhadk.rz.filemyrun.app.App</mainClass>
 							</classPath>
 							<jre>
 								<minVersion>1.8.0_66</minVersion>

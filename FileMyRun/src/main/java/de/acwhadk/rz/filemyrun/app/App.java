@@ -1,11 +1,12 @@
-package de.acwhadk.rz.filemyrun.gui;
+package de.acwhadk.rz.filemyrun.app;
 
 import org.apache.log4j.Logger;
 
-import de.acwhadk.rz.filemyrun.controller.Controller;
-import de.acwhadk.rz.filemyrun.controller.EquipmentMan;
-import de.acwhadk.rz.filemyrun.controller.GuiControl;
-import de.acwhadk.rz.filemyrun.controller.TrainingFileMan;
+import de.acwhadk.rz.filemyrun.gui.Controller;
+import de.acwhadk.rz.filemyrun.gui.EquipmentMan;
+import de.acwhadk.rz.filemyrun.gui.GuiControl;
+import de.acwhadk.rz.filemyrun.gui.TrainingFileMan;
+import de.acwhadk.rz.filemyrun.setup.Const;
 import de.acwhadk.rz.filemyrun.setup.Setup;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -44,7 +45,7 @@ public class App extends Application {
 			
 			Parent root=null;
 			Controller controller=null;
-			final FXMLLoader loader = new FXMLLoader(getClass().getResource("filemyrun.fxml"));
+			final FXMLLoader loader = new FXMLLoader(getClass().getResource(Const.FXML_FILEMYRUN));
 			root = (Parent) loader.load();
 			controller = loader.<Controller>getController();
 			

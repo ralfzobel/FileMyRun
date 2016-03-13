@@ -1,10 +1,11 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import com.garmin.tcdbv2.ActivityT;
 import com.garmin.tcdbv2.PositionT;
 import com.garmin.tcdbv2.TrackpointT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import de.acwhadk.rz.filemyrun.webmap.WebMap;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -42,6 +43,11 @@ public class GuiTabMap {
 		controller.getTabMap().setDisable(true);
 		webMap = new WebMap(controller.getWebMapView(), controller.getTabMap());
 
+		controller.getBtnRoadMap().setText(Lang.get().text(Lang.MAP_BUTTON_ROADMAP));
+		controller.getBtnSatellite().setText(Lang.get().text(Lang.MAP_BUTTON_SATELLITE));
+		controller.getBtnHybrid().setText(Lang.get().text(Lang.MAP_BUTTON_HYBRID));
+		controller.getBtnLandscape().setText(Lang.get().text(Lang.MAP_BUTTON_LANDSCAPE));
+		
 		TreeView<String> treeView = controller.getLapTreeView();
 		treeView.getSelectionModel().selectedItemProperty().addListener( 
 				(ObservableValue<? extends TreeItem<String>> observable, TreeItem<String> old_val, TreeItem<String> new_val)
@@ -88,11 +94,11 @@ public class GuiTabMap {
 		        if (getTreeItem() != null && getTreeItem().isLeaf()) {
 		    		ContextMenu menu = new ContextMenu();
 		    		
-		    		MenuItem deleteToHereItem = new MenuItem("Delete to here");
+		    		MenuItem deleteToHereItem = new MenuItem(Lang.get().text(Lang.MAP_MENU_DELETE_TO_HERE));
 		    		deleteToHereItem.setOnAction(t -> deleteToHere(getItem()));
 		    		menu.getItems().add(deleteToHereItem);
 	
-		    		MenuItem deleteToEndItem = new MenuItem("Delete to end");
+		    		MenuItem deleteToEndItem = new MenuItem(Lang.get().text(Lang.MAP_MENU_DELETE_TO_END));
 		    		deleteToEndItem.setOnAction(t -> deleteToEnd(getItem()));
 		    		menu.getItems().add(deleteToEndItem);
 		    		
@@ -105,7 +111,6 @@ public class GuiTabMap {
 	}
 	
 	private void deleteToHere(String tpName) {
-		System.out.println("delete to here: " + tpName);
 		TrackpointT tp = lapTree.getTrackPoint(tpName);
 		try {
 			activity.deleteToHere(tp);
@@ -117,7 +122,6 @@ public class GuiTabMap {
 	}
 	
 	private void deleteToEnd(String tpName) {
-		System.out.println("delete to end: " + tpName);
 		TrackpointT tp = lapTree.getTrackPoint(tpName);
 		try {
 			activity.deleteToEnd(tp);

@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,6 +21,8 @@ import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 
 /**
@@ -48,7 +50,8 @@ public class Activity {
 		tcxData = trainingActivity.getTrainingCenterDatabase();
 		ActivityListT activityList = tcxData.getActivities();
 		if (activityList.getActivity().size() != 1) {
-			throw new RuntimeException("TCX File contains " + activityList.getActivity().size() + " activities. Should be exactly one activity");
+			String msg = String.format(Lang.get().text(Lang.NOT_ONE_ACTIVICTY), activityList.getActivity().size());
+			throw new RuntimeException(msg);
 		}
 		tcxActivity = activityList.getActivity().get(0);
 	}
@@ -58,7 +61,8 @@ public class Activity {
 	}
 
 	public String getName() {
-		return trainingActivity.getName() == null ? "<n/a>" : trainingActivity.getName();
+		return trainingActivity.getName() == null ? 
+				Lang.get().text(Lang.NOT_AVAILABLE) : trainingActivity.getName();
 	}
 	
 	public void setName(String name) {
@@ -66,7 +70,7 @@ public class Activity {
 	}
 	
 	public String getDescription() {
-		return trainingActivity.getDescription() == null ? "" : trainingActivity.getDescription();
+		return trainingActivity.getDescription() == null ? Const.EMPTY : trainingActivity.getDescription();
 	}
 	
 	public void setDescription(String description) {
@@ -84,7 +88,7 @@ public class Activity {
 			if (tcxActivity != null) {
 				trainingActivity.setType(tcxActivity.getSport().toString());
 			} else {
-				trainingActivity.setType("");
+				trainingActivity.setType(Const.EMPTY);
 			}
 		}
 		return trainingActivity.getType();
@@ -115,7 +119,8 @@ public class Activity {
 
 
 	public void setDistance(String dist) {
-		String distance = dist.replace(',', '.').replace("km", "").trim();
+		String distance = dist.replace(',', '.').
+				replace(Lang.get().text(Lang.DISTANCE_ABBREVIATED), Const.EMPTY).trim();
 		try {
 			double d = Double.parseDouble(distance);
 			trainingActivity.setDistance(d);
@@ -253,8 +258,8 @@ public class Activity {
 				lap.setAverageHeartRate(Short.toString(activityLap.getAverageHeartRateBpm().getValue()));
 				lap.setMaximumHeartRate(Short.toString(activityLap.getMaximumHeartRateBpm().getValue()));
 			} else {
-				lap.setAverageHeartRate("");
-				lap.setMaximumHeartRate("");
+				lap.setAverageHeartRate(Const.EMPTY);
+				lap.setMaximumHeartRate(Const.EMPTY);
 			}
 			
 			ArrayList<ActivityLapT> lst = new ArrayList<>();
@@ -264,8 +269,8 @@ public class Activity {
 				lap.setAscent(Long.toString(altitude.ascent));
 				lap.setDescent(Long.toString(altitude.descent));
 			} else {
-				lap.setAscent("");
-				lap.setDescent("");
+				lap.setAscent(Const.EMPTY);
+				lap.setDescent(Const.EMPTY);
 			}
 			
 			laplist.add(lap);
@@ -429,7 +434,7 @@ public class Activity {
 			}
 		}
 		if (track.getTrackpoint().isEmpty()) {
-			throw new IllegalArgumentException("Distance is out of range.");
+			throw new IllegalArgumentException(Lang.get().text(Lang.DISTANCE_OUT_OF_RANGE));
 		}
 		laps.add(i+1, lap2);
 		calculateTimeAndDist(lap1);

@@ -19,6 +19,8 @@ import java.util.Properties;
  */
 public class Setup {
 
+	public static final String EQUIPMENT_FILENAME = "equipment.xml";
+	
 	private static final String APP_NAME = "FileMyRun";
 	
 	private static final String INI_FILE = APP_NAME + ".ini";
@@ -42,6 +44,7 @@ public class Setup {
 		props = new java.util.Properties();
 		try {
 			loadProperties();
+			Lang.create(null);
 		} catch (IOException e) {
 			ioError = e;
 		}

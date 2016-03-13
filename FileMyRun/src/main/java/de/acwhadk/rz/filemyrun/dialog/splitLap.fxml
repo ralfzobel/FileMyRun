@@ -21,7 +21,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="20.0" prefWidth="300.0" text="Wo soll die Runde aufgeteilt werden?" GridPane.columnSpan="2">
+            <Label fx:id="lblQuestion" prefHeight="20.0" prefWidth="300.0" text="Wo soll die Runde aufgeteilt werden?" GridPane.columnSpan="2">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

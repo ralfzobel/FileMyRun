@@ -1,5 +1,6 @@
 package de.acwhadk.rz.filemyrun.dialog;
 
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,7 +28,7 @@ public class ProgressDialog {
 		dialogStage.initStyle(StageStyle.UTILITY);
 		dialogStage.setResizable(false);
 		dialogStage.initModality(Modality.APPLICATION_MODAL);
-		dialogStage.setTitle("Bitte warten...");
+		dialogStage.setTitle(Lang.get().text(Lang.PROGRESS_DLG_WAIT));
 		dialogStage.setOnCloseRequest(e -> {
 			e.consume();
 		});

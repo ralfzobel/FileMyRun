@@ -2,11 +2,14 @@ package de.acwhadk.rz.filemyrun.dialog;
 
 import java.io.IOException;
 
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * The split lap dialog.
@@ -29,12 +32,13 @@ public class SplitLapDialog {
 
 	public SplitType showDialog() throws IOException {
 		// Load the fxml file and create a new stage for the popup
-		FXMLLoader loader = new FXMLLoader(SplitLapDialog.class.getResource("splitLap.fxml"));
+		FXMLLoader loader = new FXMLLoader(SplitLapDialog.class.getResource(Const.FXML_SPLITLAP));
 		AnchorPane page = (AnchorPane) loader.load();
 		Stage dialogStage = new Stage();
-		dialogStage.setTitle("Runde aufteilen");
+		dialogStage.setTitle(Lang.get().text(Lang.SPLITLAP_DLG_TITLE));
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(primaryStage);
+		dialogStage.initStyle(StageStyle.UTILITY);
 		Scene scene = new Scene(page);
 		dialogStage.setScene(scene);
 

@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="732.0" prefWidth="1284.0" styleClass="root" stylesheets="@filemyrun.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.acwhadk.rz.filemyrun.controller.Controller">
+<AnchorPane prefHeight="732.0" prefWidth="1284.0" styleClass="root" stylesheets="@filemyrun.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.acwhadk.rz.filemyrun.gui.Controller">
    <children>
       <SplitPane fx:id="hSplitPane" dividerPositions="0.25" styleClass="root" stylesheets="@filemyrun.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -102,24 +102,24 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label styleClass="small-label" text="Distanz">
+                                                <Label fx:id="lblOverviewDistance" styleClass="small-label" text="Distanz">
                                                    <padding>
                                                       <Insets top="20.0" />
                                                    </padding></Label>
                                                 <TextField fx:id="txtActivityDistance" styleClass="big-textfield" text="12 km">
                                                 </TextField>
-                                                <Label styleClass="small-label" text="Zeit">
+                                                <Label fx:id="lblOverviewTime" styleClass="small-label" text="Zeit">
                                                 </Label>
                                                 <TextField fx:id="txtActivityTime" editable="false" styleClass="big-textfield" text="1:32:43">
                                                  </TextField>
-                                                <Label styleClass="small-label" text="Pace">
+                                                <Label fx:id="lblOverviewPace" styleClass="small-label" text="Pace">
                                                </Label>
                                                 <TextField fx:id="txtActivityPace" editable="false" styleClass="big-textfield" text="5:46">
                                                 </TextField>
                                                 <TextField styleClass="big-textfield" />
-                                                <Label layoutX="20.0" layoutY="156.0" styleClass="small-label" text="Bergauf" />
+                                                <Label fx:id="lblOverviewAscent" layoutX="20.0" layoutY="156.0" styleClass="small-label" text="Bergauf" />
                                                 <TextField fx:id="txtActivityAscent" editable="false" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="123 hm" />
-                                                <Label layoutX="20.0" layoutY="214.0" styleClass="small-label" text="Bergab" />
+                                                <Label fx:id="lblOverviewDescent" layoutX="20.0" layoutY="214.0" styleClass="small-label" text="Bergab" />
                                                 <TextField fx:id="txtActivityDescent" editable="false" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="113 hm" />
                                              </children>
                                              <padding>
@@ -131,19 +131,19 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                              <children>
-                                                <Label styleClass="small-label" text="Hf">
+                                                <Label fx:id="lblOverviewHeartRate" styleClass="small-label" text="Hf">
                                                    <padding>
                                                       <Insets top="20.0" />
                                                    </padding></Label>
                                                 <TextField fx:id="txtActivityAvgHeartRate" editable="false" styleClass="big-textfield" text="161 bpm" />
-                                                <Label styleClass="small-label" text="HfMax" />
+                                                <Label fx:id="lblOverviewHeartRateMax" styleClass="small-label" text="HfMax" />
                                                 <TextField fx:id="txtActivityMaxHeartRate" editable="false" styleClass="big-textfield" text="172 bpm" />
-                                                <Label layoutX="20.0" layoutY="98.0" styleClass="small-label" text="Kalorien" />
+                                                <Label fx:id="lblOverviewCalories" layoutX="20.0" layoutY="98.0" styleClass="small-label" text="Kalorien" />
                                                 <TextField fx:id="txtActivityCalories" editable="false" layoutX="20.0" layoutY="113.0" styleClass="big-textfield" text="800 kcal" />
                                                 <TextField styleClass="big-textfield" />
-                                                <Label layoutX="20.0" layoutY="156.0" styleClass="small-label" text="min. Höhe" />
+                                                <Label fx:id="lblOverviewAltMin" layoutX="20.0" layoutY="156.0" styleClass="small-label" text="min. Höhe" />
                                                 <TextField fx:id="txtActivityMinAltitude" editable="false" layoutX="20.0" layoutY="171.0" styleClass="big-textfield" text="212 m" />
-                                                <Label layoutX="20.0" layoutY="214.0" styleClass="small-label" text="max. Höhe" />
+                                                <Label fx:id="lblOverviewAltMax" layoutX="20.0" layoutY="214.0" styleClass="small-label" text="max. Höhe" />
                                                 <TextField fx:id="txtActivityMaxAltitude" editable="false" layoutX="20.0" layoutY="229.0" styleClass="big-textfield" text="288" />
                                              </children>
                                           </VBox>
@@ -196,37 +196,37 @@
                                        <children>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
                                              <children>
-                                                <Label styleClass="small-label" text="beste Zeit" />
+                                                <Label fx:id="lblSplitBestTime" styleClass="small-label" text="beste Zeit" />
                                                 <TextField fx:id="txtBestTimeSplit" styleClass="medium-textfield" text="0:59,3" />
                                              </children>
                                           </VBox>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
                                              <children>
-                                                <Label styleClass="small-label" text="mittlere Zeit" />
+                                                <Label fx:id="lblSplitAvgTime" styleClass="small-label" text="mittlere Zeit" />
                                                 <TextField fx:id="txtAverageTimeSplit" styleClass="medium-textfield" text="1:02,4" />
                                              </children>
                                           </VBox>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
                                              <children>
-                                                <Label styleClass="small-label" text="Gesamt-Zeit" />
+                                                <Label fx:id="lblSplitTotalTime" styleClass="small-label" text="Gesamt-Zeit" />
                                                 <TextField fx:id="txtTotalTimeSplit" styleClass="medium-textfield" text="1:02,4" />
                                              </children>
                                           </VBox>
                                           <VBox layoutX="310.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                                              <children>
-                                                <Label styleClass="small-label" text="Gesamt-Distanz" />
+                                                <Label fx:id="lblSplitTotalDist" styleClass="small-label" text="Gesamt-Distanz" />
                                                 <TextField fx:id="txtTotalDistanceSplit" styleClass="medium-textfield" text="12,3" />
                                              </children>
                                           </VBox>
                                           <VBox prefHeight="200.0" prefWidth="100.0">
                                              <children>
-                                                <Label styleClass="small-label" text="beste Pace" />
+                                                <Label fx:id="lblSplitBestPace" styleClass="small-label" text="beste Pace" />
                                                 <TextField fx:id="txtBestPaceSplit" styleClass="medium-textfield" text="4:15:8" />
                                              </children>
                                           </VBox>
                                           <VBox layoutX="210.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0">
                                              <children>
-                                                <Label styleClass="small-label" text="mittlerePace" />
+                                                <Label fx:id="lblSplitAvgPace" styleClass="small-label" text="mittlerePace" />
                                                 <TextField fx:id="txtAveragePaceSplit" styleClass="medium-textfield" text="4:17,9" />
                                              </children>
                                           </VBox>
@@ -247,11 +247,11 @@
                                     <ComboBox fx:id="cbxTimeDistance" promptText="TimeDistance" AnchorPane.leftAnchor="575.0" AnchorPane.topAnchor="0.0" />
                                     <ComboBox fx:id="cbxSmoothFactor" layoutX="901.0" layoutY="2.0" promptText="Glättung" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0" />
                                     <Label fx:id="lblChartTime" layoutX="115.0" layoutY="734.0" text="Zeit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" />
-                                    <Label fx:id="lblChartDistance" layoutX="177.0" layoutY="726.0" text="Distanz" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="225.0" />
-                                    <Label fx:id="lblChartAlitude" layoutX="251.0" layoutY="734.0" text="Höhe" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" />
-                                    <Label fx:id="lblChartHeartRate" layoutX="410.0" layoutY="736.0" text="Hf" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="575.0" />
-                                    <Label fx:id="lblChartPace" layoutX="329.0" layoutY="726.0" text="Pace" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="750.0" />
-                                    <Label fx:id="lblChartSplitPace" layoutX="396.0" layoutY="726.0" text="SplitPace" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="925.0" />
+                                    <Label fx:id="lblChartDistance" layoutX="177.0" layoutY="726.0" text="Distanz" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" />
+                                    <Label fx:id="lblChartAlitude" layoutX="251.0" layoutY="734.0" text="Höhe" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" />
+                                    <Label fx:id="lblChartHeartRate" layoutX="410.0" layoutY="736.0" text="Hf" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="500.0" />
+                                    <Label fx:id="lblChartPace" layoutX="329.0" layoutY="726.0" text="Pace" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="650.0" />
+                                    <Label fx:id="lblChartSplitPace" layoutX="396.0" layoutY="726.0" text="SplitPace" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="800.0" />
                                  </children>
                               </AnchorPane>
                           </content>
@@ -292,7 +292,7 @@
                            <content>
                               <AnchorPane fx:id="tabMapAnchorPane1">
                                  <children>
-                                    <StackPane fx:id="stackPaneStatistic" layoutY="14.0" prefHeight="742.0" prefWidth="1065.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                                    <StackPane fx:id="stackPaneStatistic" layoutY="14.0" prefHeight="742.0" prefWidth="1065.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
                                     <HBox layoutX="50.0">
                                        <children>
                                           <ComboBox fx:id="cbxStatisticPredefined" promptText="Zeitraum" />
@@ -329,8 +329,8 @@
                            <content>
                               <AnchorPane fx:id="tabMapAnchorPane11">
                                  <children>
-                                    <StackPane fx:id="stackPaneEquipment" layoutY="14.0" prefHeight="742.0" prefWidth="1065.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="20.0" />
-                                    <HBox layoutX="50.0">
+                                    <StackPane fx:id="stackPaneEquipment" layoutY="14.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="20.0" />
+                                    <HBox layoutX="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <ComboBox fx:id="cbxStatisticEquipment" promptText="Ausrüstung" />
                                        </children>

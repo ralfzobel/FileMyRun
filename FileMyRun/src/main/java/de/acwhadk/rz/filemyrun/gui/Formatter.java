@@ -1,9 +1,11 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import de.acwhadk.rz.filemyrun.setup.Const;
 
 /**
  * A utility class dealing with formatting.
@@ -18,90 +20,90 @@ public class Formatter {
 	
 	public static String formatSeconds(Long seconds) {
 		if (seconds == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
 		return formatSeconds(new Double(seconds));
 	}
 	
 	public static String formatSeconds(Double seconds) {
 		if (seconds == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
 		long time = seconds.longValue();
 		if (seconds > 3559.) {
-			return String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60));
+			return String.format(Const.FORMAT_TIME_H_MM_SS, time / 3600, (time % 3600) / 60, (time % 60));
 		}
 		long tenth = Math.round((seconds - time) * 10);
 		if (tenth == 10) {
 			tenth = 0;
 			++time;
 		}
-		return String.format("%2d:%02d,%d", (time % 3600) / 60, (time % 60), tenth);
+		return String.format(Const.FORMAT_TIME_MM_SS_TENTH, (time % 3600) / 60, (time % 60), tenth);
 	}
 	
 	public static String formatSecondsForCharts(Long seconds) {
 		if (seconds == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
 		if (seconds > 3559) {
-			return String.format("%d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, (seconds % 60));
+			return String.format(Const.FORMAT_TIME_H_MM_SS, seconds / 3600, (seconds % 3600) / 60, (seconds % 60));
 		}
-		return String.format("%2d:%02d", (seconds % 3600) / 60, (seconds % 60));
+		return String.format(Const.FORMAT_TIME_MM_SS, (seconds % 3600) / 60, (seconds % 60));
 	}
 	
 	public static String formatPace(Double seconds) {
 		if (seconds == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
 		int time = seconds.intValue();
 		if (seconds > 599) {
-			return "-";
+			return Const.DASH;
 		}
 		long tenth = Math.round((seconds - time) * 10);
 		if (tenth == 10) {
 			tenth = 0;
 			++time;
 		}
-		return String.format("%2d:%02d,%d", (time % 3600) / 60, (time % 60), tenth);
+		return String.format(Const.FORMAT_TIME_MM_SS_TENTH, (time % 3600) / 60, (time % 60), tenth);
 	}
 	
 	public static String formatDistance(Double distance) {
 		if (distance == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
-		DecimalFormat df = new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat(Const.FORMAT_DECIMAL_2);
 		return df.format(distance);
 	}
 	
 	public static String formatDistanceToKm(Double distance) {
 		if (distance == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
-		DecimalFormat df = new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat(Const.FORMAT_DECIMAL_2);
 		return df.format(distance/1000.);
 	}
 	
 	public static String formatDistanceToKm3(Double distance) {
 		if (distance == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
-		DecimalFormat df = new DecimalFormat("0.000");
+		DecimalFormat df = new DecimalFormat(Const.FORMAT_DECIMAL_3);
 		return df.format(distance/1000.);
 	}
 	
 	public static String formatDate(Date date) {
 		if (date == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
-		Format formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		Format formatter = new SimpleDateFormat(Const.FORMAT_FULL_DATE);
 		return formatter.format(date);
 	}
 
 	public static String formatAsInteger(Double n) {
 		if (n == null) {
-			return "--";
+			return Const.DOUBLE_DASH;
 		}
-		DecimalFormat df = new DecimalFormat("0");
+		DecimalFormat df = new DecimalFormat(Const.FORMAT_DECIMAL_0);
 		return df.format(n);
 	}
 

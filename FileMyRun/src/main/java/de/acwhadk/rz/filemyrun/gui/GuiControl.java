@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import de.acwhadk.rz.filemyrun.dialog.FileFilter;
 import de.acwhadk.rz.filemyrun.dialog.FileFilterDialog;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
+import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
@@ -79,7 +81,6 @@ public class GuiControl {
 			return;
 		}
         String selectedItem = new_val.getValue();
-        System.out.println("Selected Text : " + selectedItem);
         trainingFile = fileTree.getTrainingFile(selectedItem);
         setNewActivity();
        	setNewTab(controller.getTabPane().getSelectionModel().getSelectedItem());
@@ -106,6 +107,13 @@ public class GuiControl {
 	}
 	
 	private void initialize() {
+		controller.getTabOverview().setText(Lang.get().text(Lang.TAB_LABEL_OVERVIEW));
+		controller.getTabSplits().setText(Lang.get().text(Lang.TAB_LABEL_SPLITS));
+		controller.getTabCharts().setText(Lang.get().text(Lang.TAB_LABEL_CHARTS));
+		controller.getTabMap().setText(Lang.get().text(Lang.TAB_LABEL_MAP));
+		controller.getTabStatistic().setText(Lang.get().text(Lang.TAB_LABEL_STATISTIC));
+		controller.getTabEquipment().setText(Lang.get().text(Lang.TAB_LABEL_EQUIPMENT));
+		
 		controller.getActivityTreeView().toFront();
 		TreeItem<String> root = fileTree.getRoot();
 		
@@ -202,11 +210,11 @@ public class GuiControl {
 	}
 
 	public static void showException(Exception e) {
-		logger.error("got exception:", e);
+		logger.error(Lang.get().text(Lang.EXCEPTION) + Const.COLON + Const.SPACE, e);
         Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Exception");
-        alert.setHeaderText("Exception");
-        alert.setContentText("" + e);
+        alert.setTitle(Lang.get().text(Lang.EXCEPTION));
+        alert.setHeaderText(Lang.get().text(Lang.EXCEPTION));
+        alert.setContentText(e.toString());
         alert.showAndWait();
 	}
 }

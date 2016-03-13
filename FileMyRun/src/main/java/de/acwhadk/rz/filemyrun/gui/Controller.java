@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.controller;
+package de.acwhadk.rz.filemyrun.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -53,6 +53,36 @@ public class Controller {
     @FXML
     private Tab tabCharts;
     
+    @FXML
+    private Label lblOverviewDistance;
+
+    @FXML
+    private Label lblOverviewTime;
+
+    @FXML
+    private Label lblOverviewPace;
+
+    @FXML
+    private Label lblOverviewAscent;
+
+    @FXML
+    private Label lblOverviewDescent;
+
+    @FXML
+    private Label lblOverviewHeartRate;
+
+    @FXML
+    private Label lblOverviewHeartRateMax;
+
+    @FXML
+    private Label lblOverviewCalories;
+
+    @FXML
+    private Label lblOverviewAltMin;
+
+    @FXML
+    private Label lblOverviewAltMax;
+
     @FXML
     private ComboBox<String> cbxActivityType;
 
@@ -150,19 +180,37 @@ public class Controller {
     private TableColumn<Lap, String> colSplitDescent;
     
     @FXML
+    private Label lblSplitBestTime;
+
+    @FXML
     private TextField txtBestTimeSplit;
+
+    @FXML
+    private Label lblSplitAvgTime;
 
     @FXML
     private TextField txtAverageTimeSplit;
 
     @FXML
+    private Label lblSplitTotalTime;
+
+    @FXML
     private TextField txtTotalTimeSplit;
-    
+
+    @FXML
+    private Label lblSplitTotalDist;
+
     @FXML
     private TextField txtTotalDistanceSplit;
-    
+
+    @FXML
+    private Label lblSplitBestPace;
+
     @FXML
     private TextField txtBestPaceSplit;
+
+    @FXML
+    private Label lblSplitAvgPace;
 
     @FXML
     private TextField txtAveragePaceSplit;
@@ -560,6 +608,70 @@ public class Controller {
 
 	public StackPane getStackPaneEquipment() {
 		return stackPaneEquipment;
+	}
+
+	public Label getLblOverviewDistance() {
+		return lblOverviewDistance;
+	}
+
+	public Label getLblOverviewTime() {
+		return lblOverviewTime;
+	}
+
+	public Label getLblOverviewPace() {
+		return lblOverviewPace;
+	}
+
+	public Label getLblOverviewAscent() {
+		return lblOverviewAscent;
+	}
+
+	public Label getLblOverviewDescent() {
+		return lblOverviewDescent;
+	}
+
+	public Label getLblOverviewHeartRate() {
+		return lblOverviewHeartRate;
+	}
+
+	public Label getLblOverviewHeartRateMax() {
+		return lblOverviewHeartRateMax;
+	}
+
+	public Label getLblOverviewCalories() {
+		return lblOverviewCalories;
+	}
+
+	public Label getLblOverviewAltMin() {
+		return lblOverviewAltMin;
+	}
+
+	public Label getLblOverviewAltMax() {
+		return lblOverviewAltMax;
+	}
+
+	public Label getLblSplitBestTime() {
+		return lblSplitBestTime;
+	}
+
+	public Label getLblSplitAvgTime() {
+		return lblSplitAvgTime;
+	}
+
+	public Label getLblSplitTotalTime() {
+		return lblSplitTotalTime;
+	}
+
+	public Label getLblSplitTotalDist() {
+		return lblSplitTotalDist;
+	}
+
+	public Label getLblSplitBestPace() {
+		return lblSplitBestPace;
+	}
+
+	public Label getLblSplitAvgPace() {
+		return lblSplitAvgPace;
 	}
 
 }

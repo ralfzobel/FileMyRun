@@ -25,9 +25,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Typen" />
+            <Label fx:id="lblTypes" text="Typen" />
             <Separator prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="1" />
-            <Label text="Einträge" GridPane.rowIndex="2" />
+            <Label fx:id="lblItems" text="Einträge" GridPane.rowIndex="2" />
             <ComboBox fx:id="cbxEquipmentTypes" prefWidth="200.0" GridPane.columnIndex="1" />
             <ListView fx:id="listEquipmentItems" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="6" />
             <Button fx:id="btnEquipmentDeleteType" mnemonicParsing="false" text="Löschen" GridPane.columnIndex="3">
