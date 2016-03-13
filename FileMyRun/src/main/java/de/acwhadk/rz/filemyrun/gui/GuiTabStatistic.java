@@ -101,10 +101,15 @@ public class GuiTabStatistic {
 			LocalDate lastDate = controller.getDateStatisticTo().getValue();
 			int index=0;
 			if (weekly) {
-				LocalDate curDate = firstDate;
-				while(curDate.getDayOfWeek() != DayOfWeek.MONDAY) {
-					curDate = curDate.minusDays(1L);
+				// set first day to monday
+				while(firstDate.getDayOfWeek() != DayOfWeek.MONDAY) {
+					firstDate = firstDate.minusDays(1L);
 				}
+				// set last day to sunday
+				while(lastDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
+					lastDate = lastDate.plusDays(1L);
+				}
+				LocalDate curDate = firstDate;
 				while(curDate.isBefore(lastDate) || curDate.isEqual(lastDate)) {
 					distances.put(index, new Double(0.0));
 					dates.put(index, curDate);
@@ -113,11 +118,17 @@ public class GuiTabStatistic {
 					++index;
 				}
 			} else {
-				LocalDate curDate = firstDate;			
-				lastDate = lastDate.plusMonths(1);
+				// set first day to first day of month
 				if (firstDate.getDayOfMonth() > 1) {
-					curDate = firstDate.minusDays(firstDate.getDayOfMonth()-1);
+					firstDate = firstDate.minusDays(firstDate.getDayOfMonth()-1);
 				}
+				// set last day to last day of month
+				while(lastDate.getDayOfMonth() != 1) {
+					lastDate = lastDate.plusDays(1);
+				}
+				lastDate = lastDate.minusDays(1);				
+				// create indices
+				LocalDate curDate = firstDate;			
 				while(curDate.isBefore(lastDate)) {
 					distances.put(index, new Double(0.0));
 					dates.put(index, curDate);
@@ -125,7 +136,6 @@ public class GuiTabStatistic {
 					curDate = curDate.plusMonths(1L);
 					++index;
 				}
-				
 			}
 			Collection<TrainingFile> files = guiControl.getTrainingFileMan().getTrainingFiles().values();
 			for(TrainingFile file : files) {
