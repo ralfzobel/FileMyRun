@@ -3,7 +3,11 @@ package de.acwhadk.rz.filemyrun.setup;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.log4j.Logger;
+
 public class Lang {
+
+	final static Logger logger = Logger.getLogger(Lang.class);
 
 	public static final String ALERT_CONFIRM = "gui.alertConfirm";
 	public static final String ALERT_DELETE_ACTIVITY_SHORT = "gui.alertDeleteActivityShort";
@@ -136,6 +140,7 @@ public class Lang {
 		if (locale == null) {
 			locale = Locale.getDefault();
 		}
+		logger.info("locale is " + locale.toString());
 		messages = ResourceBundle.getBundle(LANGUAGE_RESOURCE, locale);
 	}
 
