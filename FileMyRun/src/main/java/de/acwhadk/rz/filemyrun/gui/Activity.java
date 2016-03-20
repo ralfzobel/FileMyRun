@@ -421,17 +421,24 @@ public class Activity {
 		TrackT track = new TrackT();
 		lap2.getTrack().add(track);
 		List<TrackpointT> tpList = lap1.getTrack().get(0).getTrackpoint();
+		XMLGregorianCalendar lastTPTime = laps.get(0).getStartTime();
 		Iterator<TrackpointT> it = tpList.iterator();
 		while (it.hasNext()) {
 			TrackpointT tp = it.next();
+			// remove useless track points
+			if (tp.getDistanceMeters() == null) {
+				it.remove();
+				continue;
+			}
 			double tpDist = tp.getDistanceMeters() == null ? 0.0 : tp.getDistanceMeters();
 			if (tpDist > dist) {
 				track.getTrackpoint().add(tp);
 				if (lap2.getStartTime() == null) {
-					lap2.setStartTime(tp.getTime());
+					lap2.setStartTime(lastTPTime);
 				}
 				it.remove();
 			}
+			lastTPTime = tp.getTime();
 		}
 		if (track.getTrackpoint().isEmpty()) {
 			throw new IllegalArgumentException(Lang.get().text(Lang.DISTANCE_OUT_OF_RANGE));
@@ -473,16 +480,12 @@ public class Activity {
 	}
 
 	private void calculateTimeAndDist(ActivityLapT lap) {
-		TrackT track = lap.getTrack().get(0);
-		Iterator<TrackpointT> itTp = track.getTrackpoint().iterator();
-		TrackpointT firstTP = track.getTrackpoint().get(0);
-		XMLGregorianCalendar startTime = firstTP.getTime();
-		while (firstTP.getDistanceMeters() == null && itTp.hasNext()) {
-			firstTP = itTp.next();
-		}
+		TrackpointT firstTP = getLastTPOfPreviousLap(lap);
 		if (firstTP.getDistanceMeters() == null) {
 			return;
 		}
+		TrackT track = lap.getTrack().get(0);
+		XMLGregorianCalendar startTime = lap.getStartTime();
 		int lastIndex = track.getTrackpoint().size()-1;
 		TrackpointT lastTP = track.getTrackpoint().get(lastIndex);
 		XMLGregorianCalendar endTime = lastTP.getTime();
@@ -496,6 +499,31 @@ public class Activity {
 		
 		lap.setDistanceMeters(totalDistance);
 		lap.setTotalTimeSeconds(totalTimeSeconds);
+	}
+
+	private TrackpointT getLastTPOfPreviousLap(ActivityLapT lap) {
+		int i=0;
+		for(ActivityLapT l : tcxActivity.getLap()) {
+			if (l == lap) {
+				break;
+			}
+			++i;
+		}
+		if (i == 0) {
+			TrackpointT t = new TrackpointT();
+			t.setTime(lap.getStartTime());
+			t.setDistanceMeters(0.0);
+			return t;
+		}
+		ActivityLapT prevLap = tcxActivity.getLap().get(--i);
+		List<TrackpointT> tpList = prevLap.getTrack().get(0).getTrackpoint();
+		for(int j=tpList.size()-1; j>=0; --j) {
+			TrackpointT tp = tpList.get(j);
+			if (tp.getDistanceMeters() != null) {
+				return tp;
+			}
+		}
+		return null;
 	}
 
 	private void calculateAltitude() {
