@@ -172,6 +172,9 @@ public class GuiTabSplits {
     		int cnt = 0;
     		ObservableList<Lap> laps = selectedLaps == null || selectedLaps.isEmpty() ? splitTable : selectedLaps;
     		for(Lap lap : laps) {
+    			if (lap == null) {
+    				continue;
+    			}
     			totalTime += lap.getTimeInSeconds();
     			Double dist = lap.getDistanceInMeters();
     			totalDistance += dist;
