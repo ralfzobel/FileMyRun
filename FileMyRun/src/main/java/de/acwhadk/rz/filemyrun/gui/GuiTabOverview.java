@@ -59,7 +59,7 @@ public class GuiTabOverview {
 				return;
 			}
 			controller.getTxtActivityName().setText(activity.getName());
-			controller.getTxtActivityDate().setText(Formatter.formatDate(activity.getDate()));
+			controller.getTxtActivityDate().setText(Formatter.formatFullDate(activity.getDate()));
 			controller.getCbxActivityType().getSelectionModel().select(activity.getType());
 			controller.getTxtActivityDistance().setText(Formatter.formatDistance(activity.getDistance())
 					+ Const.SPACE + Lang.get().text(Lang.DISTANCE_ABBREVIATED));

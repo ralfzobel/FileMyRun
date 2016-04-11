@@ -3,6 +3,8 @@ package de.acwhadk.rz.filemyrun.gui;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import de.acwhadk.rz.filemyrun.setup.Const;
@@ -91,12 +93,20 @@ public class Formatter {
 		return df.format(distance/1000.);
 	}
 	
-	public static String formatDate(Date date) {
+	public static String formatFullDate(Date date) {
 		if (date == null) {
 			return Const.DOUBLE_DASH;
 		}
 		Format formatter = new SimpleDateFormat(Const.FORMAT_FULL_DATE);
 		return formatter.format(date);
+	}
+
+	public static String formatDate(LocalDate date) {
+		if (date == null) {
+			return Const.DOUBLE_DASH;
+		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Const.FORMAT_DATE);
+		return date.format(formatter);
 	}
 
 	public static String formatAsInteger(Double n) {

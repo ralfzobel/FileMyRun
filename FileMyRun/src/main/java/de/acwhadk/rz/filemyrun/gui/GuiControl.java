@@ -135,6 +135,7 @@ public class GuiControl {
 			}
 		});
 		controller.getBtnFilterTreeView().setOnAction(e -> filterTree());
+		controller.getLblFilterText().setText(fileTree.getFilterText());
 	}
 	
 	private void filterTree() {

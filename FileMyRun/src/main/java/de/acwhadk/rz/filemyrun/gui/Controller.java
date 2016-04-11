@@ -33,6 +33,9 @@ public class Controller {
     private Button btnFilterTreeView;
 
     @FXML
+    private Label lblFilterText;
+    
+    @FXML
     private StackPane stackPaneTree;
 
     @FXML
@@ -672,6 +675,10 @@ public class Controller {
 
 	public Label getLblSplitAvgPace() {
 		return lblSplitAvgPace;
+	}
+
+	public Label getLblFilterText() {
+		return lblFilterText;
 	}
 
 }

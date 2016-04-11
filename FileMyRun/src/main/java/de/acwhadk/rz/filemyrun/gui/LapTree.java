@@ -33,7 +33,7 @@ public class LapTree {
 			root.getChildren().add(lapItem);
 			for(TrackpointT tp : tpList) {
 				GregorianCalendar cal = tp.getTime().toGregorianCalendar(null, null, null);
-				String tpName = Formatter.formatDate(cal.getTime());
+				String tpName = Formatter.formatFullDate(cal.getTime());
 				if (tp.getDistanceMeters() != null) {					
 					tpName += Const.SPACED_DASH + Formatter.formatDistanceToKm3(tp.getDistanceMeters());
 				}

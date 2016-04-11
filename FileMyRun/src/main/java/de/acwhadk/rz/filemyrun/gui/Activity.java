@@ -209,7 +209,7 @@ public class Activity {
 		for(ActivityLapT lap : tcxActivity.getLap()) {
 			List<TrackpointT> tpList = new ArrayList<>();
 			GregorianCalendar cal = lap.getStartTime().toGregorianCalendar(null, null, null);
-			tpMap.put(Formatter.formatDate(cal.getTime()), tpList );
+			tpMap.put(Formatter.formatFullDate(cal.getTime()), tpList );
 			for( TrackT trk : lap.getTrack()) {
 				if (trk.getTrackpoint() == null) {
 					continue;

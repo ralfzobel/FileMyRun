@@ -30,10 +30,12 @@ public class FileTree {
 
 	private TreeItem<String> root;
 	private Map<String, TreeItem<String>> items = new HashMap<>();
+	private String filterText;
 	
 	public FileTree(TrainingFileMan trainingFileMan, FileFilter filter) {
 		root = new TreeItem<>(Const.ROOT);
 		root.setExpanded(true);
+		initFilterText(filter);
 		SortedMap<Date, TrainingFile> trainingFiles = trainingFileMan.getTrainingFiles();
 		for(TrainingFile file : trainingFiles.values()) {
 			if (match(file, filter)) {
@@ -133,4 +135,36 @@ public class FileTree {
 		return true;
 	}
 
+	private void initFilterText(FileFilter filter) {
+		filterText = "";
+		if (filter == null) {
+			filterText = "";
+			return;
+		}
+		if (filter.isDistFilter()) {
+			filterText += Lang.get().text(Lang.FILEFILTER_LBL_DISTANCE) + Const.COLON + Const.SPACE + 
+					filter.getFromDist() + Const.SPACED_DASH + filter.getToDist();
+			return;
+		}
+		if (filter.isTimeFilter()) {
+			filterText += Lang.get().text(Lang.FILEFILTER_LBL_TIME) + Const.COLON + Const.SPACE +
+					Formatter.formatDate(filter.getFromTime()) + Const.SPACED_DASH + 
+					Formatter.formatDate(filter.getToTime());
+			return;
+		}
+		if (filter.isTextFilter()) {
+			filterText = Lang.get().text(Lang.FILEFILTER_LBL_TEXT) + Const.COLON + Const.SPACE +
+					filter.getText();
+			return;
+		}
+		if (filter.isTypeFilter()) {
+			filterText = Lang.get().text(Lang.FILEFILTER_LBL_TYPE) + Const.COLON + Const.SPACE +
+					filter.getType();
+			return;
+		}
+	}
+
+	public String getFilterText() {
+		return filterText;
+	}
 }

@@ -10,6 +10,7 @@ public class Const {
 	public static final String DOUBLE_DASH = "--";
 	public static final String KOMMA = ",";
 
+	public static final String FORMAT_DATE = "dd.MM.yyyy";
 	public static final String FORMAT_FULL_DATE = "dd.MM.yyyy HH:mm:ss";
 	public static final String FORMAT_FILE_DATE = "yyyy-MM-dd-HH-mm-ss";
 	public static final String FORMAT_DAYNAME_DAY = "E., dd.";
