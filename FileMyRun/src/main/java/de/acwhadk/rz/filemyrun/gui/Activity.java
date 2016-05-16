@@ -208,7 +208,10 @@ public class Activity {
 		Map<String, List<TrackpointT>> tpMap = new TreeMap<>();
 		for(ActivityLapT lap : tcxActivity.getLap()) {
 			List<TrackpointT> tpList = new ArrayList<>();
-			GregorianCalendar cal = lap.getStartTime().toGregorianCalendar(null, null, null);
+			GregorianCalendar cal = getLapStartTime(lap);
+			if (cal == null) {
+				continue;
+			}
 			tpMap.put(Formatter.formatFullDate(cal.getTime()), tpList );
 			for( TrackT trk : lap.getTrack()) {
 				if (trk.getTrackpoint() == null) {
@@ -222,6 +225,22 @@ public class Activity {
 		return tpMap;
 	}
 	
+	private GregorianCalendar getLapStartTime(ActivityLapT lap) {
+		XMLGregorianCalendar t = lap.getStartTime();
+		if (t == null) {
+			for( TrackT trk : lap.getTrack()) {
+				if (trk.getTrackpoint() != null) {
+					t = trk.getTrackpoint().get(0).getTime();
+					break;
+				}
+			}
+		}
+		if (t != null) {
+			return t.toGregorianCalendar(null, null, null);
+		}
+		return null;
+	}
+
 	public List<Lap> getLaps(boolean snapIn) {
 		List<Lap> laplist = new ArrayList<>();
 		List<ActivityLapT> activityLaps = tcxActivity.getLap();
