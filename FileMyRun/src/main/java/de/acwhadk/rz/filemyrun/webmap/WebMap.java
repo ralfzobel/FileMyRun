@@ -69,6 +69,9 @@ public class WebMap {
 					if (pos != null) {
 						double lat = pos.getLatitudeDegrees();
 						double lon = pos.getLongitudeDegrees();
+						if (lat == 0.0 || lon == 0.0) {
+							continue;
+						}
 						webEngine.executeScript("document.addTrackPoint(" + lat + "," + lon + ")");
 						if (minLat == null || minLat > lat) {
 							minLat = lat;
