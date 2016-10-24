@@ -11,13 +11,21 @@ import java.util.TreeMap;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.operation.TransformException;
+
 import com.garmin.tcdbv2.ActivityLapT;
 import com.garmin.tcdbv2.ActivityListT;
 import com.garmin.tcdbv2.ActivityT;
 import com.garmin.tcdbv2.HeartRateInBeatsPerMinuteT;
+import com.garmin.tcdbv2.PositionT;
 import com.garmin.tcdbv2.TrackT;
 import com.garmin.tcdbv2.TrackpointT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 import de.acwhadk.rz.filemyrun.file.TrainingFile;
@@ -37,6 +45,7 @@ import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 public class Activity {
 
 	private static final double THRESHOLD = 5.0;
+	private static final int SRID = 25832;
 	private TrainingActivity trainingActivity;
 	private TrainingCenterDatabaseT tcxData;
 	private ActivityT tcxActivity;
@@ -101,8 +110,12 @@ public class Activity {
 	public Double getDistance() throws Exception {
 		if (trainingActivity.getDistance() == null) {
 			double distance = getTrackDistance();
-			distance /= 1000.0;
-			trainingActivity.setDistance(distance);
+			if (distance > 0.0) {
+				distance /= 1000.0;
+				trainingActivity.setDistance(distance);
+			} else {
+				calculateAll();
+			}
 			save();
 		}
 		return trainingActivity.getDistance();
@@ -520,6 +533,43 @@ public class Activity {
 		lap.setTotalTimeSeconds(totalTimeSeconds);
 	}
 
+	private void calculateTimeAndDistByCoors(ActivityLapT lap) throws FactoryException, TransformException {
+		TrackT track = lap.getTrack().get(0);
+		XMLGregorianCalendar startTime = lap.getStartTime();
+		XMLGregorianCalendar endTime = null;
+		List<Coordinate> coorList = new ArrayList<>();
+		for(TrackpointT tp : track.getTrackpoint()) {
+			PositionT pos = tp.getPosition();
+			Coordinate c = new Coordinate(pos.getLatitudeDegrees(), pos.getLongitudeDegrees());
+			coorList.add(c);
+			endTime = tp.getTime();
+		}
+		CoordinateTransformer trans = new CoordinateTransformer(SRID);		
+		Coordinate[] coors = trans.transform(coorList.toArray(new Coordinate[0]));
+		GeometryFactory f = new GeometryFactory(new PrecisionModel(), SRID);
+		LineString line = f.createLineString(coors);
+		Date end = endTime.toGregorianCalendar().getTime();
+		Date start = startTime.toGregorianCalendar().getTime();
+		double totalTimeSeconds = (end.getTime() - start.getTime()) / 1000.;
+		
+		lap.setDistanceMeters(line.getLength());
+		lap.setTotalTimeSeconds(totalTimeSeconds);
+	}
+
+	private void calculateAll() throws FactoryException, TransformException {
+		double time = 0.0;
+		double dist = 0.0;
+		for(ActivityLapT lap : tcxActivity.getLap()) {
+			calculateTimeAndDistByCoors(lap);
+			calculateHeartRate(lap);
+			dist += lap.getDistanceMeters();
+			time += lap.getTotalTimeSeconds();
+		}
+		trainingActivity.setDistance(dist / 1000.0);
+		long t = new Double(time).longValue() / 1000;
+		trainingActivity.setTime(new Date(t));
+	}
+	
 	private TrackpointT getLastTPOfPreviousLap(ActivityLapT lap) {
 		int i=0;
 		for(ActivityLapT l : tcxActivity.getLap()) {

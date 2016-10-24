@@ -13,10 +13,10 @@ public class CoordinateTransformer {
 
     private MathTransform transform;
 
-	public CoordinateTransformer(int sourceSrid, int targetSrid)
+	public CoordinateTransformer(int srid)
             throws FactoryException {
         CoordinateReferenceSystem sourceCRS = CRS.decode("epsg:4326");
-        CoordinateReferenceSystem targetCRS = CRS.decode("epsg:25832");
+        CoordinateReferenceSystem targetCRS = CRS.decode("epsg:" + srid);
 
         DefaultCoordinateOperationFactory trFactory = new DefaultCoordinateOperationFactory();
         CoordinateOperation operation = trFactory.createOperation(sourceCRS, targetCRS);
