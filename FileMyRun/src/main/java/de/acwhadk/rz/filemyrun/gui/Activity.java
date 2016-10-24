@@ -45,7 +45,7 @@ import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 public class Activity {
 
 	private static final double THRESHOLD = 5.0;
-	private static final int SRID = 25832;
+	private static final int SRID = 31466;
 	private TrainingActivity trainingActivity;
 	private TrainingCenterDatabaseT tcxData;
 	private ActivityT tcxActivity;
