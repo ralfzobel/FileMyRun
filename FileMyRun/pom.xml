@@ -120,7 +120,7 @@
 						<configuration>
 							<headerType>gui</headerType>
 							<outfile>target/FileMyRun.exe</outfile>
-							<jar>target/FileMyRun-0.0.3.jar</jar>
+							<jar>target/FileMyRun-0.0.4.jar</jar>
 							<errTitle>FileMyRun</errTitle>
 							<icon>running_man_32.ico</icon>
 							<classPath>
