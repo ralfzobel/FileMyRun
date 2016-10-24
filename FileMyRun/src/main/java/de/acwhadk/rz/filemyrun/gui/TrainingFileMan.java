@@ -20,8 +20,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.garmin.tcdbv2.ActivityT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
-import com.topografix.gpx.GpxType;
-import com.topografix.gpx.TrkType;
 
 import de.acwhadk.rz.filemyrun.data.TrainingActivity;
 import de.acwhadk.rz.filemyrun.dialog.ProgressDialog;
@@ -30,7 +28,6 @@ import de.acwhadk.rz.filemyrun.file.TrainingFileContainer;
 import de.acwhadk.rz.filemyrun.setup.Const;
 import de.acwhadk.rz.filemyrun.setup.Lang;
 import de.acwhadk.rz.filemyrun.setup.Setup;
-import de.acwhadk.rz.filemyrun.xml.GpxLoader;
 import de.acwhadk.rz.filemyrun.xml.TcxLoader;
 import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
 import de.acwhadk.rz.filemyrun.xml.TrainingFileContainerToXML;
@@ -151,8 +148,6 @@ public class TrainingFileMan {
 					activity.setTrainingCenterDatabase(tcx);
 					Date date = getDate(tcx);				
 
-					addGpxData(file, activity);
-
 					String filename = workdir + File.separator + formatter.format(date) + Const.SUFFIX_TRX;
 					tf = new TrainingFile(Lang.get().text(Lang.NOT_AVAILABLE), date, filename);
 					activity.setTrainingFile(tf);
@@ -179,21 +174,6 @@ public class TrainingFileMan {
 			String msg = String.format(Lang.get().text(Lang.TFM_MOVE_TCX_FAILED), file.getAbsolutePath());
 			Exception e2 = new RuntimeException(msg, e);
 			GuiControl.showException(e2);
-		}
-	}
-
-	private void addGpxData(File file, TrainingActivity activity) throws JAXBException {
-		String filename = file.getAbsolutePath().toLowerCase().replace(Const.SUFFIX_TCX, Const.SUFFIX_GPX);
-		GpxLoader gpx = new GpxLoader();
-		File gpxFile = new File(filename);
-		if (gpxFile.exists()) {
-			GpxType t = gpx.loadGpx(gpxFile);
-	
-			List<TrkType> tracks = t.getTrk();
-			if (!tracks.isEmpty()) {
-				activity.setName(tracks.get(0).getName());
-			}	
-			moveFile(gpxFile);	
 		}
 	}
 
