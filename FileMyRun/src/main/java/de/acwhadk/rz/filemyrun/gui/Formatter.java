@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import de.acwhadk.rz.filemyrun.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
 
 /**
  * A utility class dealing with formatting.

@@ -6,11 +6,15 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
+import de.acwhadk.rz.filemyrun.core.model.ObjectFactory;
+import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
+import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.dialog.FileFilter;
 import de.acwhadk.rz.filemyrun.dialog.FileFilterDialog;
-import de.acwhadk.rz.filemyrun.file.TrainingFile;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
@@ -35,6 +39,7 @@ public class GuiControl {
 	private Map<String, Activity> activityMap; 
 	private TrainingFile trainingFile;
 	private FileTree fileTree;
+	private ObjectFactory objectFactory;
 	private TrainingFileMan trainingFileMan; 
 	private EquipmentMan equipmentMan;
 	
@@ -45,11 +50,12 @@ public class GuiControl {
 	private GuiTabStatistic guiTabStatistic;
 	private GuiTabEquipment guiTabEquipment;	
 
-	public GuiControl(Controller controller, TrainingFileMan trainingFileMan, EquipmentMan equipmentMan, Stage primaryStage) {
+	public GuiControl(Controller controller, ObjectFactory objectFactory, Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.controller = controller;
-		this.trainingFileMan = trainingFileMan;
-		this.equipmentMan = equipmentMan;
+		this.objectFactory = objectFactory;
+		this.trainingFileMan = objectFactory.createTrainingFileMan();
+		this.equipmentMan = objectFactory.createEquipmentMan();
 		this.activityMap = new HashMap<>();
 		
 		this.guiTabOverview = new GuiTabOverview(controller, this);
@@ -192,7 +198,7 @@ public class GuiControl {
 			} else {
 				activity = activityMap.get(trainingFile.getTrainingFile());
 				if (activity == null) {
-					activity = new Activity(trainingFile);
+					activity = objectFactory.createActivity(trainingFile);
 					activityMap.put(trainingFile.getTrainingFile(), activity);
 				}
 			}
@@ -204,7 +210,6 @@ public class GuiControl {
 			showException(e);
 		}
 	}
-
 	
 	public Stage getPrimaryStage() {
 		return primaryStage;

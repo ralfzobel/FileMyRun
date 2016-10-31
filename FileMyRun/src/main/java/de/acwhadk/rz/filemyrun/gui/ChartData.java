@@ -1,19 +1,13 @@
 package de.acwhadk.rz.filemyrun.gui;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.List;
 
-import com.garmin.tcdbv2.ActivityLapT;
-import com.garmin.tcdbv2.ActivityListT;
-import com.garmin.tcdbv2.ActivityT;
-import com.garmin.tcdbv2.HeartRateInBeatsPerMinuteT;
-import com.garmin.tcdbv2.TrackT;
-import com.garmin.tcdbv2.TrackpointT;
-import com.garmin.tcdbv2.TrainingCenterDatabaseT;
-
-import de.acwhadk.rz.filemyrun.data.TrainingActivity;
-import de.acwhadk.rz.filemyrun.setup.Lang;
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.model.Lap;
+import de.acwhadk.rz.filemyrun.core.model.Track;
+import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
 
 /**
  * This class contains the data that is needed to display charts.
@@ -24,8 +18,8 @@ import de.acwhadk.rz.filemyrun.setup.Lang;
 public class ChartData {
 
 	private boolean hasHeartRateData=false;
-	private short minHeartRate=9999;
-	private short maxHeartRate=0;
+	private int minHeartRate=9999;
+	private int maxHeartRate=0;
 	
 	private boolean hasDistanceData=false;
 	private double maxDistance=0.;
@@ -39,62 +33,54 @@ public class ChartData {
 	private List<ChartDataItem> data = new ArrayList<>(1000);
 	private double maxMetersPerSecond=0.;
 	
-	public ChartData(TrainingActivity activity, long smooth) {
-		TrainingCenterDatabaseT tcxData = activity.getTrainingCenterDatabase();
-		ActivityListT activityList = tcxData.getActivities();
-		if (activityList.getActivity().size() != 1) {
-			String msg = String.format(Lang.get().text(Lang.NOT_ONE_ACTIVICTY), activityList.getActivity().size());
-			throw new RuntimeException(msg);
-		}
-		ActivityT tcxActivity = activityList.getActivity().get(0);
-		List<ActivityLapT> laps = tcxActivity.getLap();
+	public ChartData(Activity activity, long smooth) {
 		long startTime = 0;
-		for(ActivityLapT lap : laps) {
+		for(Lap lap : activity.getLaps()) {
 			double lapSecsPerKm = lap.getTotalTimeSeconds() / lap.getDistanceMeters() * 1000.;
-			List<TrackT> tracks = lap.getTrack();
-			for(TrackT track : tracks) {
-				List<TrackpointT> trackpoints = track.getTrackpoint();
-				for(TrackpointT tp : trackpoints) {
-					GregorianCalendar t = tp.getTime().toGregorianCalendar(null, null, null);
-					long time = t.getTimeInMillis();
-					if (startTime == 0) {
-						startTime = time;
-					}
-					ChartDataItem item = new ChartDataItem((time-startTime)/1000L);
-					Double dist = tp.getDistanceMeters();
-					if (dist != null) {
-						if (dist > maxDistance) {
-							maxDistance = dist;
-						}
-						item.setDistance(dist);
-						hasDistanceData = true;
-					}
-					HeartRateInBeatsPerMinuteT hf = tp.getHeartRateBpm();
-					if (hf != null) {
-						short h = hf.getValue();
-						if (minHeartRate > h) { 
-							minHeartRate = h;							
-						}
-						if (maxHeartRate < h) { 
-							maxHeartRate = h;							
-						}
-						hasHeartRateData = true;
-						item.setHeartrate((double)h);
-					}
-					Double altitude = tp.getAltitudeMeters();
-					if (altitude != null) {
-						if (minAltitude > altitude) {
-							minAltitude = altitude;
-						}
-						if (maxAltitude < altitude) {
-							maxAltitude = altitude;
-						}
-						hasAltitudeData = true;
-						item.setAltitude(altitude);
-					}
-					item.setSplitSecondsPerKm(lapSecsPerKm);
-					data.add(item);
+			Track track = lap.getTrack();
+			if (track == null) {
+				continue;
+			}
+			List<TrackPoint> trackpoints = track.getTrackpoints();
+			for(TrackPoint tp : trackpoints) {
+				Calendar t = tp.getTime();
+				long time = t.getTimeInMillis();
+				if (startTime == 0) {
+					startTime = time;
 				}
+				ChartDataItem item = new ChartDataItem((time-startTime)/1000L);
+				Double dist = tp.getDistanceMeters();
+				if (dist != null) {
+					if (dist > maxDistance) {
+						maxDistance = dist;
+					}
+					item.setDistance(dist);
+					hasDistanceData = true;
+				}
+				Integer hf = tp.getHeartRateBpm();
+				if (hf != null) {
+					if (minHeartRate > hf) { 
+						minHeartRate = hf;							
+					}
+					if (maxHeartRate < hf) { 
+						maxHeartRate = hf;							
+					}
+					hasHeartRateData = true;
+					item.setHeartrate((double)hf);
+				}
+				Double altitude = tp.getAltitudeMeters();
+				if (altitude != null) {
+					if (minAltitude > altitude) {
+						minAltitude = altitude;
+					}
+					if (maxAltitude < altitude) {
+						maxAltitude = altitude;
+					}
+					hasAltitudeData = true;
+					item.setAltitude(altitude);
+				}
+				item.setSplitSecondsPerKm(lapSecsPerKm);
+				data.add(item);
 			}
 		}
 		calculatePace(smooth);		
@@ -126,11 +112,11 @@ public class ChartData {
 		return hasHeartRateData;
 	}
 
-	public short getMinHeartRate() {
+	public int getMinHeartRate() {
 		return minHeartRate;
 	}
 
-	public short getMaxHeartRate() {
+	public int getMaxHeartRate() {
 		return maxHeartRate;
 	}
 

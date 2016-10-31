@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.acwhadk.rz.filemyrun.gui.EquipmentMan;
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.gui.GuiControl;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
 
 import java.util.Optional;
 
@@ -67,7 +67,7 @@ public class EquipmentController {
 
 	private Stage dialogStage;
 
-	private EquipmentMan equipmentMan;
+	private EquipmentMan equipmentManImplXml;
 
 	private List<String> types;
 	private Map<String, Map<Long, String>> items;
@@ -118,7 +118,7 @@ public class EquipmentController {
 	}
 
 	private void updateEquipment() {
-		Iterator<String> it = equipmentMan.getEquipmentTypes().iterator();
+		Iterator<String> it = equipmentManImplXml.getEquipmentTypes().iterator();
 		while(it.hasNext()) {
 			String type = it.next();
 			if (!types.contains(type)) {
@@ -126,11 +126,11 @@ public class EquipmentController {
 			}
 		}
 		for(String type : types) {
-			equipmentMan.addType(type);
+			equipmentManImplXml.addType(type);
 			updateItems(type);
 		}
 		try {
-			equipmentMan.save();
+			equipmentManImplXml.save();
 		} catch (Exception e) {
 			GuiControl.showException(e);
 		}
@@ -138,7 +138,7 @@ public class EquipmentController {
 
 	private void updateItems(String type) {
 		Map<Long, String> itemMap = getItemMap(type);
-		equipmentMan.setEquipmentItems(type, itemMap);
+		equipmentManImplXml.setEquipmentItems(type, itemMap);
 	}
 
 	/**
@@ -217,14 +217,14 @@ public class EquipmentController {
 			String item = result.get();
 			listEquipmentItems.getItems().add(item);
 			Map<Long, String> itemMap = getCurrentItemMap();
-			itemMap.put(equipmentMan.getNextId(), item);
+			itemMap.put(equipmentManImplXml.getNextId(), item);
 		}
 	}
 
-	public void setEquipmentMan(EquipmentMan equipmentMan) {
-		this.equipmentMan = equipmentMan;		
+	public void setEquipmentMan(EquipmentMan equipmentManImplXml) {
+		this.equipmentManImplXml = equipmentManImplXml;		
 		
-		types = equipmentMan.getEquipmentTypes();
+		types = equipmentManImplXml.getEquipmentTypes();
 		cbxEquipmentTypes.getItems().clear();
 		cbxEquipmentTypes.getItems().addAll(types);
 		if (!types.isEmpty()) {
@@ -232,7 +232,7 @@ public class EquipmentController {
 		}
 		
 		for(String t : types) {
-			 Map<Long, String> itemMap = equipmentMan.getEquipmentItems(t);
+			 Map<Long, String> itemMap = equipmentManImplXml.getEquipmentItems(t);
 			 items.put(t, itemMap);
 		}
 		

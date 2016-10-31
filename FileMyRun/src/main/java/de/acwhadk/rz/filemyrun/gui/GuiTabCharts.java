@@ -1,7 +1,8 @@
 package de.acwhadk.rz.filemyrun.gui;
 
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -107,7 +108,7 @@ public class GuiTabCharts {
 			if (smoothFactor != null) {
 				smooth = smoothFactor;
 			}
-			chartData = new ChartData(activity.getTrainingActivity(), smooth);
+			chartData = new ChartData(activity, smooth);
 
 			Series<Number,Number> series1 = getSeries(controller.getCbxChartType(), true);
 			if (series1 == null) {

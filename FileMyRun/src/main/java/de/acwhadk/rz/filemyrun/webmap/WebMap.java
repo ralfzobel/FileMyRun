@@ -1,11 +1,10 @@
 package de.acwhadk.rz.filemyrun.webmap;
 
-import com.garmin.tcdbv2.ActivityLapT;
-import com.garmin.tcdbv2.ActivityT;
-import com.garmin.tcdbv2.PositionT;
-import com.garmin.tcdbv2.TrackT;
-import com.garmin.tcdbv2.TrackpointT;
+import java.util.List;
 
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.model.Position;
+import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -30,16 +29,16 @@ public class WebMap {
 
 	public void initialize() {
 		webEngine.getLoadWorker().stateProperty().addListener(
-		new ChangeListener<State>() {
-			public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
-				if (newState == State.SUCCEEDED) {
-					tab.setDisable(false);
-				}
-			}
-		});
+				new ChangeListener<State>() {
+					public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
+						if (newState == State.SUCCEEDED) {
+							tab.setDisable(false);
+						}
+					}
+				});
 		webEngine.load(getClass().getResource("googlemap.html").toExternalForm());
 	}
-	
+
 	public void setMapTypeRoad() {
 		webEngine.executeScript("document.setMapTypeRoad()");
 	}
@@ -56,37 +55,36 @@ public class WebMap {
 		webEngine.executeScript("document.setMapTypeTerrain()");
 	}
 
-	public void setTrack(ActivityT tcActivity) {
+	public void setTrack(Activity tcActivity) {
 		webEngine.executeScript("document.startTrack()");
 		Double minLat = null;
 		Double minLon = null;
 		Double maxLat = null;
 		Double maxLon = null;
-		for(ActivityLapT lap : tcActivity.getLap()) {
-			for(TrackT t : lap.getTrack()) {
-				for(TrackpointT tp : t.getTrackpoint()) {
-					PositionT pos = tp.getPosition();
-					if (pos != null) {
-						double lat = pos.getLatitudeDegrees();
-						double lon = pos.getLongitudeDegrees();
-						if (lat == 0.0 || lon == 0.0) {
-							continue;
-						}
-						webEngine.executeScript("document.addTrackPoint(" + lat + "," + lon + ")");
-						if (minLat == null || minLat > lat) {
-							minLat = lat;
-						}
-						if (maxLat == null || maxLat < lat) {
-							maxLat = lat;
-						}
-						if (minLon == null || minLon > lon) {
-							minLon = lon;
-						}
-						if (maxLon == null || maxLon < lon) {
-							maxLon = lon;
-						}
+		for(List<TrackPoint> lap : tcActivity.getTrackPoints().values()) {
+			for(TrackPoint tp : lap) {
+				Position pos = tp.getPosition();
+				if (pos != null) {
+					double lat = pos.getLatitude();
+					double lon = pos.getLongitude();
+					if (lat == 0.0 || lon == 0.0) {
+						continue;
+					}
+					webEngine.executeScript("document.addTrackPoint(" + lat + "," + lon + ")");
+					if (minLat == null || minLat > lat) {
+						minLat = lat;
+					}
+					if (maxLat == null || maxLat < lat) {
+						maxLat = lat;
+					}
+					if (minLon == null || minLon > lon) {
+						minLon = lon;
+					}
+					if (maxLon == null || maxLon < lon) {
+						maxLon = lon;
 					}
 				}
+
 			}
 		}
 		webEngine.executeScript("document.commitTrack()");

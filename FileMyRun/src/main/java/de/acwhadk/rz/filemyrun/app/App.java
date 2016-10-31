@@ -2,12 +2,15 @@ package de.acwhadk.rz.filemyrun.app;
 
 import org.apache.log4j.Logger;
 
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
+import de.acwhadk.rz.filemyrun.core.model.ObjectFactory;
+import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Setup;
 import de.acwhadk.rz.filemyrun.gui.Controller;
-import de.acwhadk.rz.filemyrun.gui.EquipmentMan;
 import de.acwhadk.rz.filemyrun.gui.GuiControl;
-import de.acwhadk.rz.filemyrun.gui.TrainingFileMan;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Setup;
+import de.acwhadk.rz.filemyrun.xml.model.EquipmentManImpl;
+import de.acwhadk.rz.filemyrun.xml.model.TrainingFileManImpl;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -40,16 +43,14 @@ public class App extends Application {
 			icon = new Image(getClass().getResourceAsStream("running_man_32.png"));
 			primaryStage.getIcons().add(icon);
 			
-			TrainingFileMan tm = new TrainingFileMan();
-			EquipmentMan em = new EquipmentMan();
-			
 			Parent root=null;
 			Controller controller=null;
 			final FXMLLoader loader = new FXMLLoader(getClass().getResource(Const.FXML_FILEMYRUN));
 			root = (Parent) loader.load();
 			controller = loader.<Controller>getController();
 			
-			new GuiControl(controller, tm, em, primaryStage);
+			ObjectFactory objectFactory = new de.acwhadk.rz.filemyrun.xml.model.ObjectFactoryImpl(); 
+			new GuiControl(controller, objectFactory, primaryStage);
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(setup.getApplicationName());

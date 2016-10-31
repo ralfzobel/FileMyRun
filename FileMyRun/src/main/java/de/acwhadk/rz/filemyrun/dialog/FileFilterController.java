@@ -1,8 +1,8 @@
 package de.acwhadk.rz.filemyrun.dialog;
 
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.gui.GuiControl;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

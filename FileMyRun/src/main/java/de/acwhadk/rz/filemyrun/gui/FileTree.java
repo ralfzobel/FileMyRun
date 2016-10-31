@@ -12,10 +12,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
+import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
+import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.dialog.FileFilter;
-import de.acwhadk.rz.filemyrun.file.TrainingFile;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.scene.control.TreeItem;
 
 /**
@@ -32,12 +33,12 @@ public class FileTree {
 	private Map<String, TreeItem<String>> items = new HashMap<>();
 	private String filterText;
 	
-	public FileTree(TrainingFileMan trainingFileMan, FileFilter filter) {
+	public FileTree(TrainingFileMan trainingFileManImplXml, FileFilter filter) {
 		root = new TreeItem<>(Const.ROOT);
 		root.setExpanded(true);
 		initFilterText(filter);
-		SortedMap<Date, TrainingFile> trainingFiles = trainingFileMan.getTrainingFiles();
-		for(TrainingFile file : trainingFiles.values()) {
+		SortedMap<Date, TrainingFile> trainingFileImplXmls = trainingFileManImplXml.getTrainingFiles();
+		for(TrainingFile file : trainingFileImplXmls.values()) {
 			if (match(file, filter)) {
 				TreeItem<String> parentNode = getParentNode(file);
 				String name = getName(file);

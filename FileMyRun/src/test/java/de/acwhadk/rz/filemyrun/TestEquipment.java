@@ -9,11 +9,11 @@ import javax.xml.bind.JAXBException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-import de.acwhadk.rz.filemyrun.equipment.EquipmentContainer;
-import de.acwhadk.rz.filemyrun.equipment.EquipmentDefinition;
-import de.acwhadk.rz.filemyrun.equipment.EquipmentItem;
-import de.acwhadk.rz.filemyrun.equipment.EquipmentUsedEntry;
-import de.acwhadk.rz.filemyrun.xml.EquipmentContainerToXML;
+import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentContainer;
+import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentDefinition;
+import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentItem;
+import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentUsedEntry;
+import de.acwhadk.rz.filemyrun.xml.tools.EquipmentContainerToXML;
 
 public class TestEquipment {
 

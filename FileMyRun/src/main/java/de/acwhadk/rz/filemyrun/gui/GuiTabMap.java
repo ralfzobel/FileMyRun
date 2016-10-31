@@ -1,11 +1,9 @@
 package de.acwhadk.rz.filemyrun.gui;
 
-import com.garmin.tcdbv2.ActivityT;
-import com.garmin.tcdbv2.PositionT;
-import com.garmin.tcdbv2.TrackpointT;
-import com.garmin.tcdbv2.TrainingCenterDatabaseT;
-
-import de.acwhadk.rz.filemyrun.setup.Lang;
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.model.Position;
+import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.webmap.WebMap;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -111,7 +109,7 @@ public class GuiTabMap {
 	}
 	
 	private void deleteToHere(String tpName) {
-		TrackpointT tp = lapTree.getTrackPoint(tpName);
+		TrackPoint tp = lapTree.getTrackPoint(tpName);
 		try {
 			activity.deleteToHere(tp);
 			guiControl.save();
@@ -122,7 +120,7 @@ public class GuiTabMap {
 	}
 	
 	private void deleteToEnd(String tpName) {
-		TrackpointT tp = lapTree.getTrackPoint(tpName);
+		TrackPoint tp = lapTree.getTrackPoint(tpName);
 		try {
 			activity.deleteToEnd(tp);
 			guiControl.save();
@@ -136,13 +134,13 @@ public class GuiTabMap {
 		if (new_val == null || lapTree == null) {
 			return;
 		}
-		TrackpointT tp = lapTree.getTrackPoint(new_val.getValue());
+		TrackPoint tp = lapTree.getTrackPoint(new_val.getValue());
 		if (tp == null || tp.getPosition() == null) {
 			webMap.clearTrackPoint();
 			return;
 		}
-		PositionT pos = tp.getPosition();
-		webMap.setTrackPoint(pos.getLatitudeDegrees(), pos.getLongitudeDegrees());
+		Position pos = tp.getPosition();
+		webMap.setTrackPoint(pos.getLatitude(), pos.getLongitude());
 	}
 
 	public void initActivity() {
@@ -153,9 +151,7 @@ public class GuiTabMap {
 		controller.getLapTreeView().setRoot(lapTree.getRoot());
 		controller.getLapTreeView().toFront();
 		
-		TrainingCenterDatabaseT tc = activity.getTrainingActivity().getTrainingCenterDatabase();
-		ActivityT tcActivity = tc.getActivities().getActivity().get(0);
-		webMap.setTrack(tcActivity);
+		webMap.setTrack(activity);
 	}
 
 	public void setActivity(Activity activity) {

@@ -1,6 +1,6 @@
 package de.acwhadk.rz.filemyrun.dialog;
 
-import de.acwhadk.rz.filemyrun.setup.Lang;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

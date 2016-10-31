@@ -150,37 +150,37 @@ public class Controller {
     private Button btnActivityDelete;
 
     @FXML
-    private TableView<Lap> tableSplits;
+    private TableView<SplitTime> tableSplits;
     
     @FXML
-    private TableColumn<Lap, String> colSplitRound;
+    private TableColumn<SplitTime, String> colSplitRound;
 
     @FXML
-    private TableColumn<Lap, String> colSplitTime;
+    private TableColumn<SplitTime, String> colSplitTime;
 
     @FXML
-    private TableColumn<Lap, String> colSplitTotalDistance;
+    private TableColumn<SplitTime, String> colSplitTotalDistance;
 
     @FXML
-    private TableColumn<Lap, String> colSplitDistance;
+    private TableColumn<SplitTime, String> colSplitDistance;
 
     @FXML
-    private TableColumn<Lap, String> colSplitPace;
+    private TableColumn<SplitTime, String> colSplitPace;
 
     @FXML
-    private TableColumn<Lap, String> colSplitTotalTime;
+    private TableColumn<SplitTime, String> colSplitTotalTime;
 
     @FXML
-    private TableColumn<Lap, String> colSplitAverageHeartRate;
+    private TableColumn<SplitTime, String> colSplitAverageHeartRate;
 
     @FXML
-    private TableColumn<Lap, String> colSplitMaximumHeartRate;
+    private TableColumn<SplitTime, String> colSplitMaximumHeartRate;
 
     @FXML
-    private TableColumn<Lap, String> colSplitAscent;
+    private TableColumn<SplitTime, String> colSplitAscent;
 
     @FXML
-    private TableColumn<Lap, String> colSplitDescent;
+    private TableColumn<SplitTime, String> colSplitDescent;
     
     @FXML
     private Label lblSplitBestTime;
@@ -385,47 +385,47 @@ public class Controller {
 		return btnActivityCancel;
 	}
 
-	public TableView<Lap> getTableSplits() {
+	public TableView<SplitTime> getTableSplits() {
 		return tableSplits;
 	}
 
-	public TableColumn<Lap, String> getColSplitRound() {
+	public TableColumn<SplitTime, String> getColSplitRound() {
 		return colSplitRound;
 	}
 
-	public TableColumn<Lap, String> getColSplitTime() {
+	public TableColumn<SplitTime, String> getColSplitTime() {
 		return colSplitTime;
 	}
 
-	public TableColumn<Lap, String> getColSplitTotalDistance() {
+	public TableColumn<SplitTime, String> getColSplitTotalDistance() {
 		return colSplitTotalDistance;
 	}
 
-	public TableColumn<Lap, String> getColSplitDistance() {
+	public TableColumn<SplitTime, String> getColSplitDistance() {
 		return colSplitDistance;
 	}
 
-	public TableColumn<Lap, String> getColSplitPace() {
+	public TableColumn<SplitTime, String> getColSplitPace() {
 		return colSplitPace;
 	}
 
-	public TableColumn<Lap, String> getColSplitTotalTime() {
+	public TableColumn<SplitTime, String> getColSplitTotalTime() {
 		return colSplitTotalTime;
 	}
 
-	public TableColumn<Lap, String> getColSplitAverageHeartRate() {
+	public TableColumn<SplitTime, String> getColSplitAverageHeartRate() {
 		return colSplitAverageHeartRate;
 	}
 
-	public TableColumn<Lap, String> getColSplitMaximumHeartRate() {
+	public TableColumn<SplitTime, String> getColSplitMaximumHeartRate() {
 		return colSplitMaximumHeartRate;
 	}
 
-	public TableColumn<Lap, String> getColSplitAscent() {
+	public TableColumn<SplitTime, String> getColSplitAscent() {
 		return colSplitAscent;
 	}
 
-	public TableColumn<Lap, String> getColSplitDescent() {
+	public TableColumn<SplitTime, String> getColSplitDescent() {
 		return colSplitDescent;
 	}
 

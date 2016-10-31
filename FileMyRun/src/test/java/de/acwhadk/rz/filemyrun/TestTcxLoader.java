@@ -14,10 +14,10 @@ import com.garmin.tcdbv2.ActivityT;
 import com.garmin.tcdbv2.HeartRateInBeatsPerMinuteT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
-import de.acwhadk.rz.filemyrun.data.TrainingActivity;
-import de.acwhadk.rz.filemyrun.file.TrainingFile;
-import de.acwhadk.rz.filemyrun.xml.TcxLoader;
-import de.acwhadk.rz.filemyrun.xml.TrainingActivityToXML;
+import de.acwhadk.rz.filemyrun.xml.data.TrainingActivity;
+import de.acwhadk.rz.filemyrun.xml.file.TrainingFile;
+import de.acwhadk.rz.filemyrun.xml.tools.TcxLoader;
+import de.acwhadk.rz.filemyrun.xml.tools.TrainingActivityToXML;
 
 public class TestTcxLoader {
 

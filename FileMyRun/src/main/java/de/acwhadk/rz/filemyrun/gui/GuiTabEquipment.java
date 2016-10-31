@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.acwhadk.rz.filemyrun.equipment.EquipmentUsedEntry;
-
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
+import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentUsedEntry;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

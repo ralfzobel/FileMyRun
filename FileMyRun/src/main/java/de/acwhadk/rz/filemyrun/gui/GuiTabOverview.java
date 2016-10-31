@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
+import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.dialog.EquipmentDialog;
-import de.acwhadk.rz.filemyrun.file.TrainingFile;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -261,7 +263,8 @@ public class GuiTabOverview {
        			activity.setType(controller.getCbxActivityType().getSelectionModel().getSelectedItem());
        			activity.setName(controller.getTxtActivityName().getText());
        			activity.setDescription(controller.getTxtAreaDescription().getText());
-       			activity.setDistance(controller.getTxtActivityDistance().getText());
+   				double d = Double.parseDouble(controller.getTxtActivityDistance().getText());
+       			activity.setDistance(d);
        			
        			guiControl.save();
 				

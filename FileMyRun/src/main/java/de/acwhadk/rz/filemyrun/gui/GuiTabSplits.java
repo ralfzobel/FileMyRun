@@ -1,10 +1,11 @@
 package de.acwhadk.rz.filemyrun.gui;
 
 
+import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.dialog.SplitLapDialog;
 import de.acwhadk.rz.filemyrun.dialog.SplitLapDialog.SplitType;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -31,7 +32,7 @@ public class GuiTabSplits {
 	private GuiControl guiControl; 
 	private Activity activity;
 	
-	private ObservableList<Lap> splitTable = FXCollections.observableArrayList();
+	private ObservableList<SplitTime> splitTable = FXCollections.observableArrayList();
 	
 	public GuiTabSplits(Controller controller, GuiControl guiControl) {
 		super();
@@ -48,7 +49,7 @@ public class GuiTabSplits {
 	public void initActivity() {
 		splitTable.clear();
 		if (activity != null) {
-			splitTable.addAll(activity.getLaps(controller.getChkBoxSplitSnapIn().isSelected()));
+			splitTable.addAll(activity.getSplitTimes(controller.getChkBoxSplitSnapIn().isSelected()));
 		}
 		calculateLaps();
 	}
@@ -84,10 +85,10 @@ public class GuiTabSplits {
 		controller.getLblSplitAvgPace().setText(Lang.get().text(Lang.SPLIT_LBL_AVG_PACE));
 		
 		controller.getTableSplits().setRowFactory(
-			    new Callback<TableView<Lap>, TableRow<Lap>>() {
+			    new Callback<TableView<SplitTime>, TableRow<SplitTime>>() {
 			  @Override
-			  public TableRow<Lap> call(TableView<Lap> tableView) {
-			    final TableRow<Lap> row = new TableRow<>();
+			  public TableRow<SplitTime> call(TableView<SplitTime> tableView) {
+			    final TableRow<SplitTime> row = new TableRow<>();
 			    final ContextMenu rowMenu = new ContextMenu();
 			    MenuItem editItem = new MenuItem(Lang.get().text(Lang.SPLIT_MENU_SPLIT));
 			    editItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -128,9 +129,9 @@ public class GuiTabSplits {
 		setEmptySplitAverages();
 	}
 	
-	private void joinLap(Lap lap) {
+	private void joinLap(SplitTime splitTime) {
 		try {
-			activity.joinLap(Integer.parseInt(lap.getRound())-1);
+			activity.joinLap(Integer.parseInt(splitTime.getRound())-1);
 			guiControl.save();
 			initActivity();
 		} catch (Exception e) {
@@ -138,19 +139,19 @@ public class GuiTabSplits {
 		}
 	}
 
-	private void splitLap(Lap lap) {
+	private void splitLap(SplitTime splitTime) {
 		SplitLapDialog dialog = new SplitLapDialog(guiControl.getPrimaryStage());
 		try {
 			SplitType type = dialog.showDialog();
 			switch(type) {
 			case HalfTime:
-				activity.splitLapHalfTime(Integer.parseInt(lap.getRound())-1);
+				activity.splitLapHalfTime(Integer.parseInt(splitTime.getRound())-1);
 				break;
 			case HalfDist:	
-				activity.splitLapHalfDist(Integer.parseInt(lap.getRound())-1);
+				activity.splitLapHalfDist(Integer.parseInt(splitTime.getRound())-1);
 				break;
 			case AtDist:
-				activity.splitLapAtDist(Integer.parseInt(lap.getRound())-1, dialog.getSplitAtDist());
+				activity.splitLapAtDist(Integer.parseInt(splitTime.getRound())-1, dialog.getSplitAtDist());
 				break;
 			default:
 				return;
@@ -164,25 +165,25 @@ public class GuiTabSplits {
 	
     private void calculateLaps() {
     	try {
-    		ObservableList<Lap> selectedLaps = controller.getTableSplits().getSelectionModel().getSelectedItems();
+    		ObservableList<SplitTime> selectedLaps = controller.getTableSplits().getSelectionModel().getSelectedItems();
     		double totalTime = 0.0;
     		double bestTime = 999999.0;
     		double totalDistance = 0.0;
     		double bestPace = 999999.0;
     		int cnt = 0;
-    		ObservableList<Lap> laps = selectedLaps == null || selectedLaps.isEmpty() ? splitTable : selectedLaps;
-    		for(Lap lap : laps) {
-    			if (lap == null) {
+    		ObservableList<SplitTime> splitTimes = selectedLaps == null || selectedLaps.isEmpty() ? splitTable : selectedLaps;
+    		for(SplitTime splitTime : splitTimes) {
+    			if (splitTime == null) {
     				continue;
     			}
-    			totalTime += lap.getTimeInSeconds();
-    			Double dist = lap.getDistanceInMeters();
+    			totalTime += splitTime.getTimeInSeconds();
+    			Double dist = splitTime.getDistanceInMeters();
     			totalDistance += dist;
-    			if (lap.getTimeInSeconds() < bestTime) {
-    				bestTime = lap.getTimeInSeconds();
+    			if (splitTime.getTimeInSeconds() < bestTime) {
+    				bestTime = splitTime.getTimeInSeconds();
     			}
-    			if (lap.getPaceInSeconds() < bestPace) {
-    				bestPace = lap.getPaceInSeconds();
+    			if (splitTime.getPaceInSeconds() < bestPace) {
+    				bestPace = splitTime.getPaceInSeconds();
     			}
     			++cnt;
     		}

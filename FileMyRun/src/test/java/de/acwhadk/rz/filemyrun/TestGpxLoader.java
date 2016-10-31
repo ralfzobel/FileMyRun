@@ -16,7 +16,7 @@ import com.topografix.gpx.TrkType;
 import com.topografix.gpx.TrksegType;
 import com.topografix.gpx.WptType;
 
-import de.acwhadk.rz.filemyrun.xml.GpxLoader;
+import de.acwhadk.rz.filemyrun.xml.tools.GpxLoader;
 
 public class TestGpxLoader {
 

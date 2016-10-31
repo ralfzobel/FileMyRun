@@ -3,9 +3,9 @@ package de.acwhadk.rz.filemyrun.dialog;
 import java.io.IOException;
 import java.net.URL;
 
-import de.acwhadk.rz.filemyrun.gui.EquipmentMan;
-import de.acwhadk.rz.filemyrun.setup.Const;
-import de.acwhadk.rz.filemyrun.setup.Lang;
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
+import de.acwhadk.rz.filemyrun.core.setup.Const;
+import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -22,12 +22,12 @@ import javafx.stage.StageStyle;
 public class EquipmentDialog {
 
 	private Stage primaryStage;
-	private EquipmentMan equipmentMan;
+	private EquipmentMan equipmentManImplXml;
 	
-	public EquipmentDialog(Stage primaryStage, EquipmentMan equipmentMan) {
+	public EquipmentDialog(Stage primaryStage, EquipmentMan equipmentManImplXml) {
 		super();
 		this.primaryStage = primaryStage;
-		this.equipmentMan = equipmentMan;
+		this.equipmentManImplXml = equipmentManImplXml;
 	}
 	
 	public void showDialog() throws IOException {
@@ -46,7 +46,7 @@ public class EquipmentDialog {
 		// Set the controller
 		EquipmentController controller = loader.<EquipmentController>getController();
 		controller.setDialogStage(dialogStage);
-		controller.setEquipmentMan(equipmentMan);
+		controller.setEquipmentMan(equipmentManImplXml);
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
 	}
