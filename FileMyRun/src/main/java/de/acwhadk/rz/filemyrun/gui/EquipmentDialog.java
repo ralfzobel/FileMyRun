@@ -1,8 +1,9 @@
-package de.acwhadk.rz.filemyrun.dialog;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.io.IOException;
 import java.net.URL;
 
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import javafx.fxml.FXMLLoader;
@@ -13,27 +14,29 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * The file filter dialog.
+ * The equipment definition dialog.
  * 
  * @author Ralf
  *
  */
-public class FileFilterDialog {
+public class EquipmentDialog {
 
 	private Stage primaryStage;
+	private EquipmentMan equipmentManImplXml;
 	
-	public FileFilterDialog(Stage primaryStage) {
+	public EquipmentDialog(Stage primaryStage, EquipmentMan equipmentManImplXml) {
 		super();
 		this.primaryStage = primaryStage;
+		this.equipmentManImplXml = equipmentManImplXml;
 	}
 	
-	public FileFilter showDialog() throws IOException {
-		URL res = FileFilterDialog.class.getResource(Const.FXML_FILEFILTER);
+	public void showDialog() throws IOException {
+		URL res = EquipmentDialog.class.getResource(Const.FXML_EQUIPMENT);
 		// Load the fxml file and create a new stage for the popup
 		FXMLLoader loader = new FXMLLoader(res );
 		AnchorPane page = (AnchorPane) loader.load();
 		Stage dialogStage = new Stage();
-		dialogStage.setTitle(Lang.get().text(Lang.FILEFILTER_DLG_TITLE));
+		dialogStage.setTitle(Lang.get().text(Lang.EQUIPMENT_DLG_TITLE));
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(primaryStage);
 		dialogStage.initStyle(StageStyle.UTILITY);
@@ -41,11 +44,10 @@ public class FileFilterDialog {
 		dialogStage.setScene(scene);
 
 		// Set the controller
-		FileFilterController controller = loader.<FileFilterController>getController();
+		EquipmentController controller = loader.<EquipmentController>getController();
 		controller.setDialogStage(dialogStage);
+		controller.setEquipmentMan(equipmentManImplXml);
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
-		
-		return controller.getFilter();
 	}
 }

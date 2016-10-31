@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.dialog;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.time.LocalDate;
 

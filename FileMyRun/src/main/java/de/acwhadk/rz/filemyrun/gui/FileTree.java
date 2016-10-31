@@ -16,7 +16,6 @@ import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
-import de.acwhadk.rz.filemyrun.dialog.FileFilter;
 import javafx.scene.control.TreeItem;
 
 /**

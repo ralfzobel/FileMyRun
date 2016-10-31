@@ -13,8 +13,6 @@ import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
-import de.acwhadk.rz.filemyrun.dialog.FileFilter;
-import de.acwhadk.rz.filemyrun.dialog.FileFilterDialog;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;

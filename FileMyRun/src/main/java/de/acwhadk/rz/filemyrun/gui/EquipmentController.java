@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.dialog;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
-import de.acwhadk.rz.filemyrun.gui.GuiControl;
 
 import java.util.Optional;
 

@@ -1,9 +1,8 @@
-package de.acwhadk.rz.filemyrun.dialog;
+package de.acwhadk.rz.filemyrun.gui;
 
 import java.io.IOException;
 import java.net.URL;
 
-import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import javafx.fxml.FXMLLoader;
@@ -14,29 +13,27 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * The equipment definition dialog.
+ * The file filter dialog.
  * 
  * @author Ralf
  *
  */
-public class EquipmentDialog {
+public class FileFilterDialog {
 
 	private Stage primaryStage;
-	private EquipmentMan equipmentManImplXml;
 	
-	public EquipmentDialog(Stage primaryStage, EquipmentMan equipmentManImplXml) {
+	public FileFilterDialog(Stage primaryStage) {
 		super();
 		this.primaryStage = primaryStage;
-		this.equipmentManImplXml = equipmentManImplXml;
 	}
 	
-	public void showDialog() throws IOException {
-		URL res = EquipmentDialog.class.getResource(Const.FXML_EQUIPMENT);
+	public FileFilter showDialog() throws IOException {
+		URL res = FileFilterDialog.class.getResource(Const.FXML_FILEFILTER);
 		// Load the fxml file and create a new stage for the popup
 		FXMLLoader loader = new FXMLLoader(res );
 		AnchorPane page = (AnchorPane) loader.load();
 		Stage dialogStage = new Stage();
-		dialogStage.setTitle(Lang.get().text(Lang.EQUIPMENT_DLG_TITLE));
+		dialogStage.setTitle(Lang.get().text(Lang.FILEFILTER_DLG_TITLE));
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		dialogStage.initOwner(primaryStage);
 		dialogStage.initStyle(StageStyle.UTILITY);
@@ -44,10 +41,11 @@ public class EquipmentDialog {
 		dialogStage.setScene(scene);
 
 		// Set the controller
-		EquipmentController controller = loader.<EquipmentController>getController();
+		FileFilterController controller = loader.<FileFilterController>getController();
 		controller.setDialogStage(dialogStage);
-		controller.setEquipmentMan(equipmentManImplXml);
 		// Show the dialog and wait until the user closes it
 		dialogStage.showAndWait();
+		
+		return controller.getFilter();
 	}
 }
