@@ -2,6 +2,8 @@ package de.acwhadk.rz.filemyrun.xml.model;
 
 import java.util.Calendar;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.garmin.tcdbv2.ActivityLapT;
 import com.garmin.tcdbv2.HeartRateInBeatsPerMinuteT;
 import com.garmin.tcdbv2.TrackT;
@@ -97,8 +99,8 @@ public class LapImpl implements Lap {
 
 	@Override
 	public Calendar getStartTime() {
-		// TODO Auto-generated method stub
-		return null;
+		XMLGregorianCalendar cal = lap.getStartTime();
+		return cal.toGregorianCalendar();
 	}
 
 	@Override

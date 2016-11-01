@@ -1,8 +1,8 @@
-package de.acwhadk.rz.filemyrun.xml.model;
+package de.acwhadk.rz.filemyrun.jpa.model;
 
-import java.io.IOException;
-
-import javax.xml.bind.JAXBException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
@@ -16,8 +16,17 @@ import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
 
 public class ObjectFactoryImpl implements ObjectFactory {
 
+	private EntityManagerFactory entityManagerFactory;
+	private EntityManager entityManager;
+	
 	private TrainingFileManImpl trainingFileManImpl;
 	private EquipmentManImpl equipmentManImpl;
+	public ObjectFactoryImpl() {
+		super();
+		entityManagerFactory = Persistence.createEntityManagerFactory("ActivityDB");
+		entityManager = entityManagerFactory.createEntityManager();
+	}
+
 	@Override
 	public TrainingFileMan createTrainingFileMan() {
 		try {
@@ -25,7 +34,7 @@ public class ObjectFactoryImpl implements ObjectFactory {
 				trainingFileManImpl = new TrainingFileManImpl(this);
 			}
 			return trainingFileManImpl;
-		} catch (IOException | JAXBException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -73,6 +82,12 @@ public class ObjectFactoryImpl implements ObjectFactory {
 
 	@Override
 	public void close() {
+		entityManager.close();
+		entityManagerFactory.close();
+	}
+
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
 }

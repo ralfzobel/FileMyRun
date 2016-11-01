@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
+import de.acwhadk.rz.filemyrun.core.algo.Formatter;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
@@ -32,12 +33,12 @@ public class FileTree {
 	private Map<String, TreeItem<String>> items = new HashMap<>();
 	private String filterText;
 	
-	public FileTree(TrainingFileMan trainingFileManImplXml, FileFilter filter) {
+	public FileTree(TrainingFileMan trainingFileMan, FileFilter filter) {
 		root = new TreeItem<>(Const.ROOT);
 		root.setExpanded(true);
 		initFilterText(filter);
-		SortedMap<Date, TrainingFile> trainingFileImplXmls = trainingFileManImplXml.getTrainingFiles();
-		for(TrainingFile file : trainingFileImplXmls.values()) {
+		SortedMap<Date, TrainingFile> trainingFiles = trainingFileMan.getTrainingFiles();
+		for(TrainingFile file : trainingFiles.values()) {
 			if (match(file, filter)) {
 				TreeItem<String> parentNode = getParentNode(file);
 				String name = getName(file);

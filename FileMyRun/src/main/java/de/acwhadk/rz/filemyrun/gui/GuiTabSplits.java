@@ -1,6 +1,11 @@
 package de.acwhadk.rz.filemyrun.gui;
 
 
+import java.util.List;
+
+import de.acwhadk.rz.filemyrun.core.algo.Formatter;
+import de.acwhadk.rz.filemyrun.core.algo.SplitTime;
+import de.acwhadk.rz.filemyrun.core.algo.SplitTimeCreator;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
@@ -48,7 +53,8 @@ public class GuiTabSplits {
 	public void initActivity() {
 		splitTable.clear();
 		if (activity != null) {
-			splitTable.addAll(activity.getSplitTimes(controller.getChkBoxSplitSnapIn().isSelected()));
+			List<SplitTime> splitTimes = SplitTimeCreator.getSplitTimes(activity, controller.getChkBoxSplitSnapIn().isSelected());
+			splitTable.addAll(splitTimes);
 		}
 		calculateLaps();
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.acwhadk.rz.filemyrun.core.algo.Formatter;
+import de.acwhadk.rz.filemyrun.core.algo.TrackPointMan;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
@@ -25,7 +27,7 @@ public class LapTree {
 	public LapTree(Activity activity) {
 		root = new TreeItem<>(Const.ROOT);
 		root.setExpanded(true);
-		Map<String, List<TrackPoint>> lapMap = activity.getTrackPoints();
+		Map<String, List<TrackPoint>> lapMap = TrackPointMan.getTrackPoints(activity);
 		for(Entry<String, List<TrackPoint>> entry : lapMap.entrySet()) {
 			String lap = entry.getKey();
 			List<TrackPoint> tpList = entry.getValue();

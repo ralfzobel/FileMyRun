@@ -1,12 +1,15 @@
 package de.acwhadk.rz.filemyrun.xml.model;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.operation.TransformException;
@@ -130,7 +133,7 @@ public class ActivityImpl extends AbstractActivity {
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getDistance()
 	 */
 	@Override
-	public Double getDistance() throws Exception {
+	public Double getDistance() {
 		if (trainingActivity.getDistance() == null) {
 			double distance = getTrackDistance();
 			if (distance > 0.0) {
@@ -170,8 +173,12 @@ public class ActivityImpl extends AbstractActivity {
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#save()
 	 */
 	@Override
-	public void save() throws Exception {
-		TrainingActivityToXML.save(filename, trainingActivity);
+	public void save() {
+		try {
+			TrainingActivityToXML.save(filename, trainingActivity);
+		} catch (IOException | JAXBException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -360,7 +367,7 @@ public class ActivityImpl extends AbstractActivity {
 		lap.setTotalTimeSeconds(totalTimeSeconds);
 	}
 
-	private void calculateTimeAndDistByCoors(Lap lap) throws FactoryException, TransformException {
+	private void calculateTimeAndDistByCoors(Lap lap) {
 		Track track = lap.getTrack();
 		Calendar startTime = lap.getStartTime();
 		Calendar endTime = null;
@@ -371,19 +378,24 @@ public class ActivityImpl extends AbstractActivity {
 			coorList.add(c);
 			endTime = tp.getTime();
 		}
-		CoordinateTransformer trans = new CoordinateTransformer(SRID);		
-		Coordinate[] coors = trans.transform(coorList.toArray(new Coordinate[0]));
-		GeometryFactory f = new GeometryFactory(new PrecisionModel(), SRID);
-		LineString line = f.createLineString(coors);
-		Date end = endTime.getTime();
-		Date start = startTime.getTime();
-		double totalTimeSeconds = (end.getTime() - start.getTime()) / 1000.;
-		
-		lap.setDistanceMeters(line.getLength());
-		lap.setTotalTimeSeconds(totalTimeSeconds);
+		CoordinateTransformer trans;
+		try {
+			trans = new CoordinateTransformer(SRID);
+			Coordinate[] coors = trans.transform(coorList.toArray(new Coordinate[0]));
+			GeometryFactory f = new GeometryFactory(new PrecisionModel(), SRID);
+			LineString line = f.createLineString(coors);
+			Date end = endTime.getTime();
+			Date start = startTime.getTime();
+			double totalTimeSeconds = (end.getTime() - start.getTime()) / 1000.;
+			
+			lap.setDistanceMeters(line.getLength());
+			lap.setTotalTimeSeconds(totalTimeSeconds);
+		} catch (FactoryException | TransformException e) {
+			throw new RuntimeException(e);
+		}		
 	}
 
-	private void calculateAll() throws FactoryException, TransformException {
+	private void calculateAll() {
 		double time = 0.0;
 		double dist = 0.0;
 		for(Lap lap : getLaps()) {

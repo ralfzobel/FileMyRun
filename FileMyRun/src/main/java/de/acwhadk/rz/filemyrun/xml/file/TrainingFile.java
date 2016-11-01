@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
     "comment",
     "trainingFile"
 })
-public class TrainingFile implements Serializable, de.acwhadk.rz.filemyrun.core.model.TrainingFile {
+public class TrainingFile implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

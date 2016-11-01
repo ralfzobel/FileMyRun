@@ -2,6 +2,7 @@ package de.acwhadk.rz.filemyrun.webmap;
 
 import java.util.List;
 
+import de.acwhadk.rz.filemyrun.core.algo.TrackPointMan;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.model.Position;
 import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
@@ -61,7 +62,7 @@ public class WebMap {
 		Double minLon = null;
 		Double maxLat = null;
 		Double maxLon = null;
-		for(List<TrackPoint> lap : tcActivity.getTrackPoints().values()) {
+		for(List<TrackPoint> lap : TrackPointMan.getTrackPoints(tcActivity).values()) {
 			for(TrackPoint tp : lap) {
 				Position pos = tp.getPosition();
 				if (pos != null) {

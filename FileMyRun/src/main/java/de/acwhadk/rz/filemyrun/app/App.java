@@ -1,5 +1,7 @@
 package de.acwhadk.rz.filemyrun.app;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import de.acwhadk.rz.filemyrun.core.model.ObjectFactory;
@@ -7,7 +9,7 @@ import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Setup;
 import de.acwhadk.rz.filemyrun.gui.Controller;
 import de.acwhadk.rz.filemyrun.gui.GuiControl;
-
+import de.acwhadk.rz.filemyrun.jpa.model.ObjectFactoryImpl;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +32,7 @@ public class App extends Application {
 	public void start(Stage primaryStage) {
 		logger.info("FileMyRun started");
 		System.setProperty("java.net.useSystemProxies", "true");
+		ObjectFactory objectFactory = null;
 		try {
 			Setup setup = Setup.getInstance();
 			if (setup.getIoError() != null) {
@@ -46,13 +49,24 @@ public class App extends Application {
 			root = (Parent) loader.load();
 			controller = loader.<Controller>getController();
 			
-			ObjectFactory objectFactory = new de.acwhadk.rz.filemyrun.xml.model.ObjectFactoryImpl(); 
-			new GuiControl(controller, objectFactory, primaryStage);
+			ObjectFactoryImpl objectFactoryJpa = new de.acwhadk.rz.filemyrun.jpa.model.ObjectFactoryImpl();
+			objectFactory = objectFactoryJpa;
+			if (objectFactoryJpa.createTrainingFileMan().getTrainingFiles().isEmpty()) {
+				ObjectFactory objectFactoryXml = new de.acwhadk.rz.filemyrun.xml.model.ObjectFactoryImpl(); 
+				ConvertToJpa.convert(objectFactoryXml, objectFactoryJpa);
+			}
+			new GuiControl(controller, objectFactoryJpa, primaryStage);
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(setup.getApplicationName());
 		} catch (Exception e) {
 			GuiControl.showException(e);
+			if (objectFactory != null) {
+				try {
+					objectFactory.close();
+				} catch (IOException e2) {
+				}
+			}
 			Platform.exit();
 		}
 		

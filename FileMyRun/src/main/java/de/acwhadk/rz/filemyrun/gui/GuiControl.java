@@ -49,6 +49,8 @@ public class GuiControl {
 	private GuiTabEquipment guiTabEquipment;	
 
 	public GuiControl(Controller controller, ObjectFactory objectFactory, Stage primaryStage) {
+		primaryStage.setOnCloseRequest(e -> shutdown());
+		
 		this.primaryStage = primaryStage;
 		this.controller = controller;
 		this.objectFactory = objectFactory;
@@ -68,6 +70,13 @@ public class GuiControl {
 		initialize();
 	}
 	
+	private void shutdown() {
+		try {
+			objectFactory.close();
+		} catch (IOException e) {
+		}
+	}
+
 	public FileTree getFileTree() {
 		return fileTree;
 	}

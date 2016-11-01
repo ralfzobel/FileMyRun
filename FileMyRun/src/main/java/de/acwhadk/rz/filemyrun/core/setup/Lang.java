@@ -60,6 +60,7 @@ public class Lang {
 	public static final String OVERVIEW_LBL_PACE = "gui.overviewLblPace";
 	public static final String OVERVIEW_LBL_TIME = "gui.overviewLblTime";
 	public static final String PROCESS_DLG_INDEX = "gui.processDialogIndex";
+	public static final String PROCESS_DLG_CONVERSION = "gui.processDialogConversion";
 	public static final String SPLIT_COL_ASCENT = "gui.splitColAscent";
 	public static final String SPLIT_COL_AVERAGE_HEARTRATE = "gui.splitColAvgHeartRate";
 	public static final String SPLIT_COL_DESCENT = "gui.splitColDescent";

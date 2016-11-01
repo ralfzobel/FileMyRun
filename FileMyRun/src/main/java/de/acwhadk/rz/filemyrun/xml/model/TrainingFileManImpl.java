@@ -63,9 +63,6 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		save();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.TrainingFileMan#getTrainingFiles()
-	 */
 	@Override
 	public SortedMap<Date, de.acwhadk.rz.filemyrun.core.model.TrainingFile> getTrainingFiles() {
 		SortedMap<Date, de.acwhadk.rz.filemyrun.core.model.TrainingFile> map = new TreeMap<>(new Comparator<Date>() {
@@ -75,8 +72,9 @@ public class TrainingFileManImpl implements TrainingFileMan {
 			}
 		});
 		for(TrainingFile f : files) {
-			if (f.getTime() != null) {
-				map.put(f.getTime(), f);
+			TrainingFileImpl tf = new TrainingFileImpl(f);
+			if (tf.getTime() != null) {
+				map.put(tf.getTime(), tf);
 			}
 		}
 		return map;
@@ -109,8 +107,9 @@ public class TrainingFileManImpl implements TrainingFileMan {
         			try {
         				TrainingActivity activity = TrainingActivityToXML.load(file);
         				TrainingFile tf = activity.getTrainingFile();
-        				tf.setTrainingFile(file.getAbsolutePath());        				
-        				initTrainingFile(tf, activity);
+        				tf.setTrainingFile(file.getAbsolutePath());
+        				TrainingFileImpl f = new TrainingFileImpl(tf);
+        				initTrainingFile(f, activity);
         				files.add(tf);
         				if (cnt / max > 0.1) {
         					updateProgress(cnt, max);
@@ -124,7 +123,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 				return null;            	
             }
 
-			private void initTrainingFile(TrainingFile tf, TrainingActivity activity) throws Exception {
+			private void initTrainingFile(TrainingFileImpl tf, TrainingActivity activity) throws Exception {
 				if (tf.getDistance() == null) {
 					Activity a = objectFactory.createActivity(tf);
 					tf.setDistance(a.getDistance());
@@ -195,14 +194,10 @@ public class TrainingFileManImpl implements TrainingFileMan {
 	
 	private TrainingFile getTrainingFile(TrainingCenterDatabaseT tcx) {
 		Date date = getDate(tcx);	
-		return getTrainingFile(date);
+		return getTrainingFileByDate(date);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.TrainingFileMan#getTrainingFile(java.util.Date)
-	 */
-	@Override
-	public TrainingFile getTrainingFile(Date date) {
+	public TrainingFile getTrainingFileByDate(Date date) {
 		for(TrainingFile f : files) {
 			if (f.getTime().equals(date)) {
 				return f;
@@ -211,9 +206,16 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.TrainingFileMan#save()
-	 */
+	@Override
+	public de.acwhadk.rz.filemyrun.core.model.TrainingFile getTrainingFile(Date date) {
+		for(TrainingFile f : files) {
+			if (f.getTime().equals(date)) {
+				return new TrainingFileImpl(f);
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public void save() throws IOException, JAXBException {
 		TrainingFileContainer container = new TrainingFileContainer();
@@ -221,9 +223,6 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		TrainingFileContainerToXML.save(workdir + File.separator + Const.INDEX_FILE, container);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.TrainingFileMan#deleteFile(de.acwhadk.rz.filemyrun.core.model.TrainingFile)
-	 */
 	@Override
 	public void deleteFile(de.acwhadk.rz.filemyrun.core.model.TrainingFile trainingFileImplXml) {
 		files.remove(trainingFileImplXml);

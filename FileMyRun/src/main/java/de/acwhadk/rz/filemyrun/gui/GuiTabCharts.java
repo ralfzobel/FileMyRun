@@ -1,5 +1,6 @@
 package de.acwhadk.rz.filemyrun.gui;
 
+import de.acwhadk.rz.filemyrun.core.algo.Formatter;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;

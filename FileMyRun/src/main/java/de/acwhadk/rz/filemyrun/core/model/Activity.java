@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import de.acwhadk.rz.filemyrun.gui.SplitTime;
-
 public interface Activity {
 
 	String getName();
@@ -19,39 +17,37 @@ public interface Activity {
 	String getType();
 	void setType(String type);
 
-	Double getDistance() throws Exception;
+	Double getDistance();
 	void setDistance(Double dist);
 
-	double getTrackDistance() throws Exception;
+	double getTrackDistance();
 
 	long getTotalTime();
 	void setTotalTime(long t);
 
-	double getPace() throws Exception;
+	double getPace();
 
-	Long getAverageHeartRate();
+	Integer getAverageHeartRate();
 
-	Long getMaximumHeartRate();
+	Integer getMaximumHeartRate();
 
-	Long getMaximumAltitude();
+	Integer getMaximumAltitude();
 
-	Long getMinimumAltitude();
+	Integer getMinimumAltitude();
 
-	Long getAscent();
+	Integer getAscent();
 
-	Long getDescent();
+	Integer getDescent();
 
 	int getCalories();
 
 	void save() throws Exception;
 
-	Map<String, List<TrackPoint>> getTrackPoints();
+//	Map<String, List<TrackPoint>> getTrackPoints();
 
-	List<SplitTime> getSplitTimes(boolean snapIn);
-	
-	void deleteToHere(TrackPoint tp) throws Exception;
+	void deleteToHere(TrackPoint tp);
 
-	void deleteToEnd(TrackPoint tp) throws Exception;
+	void deleteToEnd(TrackPoint tp);
 
 	void joinLap(int i);
 

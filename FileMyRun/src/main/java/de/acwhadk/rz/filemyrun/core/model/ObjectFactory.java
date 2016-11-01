@@ -1,6 +1,8 @@
 package de.acwhadk.rz.filemyrun.core.model;
 
-public interface ObjectFactory {
+import java.io.Closeable;
+
+public interface ObjectFactory extends Closeable {
 	public TrainingFileMan createTrainingFileMan();
 	public EquipmentMan createEquipmentMan();
 	public Activity createActivity(TrainingFile trainingFile);

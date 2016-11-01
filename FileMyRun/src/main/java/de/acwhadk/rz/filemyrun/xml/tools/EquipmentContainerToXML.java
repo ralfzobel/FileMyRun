@@ -23,7 +23,7 @@ import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentContainer;
  */
 public class EquipmentContainerToXML {
 
-	private static final String JAXB_PACKAGES = "de.acwhadk.rz.filemyrun.equipment";
+	private static final String JAXB_PACKAGES = "de.acwhadk.rz.filemyrun.xml.equipment";
 	
 	public static EquipmentContainer load(File file) throws JAXBException {
 		JAXBContext jc = JAXBContext.newInstance(JAXB_PACKAGES);

@@ -1,4 +1,4 @@
-package de.acwhadk.rz.filemyrun.gui;
+package de.acwhadk.rz.filemyrun.core.algo;
 
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 

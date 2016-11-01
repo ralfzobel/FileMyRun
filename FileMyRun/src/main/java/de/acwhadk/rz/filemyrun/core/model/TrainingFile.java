@@ -5,27 +5,20 @@ import java.util.Date;
 public interface TrainingFile {
 
 	String getName();
-
 	void setName(String name);
 
 	Date getTime();
-
-	String getTrainingFile();
-
-	Double getDistance();
-
-	void setDistance(Double distance);
-
 	void setTime(Date time);
 
+	String getTrainingFile();
 	void setTrainingFile(String trainingFile);
 
-	String getType();
+	Double getDistance();
+	void setDistance(Double distance);
 
+	String getType();
 	void setType(String type);
 
 	String getComment();
-
 	void setComment(String comment);
-
 }

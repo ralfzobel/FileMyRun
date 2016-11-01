@@ -31,6 +31,9 @@ public class TrackPointImpl implements TrackPoint {
 
 	@Override
 	public Position getPosition() {
+		if (trackpoint.getPosition() == null) {
+			return null;
+		}
 		return new PositionImpl(trackpoint.getPosition());
 	}
 

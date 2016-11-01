@@ -1,19 +1,17 @@
 package de.acwhadk.rz.filemyrun.gui;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
+import de.acwhadk.rz.filemyrun.core.algo.Altitude;
+import de.acwhadk.rz.filemyrun.core.algo.AltitudeCreator;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.model.Lap;
 import de.acwhadk.rz.filemyrun.core.model.ObjectFactory;
 import de.acwhadk.rz.filemyrun.core.model.Track;
 import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
-import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
 
 /**
@@ -27,15 +25,13 @@ import de.acwhadk.rz.filemyrun.core.setup.Lang;
  */
 public abstract class AbstractActivity implements Activity {
 
-	private static final double THRESHOLD = 5.0;
-	
 	private Altitude totalAltitude;
 	
 	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getTrackDistance()
 	 */
 	@Override
-	public double getTrackDistance() throws Exception {
+	public double getTrackDistance() {
 		double distance = 0.0;
 		List<Lap> laps = getLaps();
 		for(Lap lap : laps) {
@@ -61,7 +57,7 @@ public abstract class AbstractActivity implements Activity {
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getPace()
 	 */
 	@Override
-	public double getPace() throws Exception {
+	public double getPace() {
 		return getTotalTime() / getDistance();
 	}
 	
@@ -69,7 +65,7 @@ public abstract class AbstractActivity implements Activity {
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getAverageHeartRate()
 	 */
 	@Override
-	public Long getAverageHeartRate() {
+	public Integer getAverageHeartRate() {
 		double heartrate = 0.0;
 		double time = 0.0;
 		List<Lap> laps = getLaps();
@@ -80,21 +76,21 @@ public abstract class AbstractActivity implements Activity {
 			heartrate += lap.getAverageHeartRateBpm()* lap.getTotalTimeSeconds();
 			time += lap.getTotalTimeSeconds();
 		}
-		return Math.round(heartrate / time);
+		return (int) Math.round(heartrate / time);
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getMaximumHeartRate()
 	 */
 	@Override
-	public Long getMaximumHeartRate() {
-		long heartrate = 0L;
+	public Integer getMaximumHeartRate() {
+		int heartrate = 0;
 		List<Lap> laps = getLaps();
 		for(Lap lap : laps) {
 			if (lap.getMaximumHeartRateBpm() == null) {
 				return null;
 			}
-			long hr = lap.getMaximumHeartRateBpm();
+			int hr = lap.getMaximumHeartRateBpm();
 			if (hr > heartrate) {
 				heartrate = hr;
 			}
@@ -106,36 +102,36 @@ public abstract class AbstractActivity implements Activity {
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getMaximumAltitude()
 	 */
 	@Override
-	public Long getMaximumAltitude() {
+	public Integer getMaximumAltitude() {
 		calculateAltitude();
-		return totalAltitude != null && totalAltitude.valid ? totalAltitude.max : null;
+		return totalAltitude != null && totalAltitude.isValid() ? totalAltitude.getMax() : null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getMinimumAltitude()
 	 */
 	@Override
-	public Long getMinimumAltitude() {
+	public Integer getMinimumAltitude() {
 		calculateAltitude();
-		return totalAltitude != null && totalAltitude.valid ? totalAltitude.min : null;
+		return totalAltitude != null && totalAltitude.isValid() ? totalAltitude.getMin() : null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getAscent()
 	 */
 	@Override
-	public Long getAscent() {
+	public Integer getAscent() {
 		calculateAltitude();
-		return totalAltitude != null && totalAltitude.valid ? totalAltitude.ascent : null;
+		return totalAltitude != null && totalAltitude.isValid() ? totalAltitude.getAscent() : null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getDescent()
 	 */
 	@Override
-	public Long getDescent() {
+	public Integer getDescent() {
 		calculateAltitude();
-		return totalAltitude != null && totalAltitude.valid ? totalAltitude.descent : null;
+		return totalAltitude != null && totalAltitude.isValid() ? totalAltitude.getDescent() : null;
 	}
 	
 	/* (non-Javadoc)
@@ -152,109 +148,10 @@ public abstract class AbstractActivity implements Activity {
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#save()
-	 */
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getTrackPoints()
-	 */
-	@Override
-	public Map<String, List<TrackPoint>> getTrackPoints() {
-		Map<String, List<TrackPoint>> tpMap = new TreeMap<>();
-		for(Lap lap : getLaps()) {
-			List<TrackPoint> tpList = new ArrayList<>();
-			Calendar cal = getLapStartTime(lap);
-			if (cal == null) {
-				continue;
-			}
-			tpMap.put(Formatter.formatFullDate(cal.getTime()), tpList );
-			Track trk = lap.getTrack();
-			if (trk.getTrackpoints() == null) {
-				continue;
-			}
-			for(TrackPoint tp : trk.getTrackpoints()) {
-				tpList.add(tp);
-			}
-		}
-		return tpMap;
-	}
-	
-	private Calendar getLapStartTime(Lap lap) {
-		Calendar t = lap.getStartTime();
-		if (t == null) {
-			Track trk = lap.getTrack();
-			if (trk != null && trk.getTrackpoints() != null) {
-				t = trk.getTrackpoints().get(0).getTime();
-			}
-		}
-		return t;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getSplitTimes(boolean)
-	 */
-	@Override
-	public List<SplitTime> getSplitTimes(boolean snapIn) {
-		List<SplitTime> laplist = new ArrayList<>();
-		List<Lap> activityLaps = getLaps();
-		double totalSeconds = 0.0;
-		double totalDistance = 0.0;
-		int round = 1;
-		for(Lap activityLap : activityLaps) {
-			SplitTime splitTime = new SplitTime();
-			splitTime.setRound(Integer.toString(round));
-			
-			double seconds = activityLap.getTotalTimeSeconds();
-			splitTime.setTime(Formatter.formatSeconds(seconds));
-			splitTime.setTimeInSeconds(seconds);
-
-			totalSeconds += seconds;
-			splitTime.setTotalTime(Formatter.formatSeconds(totalSeconds));
-			
-			double distance = activityLap.getDistanceMeters()/1000.0;
-			if (snapIn) {
-				long hektoMeters = Math.round(distance*10);
-				distance = hektoMeters / 10.0;
-			}
-			splitTime.setDistance(Formatter.formatDistance(distance));
-			splitTime.setDistanceInMeters(distance);
-			
-			totalDistance += distance;
-			splitTime.setTotalDistance(Formatter.formatDistance(totalDistance));
-			
-			double pace = seconds / distance;
-			splitTime.setPace(Formatter.formatPace(pace));
-			splitTime.setPaceInSeconds(pace);
-
-			if (activityLap.getAverageHeartRateBpm() != null) {
-				splitTime.setAverageHeartRate(Integer.toString(activityLap.getAverageHeartRateBpm()));
-				splitTime.setMaximumHeartRate(Integer.toString(activityLap.getMaximumHeartRateBpm()));
-			} else {
-				splitTime.setAverageHeartRate(Const.EMPTY);
-				splitTime.setMaximumHeartRate(Const.EMPTY);
-			}
-			
-			ArrayList<Lap> lst = new ArrayList<>();
-			lst.add(activityLap);
-			Altitude altitude = calculateAltitude(lst);
-			if (altitude != null) {
-				splitTime.setAscent(Long.toString(altitude.ascent));
-				splitTime.setDescent(Long.toString(altitude.descent));
-			} else {
-				splitTime.setAscent(Const.EMPTY);
-				splitTime.setDescent(Const.EMPTY);
-			}
-			
-			laplist.add(splitTime);
-			++round;
-		}
-		return laplist;
-	}
-	
-	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#deleteToHere(com.garmin.tcdbv2.TrackPoint)
 	 */
 	@Override
-	public void deleteToHere(TrackPoint tp) throws Exception {
+	public void deleteToHere(TrackPoint tp) {
 		boolean tpFound = false;
 		Iterator<Lap> itLap = getLaps().iterator();
 		while(itLap.hasNext()) {
@@ -289,7 +186,7 @@ public abstract class AbstractActivity implements Activity {
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#deleteToEnd(com.garmin.tcdbv2.TrackPoint)
 	 */
 	@Override
-	public void deleteToEnd(TrackPoint tp) throws Exception {
+	public void deleteToEnd(TrackPoint tp) {
 		boolean tpFound = false;
 		Iterator<Lap> itLap = getLaps().iterator();
 		while(itLap.hasNext()) {
@@ -521,96 +418,7 @@ public abstract class AbstractActivity implements Activity {
 			return;
 		}
 		List<Lap> laps = getLaps();
-		totalAltitude = calculateAltitude(laps);
-	}
-	
-	private Altitude calculateAltitude(List<Lap> laps) {
-		Altitude altitude = new Altitude();
-		altitude.valid = false;
-		
-		Double max = null;
-		Double min = null;
-		double ascent = 0.0;
-		double descent = 0.0;
-		double lastDown = 0.0;
-		double lastUp = 0.0;
-		boolean ascending = false;
-		boolean descending = false;
-		int cnt = 0;
-		int cntBad = 0;
-		for(Lap lap : laps) {
-			if (lap.getTrack() == null) {
-				return null;
-			}
-			Track trk = lap.getTrack();
-			if (trk.getTrackpoints() == null) {
-				continue;
-			}
-			for(TrackPoint tp : trk.getTrackpoints()) {
-				++cnt;
-				Double alt = tp.getAltitudeMeters();
-				if (alt == null) {
-					++cntBad;
-					continue;
-				}
-				if (min == null) {
-					lastDown = alt;
-				}
-				if (max == null) {
-					lastUp = alt;
-				}
-				if (min == null || min > alt) {
-					min = alt;
-				}
-				if (max == null || max < alt) {
-					max = alt;
-				}
-				if (alt > lastUp) {
-					if (!ascending && alt > lastUp + THRESHOLD) {
-						ascending = true;							
-						descending = false;
-					} 
-					if (ascending && alt > lastUp) {
-						ascent += (alt - lastUp);
-						lastUp = alt;
-					}
-					if (!descending) {
-						lastDown = alt;
-					}
-				}
-				if (alt < lastDown) {
-					if (!descending && alt < lastDown + THRESHOLD) {
-						descending = true;							
-						ascending = false;
-					} 
-					if (descending && alt < lastDown) {
-						descent += (lastDown -alt);
-						lastDown = alt;
-					}
-					if (!ascending) {
-						lastUp = alt;
-					}
-				}
-			}
-		}
-		if (max == null || min == null || cntBad*10 > cnt) {
-			return null;
-		}
-		altitude.min = Math.round(min);
-		altitude.max = Math.round(max);
-		altitude.ascent = Math.round(ascent);
-		altitude.descent = Math.round(descent);
-		altitude.valid = true;
-		
-		return altitude;
-	}
-	
-	private class Altitude {
-		long min;
-		long max;
-		long ascent;
-		long descent;
-		boolean valid;
+		totalAltitude = AltitudeCreator.calculateAltitude(laps);
 	}
 	
 	protected abstract ObjectFactory getObjectFactory();

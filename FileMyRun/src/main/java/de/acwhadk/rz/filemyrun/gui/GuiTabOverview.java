@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import de.acwhadk.rz.filemyrun.core.algo.Formatter;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFile;

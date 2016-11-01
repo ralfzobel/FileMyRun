@@ -1,5 +1,6 @@
 package de.acwhadk.rz.filemyrun.gui;
 
+import de.acwhadk.rz.filemyrun.core.algo.SplitTime;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
