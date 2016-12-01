@@ -100,6 +100,9 @@ public class LapImpl implements Lap {
 	@Override
 	public Calendar getStartTime() {
 		XMLGregorianCalendar cal = lap.getStartTime();
+		if (cal == null) {
+			return null;
+		}
 		return cal.toGregorianCalendar();
 	}
 

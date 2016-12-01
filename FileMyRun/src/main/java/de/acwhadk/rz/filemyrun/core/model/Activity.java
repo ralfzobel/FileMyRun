@@ -2,7 +2,6 @@ package de.acwhadk.rz.filemyrun.core.model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public interface Activity {
 
@@ -42,8 +41,6 @@ public interface Activity {
 	int getCalories();
 
 	void save() throws Exception;
-
-//	Map<String, List<TrackPoint>> getTrackPoints();
 
 	void deleteToHere(TrackPoint tp);
 

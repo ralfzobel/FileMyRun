@@ -3,6 +3,8 @@ package de.acwhadk.rz.filemyrun.app;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import javax.persistence.EntityManager;
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 import de.acwhadk.rz.filemyrun.core.gui.ExceptionDialog;
 import de.acwhadk.rz.filemyrun.core.gui.ProgressDialog;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
+import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.core.model.Lap;
 import de.acwhadk.rz.filemyrun.core.model.ObjectFactory;
 import de.acwhadk.rz.filemyrun.core.model.Position;
@@ -20,6 +23,8 @@ import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.jpa.data.ActivityData;
+import de.acwhadk.rz.filemyrun.jpa.data.EquipmentItem;
+import de.acwhadk.rz.filemyrun.jpa.data.EquipmentType;
 import de.acwhadk.rz.filemyrun.jpa.data.Track;
 import de.acwhadk.rz.filemyrun.jpa.model.ObjectFactoryImpl;
 import javafx.concurrent.Task;
@@ -28,80 +33,80 @@ public class ConvertToJpa {
 
 	final static Logger logger = Logger.getLogger(ConvertToJpa.class);
 
-	private static final int COUNT = 10;
+	private static final int COUNT = 10000;
 
 	public static void convert(ObjectFactory objectFactoryXml, ObjectFactoryImpl objectFactoryJpa) {
 		ProgressDialog pb = new ProgressDialog(Lang.get().text(Lang.PROCESS_DLG_CONVERSION));
 		Task<Void> task = new Task<Void>() {
-            @Override
-            public Void call() {
-            	convert();
+			@Override
+			public Void call() {
+				convert();
 				return null;            	
-            }
-        	private void convert() {
-        		TrainingFileMan trainingFileMan = objectFactoryXml.createTrainingFileMan();
-        		SortedMap<Date, TrainingFile> trainingFiles = trainingFileMan.getTrainingFiles();
+			}
+			private void convert() {
+				TrainingFileMan trainingFileMan = objectFactoryXml.createTrainingFileMan();
+				SortedMap<Date, TrainingFile> trainingFiles = trainingFileMan.getTrainingFiles();
 
-        		EntityManager em = objectFactoryJpa.getEntityManager();
-        		em.getTransaction().begin();
-        		try {
-        			int i=0;
-        			double max = trainingFiles.values().size();
-        			if (max > COUNT) {
-        				max = COUNT;
-        			}
-        			for(TrainingFile file : trainingFiles.values()) {
-        				logger.info("converting " + i + ": " + file.getTime() + ":" + file.getName());
-        				Activity activity = objectFactoryXml.createActivity(file);
+				EntityManager em = objectFactoryJpa.getEntityManager();
+				em.getTransaction().begin();
+				try {
+					int i=0;
+					double max = trainingFiles.values().size();
+					if (max > COUNT) {
+						max = COUNT;
+					}
+					for(TrainingFile file : trainingFiles.values()) {
+						logger.info("converting " + i + ": " + file.getTime() + ":" + file.getName());
+						Activity activity = objectFactoryXml.createActivity(file);
 
-        				de.acwhadk.rz.filemyrun.jpa.data.ActivityData activityData = createActivityData(activity);
-        				em.persist(activityData);
+						de.acwhadk.rz.filemyrun.jpa.data.ActivityData activityData = createActivityData(activity);
+						em.persist(activityData);
 
-        				de.acwhadk.rz.filemyrun.jpa.data.Activity activityHead = createActivityHead(activity);
-        				activityHead.setActivityData(activityData);
-        				em.persist(activityHead);
-        				activityData.setActivity(activityHead);
+						de.acwhadk.rz.filemyrun.jpa.data.Activity activityHead = createActivityHead(activity);
+						activityHead.setActivityData(activityData);
+						em.persist(activityHead);
+						activityData.setActivity(activityHead);
 
-        				List<de.acwhadk.rz.filemyrun.jpa.data.Lap> lapList = new ArrayList<>();
-        				for(Lap lap : activity.getLaps()) {
-        					de.acwhadk.rz.filemyrun.jpa.data.Lap lapJpa = createLap(lap);
-        					lapJpa.setActivity(activityData);
-        					lapJpa.setSeqNum(lapList.size());
-        					em.persist(lapJpa);
+						List<de.acwhadk.rz.filemyrun.jpa.data.Lap> lapList = new ArrayList<>();
+						for(Lap lap : activity.getLaps()) {
+							de.acwhadk.rz.filemyrun.jpa.data.Lap lapJpa = createLap(lap);
+							lapJpa.setActivity(activityData);
+							lapJpa.setSeqNum(lapList.size());
+							em.persist(lapJpa);
 
-        					de.acwhadk.rz.filemyrun.jpa.data.Track track = createTrack(lap.getTrack());
-        					em.persist(track);
-        					lapJpa.setTrack(track);
-        					
-        					lapList.add(lapJpa);
-        				}
-    					activityData.setLaps(lapList);
-    					
-        				if (i / max > 0.1) {
-        					updateProgress(i, max);
-        				}
-        				// TODO remove
-        				if (++i > COUNT) {
-        					logger.warn("conversion stopped after " + COUNT + " activities");
-        					break;
-        				}
-        			}
-        			em.getTransaction().commit();
-        		} catch(Exception e) {
-        			em.getTransaction().rollback();
-    				Exception e2 = new RuntimeException(e.getMessage(), e);
-    				ExceptionDialog.showException(e2);
-        		}
-        		// TODO remove
-//        		objectFactoryJpa.close();
-//        		logger.warn("SHUTDOWN, please restart");
-//        		System.exit(0);
-        	}
+							de.acwhadk.rz.filemyrun.jpa.data.Track track = createTrack(lap.getTrack());
+							em.persist(track);
+							lapJpa.setTrack(track);
+
+							lapList.add(lapJpa);
+						}
+						activityData.setLaps(lapList);
+
+						if (i / max > 0.1) {
+							updateProgress(i, max);
+						}
+						// TODO remove
+						if (++i > COUNT) {
+							logger.warn("conversion stopped after " + COUNT + " activities");
+							break;
+						}
+					}
+					em.getTransaction().commit();
+				} catch(Exception e) {
+					em.getTransaction().rollback();
+					Exception e2 = new RuntimeException(e.getMessage(), e);
+					ExceptionDialog.showException(e2);
+				}
+				// TODO remove
+				//        		objectFactoryJpa.close();
+				//        		logger.warn("SHUTDOWN, please restart");
+				//        		System.exit(0);
+			}
 		};
-        task.setOnSucceeded(event -> { pb.close(); } );
-        
+		task.setOnSucceeded(event -> { pb.close(); } );
+
 		Thread thread = new Thread(task);
-        thread.start();
+		thread.start();
 		pb.activateProgressBar(task);
 	}
 
@@ -166,4 +171,29 @@ public class ConvertToJpa {
 		return trk;
 	}
 
+	public static void convertEquipment(ObjectFactory objectFactoryXml, ObjectFactoryImpl objectFactoryJpa) {
+		EquipmentMan equipMan = objectFactoryXml.createEquipmentMan();
+		EntityManager em = objectFactoryJpa.getEntityManager();
+		em.getTransaction().begin();
+		try {
+			List<String> types = equipMan.getEquipmentTypes();
+			for(String t : types) {
+				EquipmentType equipmentType = new EquipmentType();
+				equipmentType.setType(t);
+				em.persist(equipmentType);
+
+				Map<Long, String> items = equipMan.getEquipmentItems(t);
+				for(Entry<Long, String> entry : items.entrySet()) {
+					EquipmentItem item = new EquipmentItem();
+//					item.setId();
+				}
+			}
+			em.getTransaction().commit();
+		} catch(Exception e) {
+			em.getTransaction().rollback();
+			Exception e2 = new RuntimeException(e.getMessage(), e);
+			ExceptionDialog.showException(e2);
+		}
+
+	}
 }

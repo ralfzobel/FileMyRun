@@ -2,6 +2,7 @@ package de.acwhadk.rz.filemyrun.jpa.data;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class ActivityData {
 	@OneToOne(mappedBy="activityData")
 	private Activity activity;
 	
+	@Column(length=1024)
 	private String description;
 	private String type;
 	private Long totalTime;
