@@ -1,26 +1,51 @@
 package de.acwhadk.rz.filemyrun.jpa.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
-import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentUsedEntry;
+import de.acwhadk.rz.filemyrun.jpa.data.ActivityData;
+import de.acwhadk.rz.filemyrun.jpa.data.EquipmentItem;
+import de.acwhadk.rz.filemyrun.jpa.data.EquipmentType;
+import de.acwhadk.rz.filemyrun.jpa.data.EquipmentUsedEntry;
 
 public class EquipmentManImpl implements EquipmentMan {
 
+	private ObjectFactoryImpl objectFactory;
+	public EquipmentManImpl(ObjectFactoryImpl objectFactory) {
+		this.objectFactory = objectFactory;
+	}
+	
 	@Override
 	public List<String> getEquipmentTypes() {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+		EntityManager em = objectFactory.getEntityManager();
+		TypedQuery<EquipmentType> query = em.createQuery("from EquipmentType", EquipmentType.class);
+		ArrayList<String> types = new ArrayList<>();
+		for(EquipmentType t : query.getResultList()) {
+			types.add(t.getType());
+		}
+		return types;
 	}
 
 	@Override
 	public Map<Long, String> getEquipmentItems(String type) {
-		// TODO Auto-generated method stub
-		return new HashMap<>();
+		EntityManager em = objectFactory.getEntityManager();
+		TypedQuery<EquipmentItem> query = em.createQuery("from EquipmentItem", EquipmentItem.class);
+		Map<Long, String> items = new HashMap<>();
+		for(EquipmentItem i : query.getResultList()) {
+			if (i.getType().equals(type)) {
+				items.put((long) i.getId(), i.getName());
+			}
+		}
+		return items;
 	}
 
 	@Override
@@ -30,38 +55,43 @@ public class EquipmentManImpl implements EquipmentMan {
 	}
 
 	@Override
-	public long getEquipmentUsedId(Date activity, String type) {
+	public long getEquipmentUsedId(long activity, String type) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public String getEquipmentUsedName(Date activity, String type) {
-		// TODO Auto-generated method stub
+	public String getEquipmentUsedName(long activity, String type) {
+		List<EquipmentUsedEntry> uses = getEquipmentUse();
+		for(EquipmentUsedEntry use : uses) {
+			if (use.getItem().getType().getType().equals(type) && use.getActivity().getId() == activity) {
+				return use.getItem().getName();
+			}
+		}
 		return null;
 	}
 
 	@Override
-	public long getEquipmentUsedTime(Date activity, String type) {
+	public long getEquipmentUsedTime(long activity, String type) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public double getEquipmentUsedDistance(Date activity, String type) {
+	public double getEquipmentUsedDistance(long activity, String type) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setEquipmentUsedEntry(Date activity, String type, String usedEquipment, long usedTime,
+	public void setEquipmentUsedEntry(long activity, String type, String usedEquipment, long usedTime,
 			double usedDistance) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeEquipmentUsedEntry(Date activity, String type) throws Exception {
+	public void removeEquipmentUsedEntry(long activity, String type) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
@@ -85,9 +115,28 @@ public class EquipmentManImpl implements EquipmentMan {
 	}
 
 	@Override
-	public List<EquipmentUsedEntry> getEquipmentUsedEntryList() {
+	public double getEquipmentUsedTotalDistance(Long itemId) {
 		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	private ActivityData getActivity(long id) {
+		EntityManager em = objectFactory.getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<ActivityData> criteriaQuery = cb.createQuery(ActivityData.class);
+		Root<ActivityData> c = criteriaQuery.from(ActivityData.class);
+		criteriaQuery.select(c);
+		criteriaQuery.where(cb.equal(c.get("id"), id));
+		TypedQuery<de.acwhadk.rz.filemyrun.jpa.data.ActivityData> query = 
+				em.createQuery(criteriaQuery);
+		List<ActivityData> activities = query.getResultList();
 		return null;
 	}
 
+	private List<EquipmentUsedEntry> getEquipmentUse() {
+		EntityManager em = objectFactory.getEntityManager();
+		TypedQuery<EquipmentUsedEntry> query = em.createQuery("from EquipmentUsedEntry", EquipmentUsedEntry.class);
+		return query.getResultList();
+	}
+	
 }

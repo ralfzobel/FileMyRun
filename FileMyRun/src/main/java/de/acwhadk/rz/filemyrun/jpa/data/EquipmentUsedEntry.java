@@ -1,6 +1,8 @@
 package de.acwhadk.rz.filemyrun.jpa.data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -9,6 +11,7 @@ import javax.persistence.ManyToOne;
 public class EquipmentUsedEntry {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.TABLE)
 	private int id;
 	
 	@ManyToOne

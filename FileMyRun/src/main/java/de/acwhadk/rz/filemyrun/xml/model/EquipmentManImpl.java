@@ -105,7 +105,7 @@ public class EquipmentManImpl implements EquipmentMan {
 	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#getEquipmentUsedId(java.util.Date, java.lang.String)
 	 */
 	@Override
-	public long getEquipmentUsedId(Date activity, String type) {
+	public long getEquipmentUsedId(long activity, String type) {
 		EquipmentUsedEntry entry = getEquipmentUsedEntry(activity, type);
 		if (entry == null) {
 			return 0L;
@@ -117,7 +117,7 @@ public class EquipmentManImpl implements EquipmentMan {
 	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#getEquipmentUsedName(java.util.Date, java.lang.String)
 	 */
 	@Override
-	public String getEquipmentUsedName(Date activity, String type) {
+	public String getEquipmentUsedName(long activity, String type) {
 		long id = getEquipmentUsedId(activity, type);
 		Map<Long, String> items = getEquipmentItems(type);
 		String name = items.get(id);
@@ -128,7 +128,7 @@ public class EquipmentManImpl implements EquipmentMan {
 	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#getEquipmentUsedTime(java.util.Date, java.lang.String)
 	 */
 	@Override
-	public long getEquipmentUsedTime(Date activity, String type) {
+	public long getEquipmentUsedTime(long activity, String type) {
 		EquipmentUsedEntry entry = getEquipmentUsedEntry(activity, type);
 		if (entry == null) {
 			return 0L;
@@ -140,7 +140,7 @@ public class EquipmentManImpl implements EquipmentMan {
 	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#getEquipmentUsedDistance(java.util.Date, java.lang.String)
 	 */
 	@Override
-	public double getEquipmentUsedDistance(Date activity, String type) {
+	public double getEquipmentUsedDistance(long activity, String type) {
 		EquipmentUsedEntry entry = getEquipmentUsedEntry(activity, type);
 		if (entry == null) {
 			return 0.0;
@@ -152,7 +152,7 @@ public class EquipmentManImpl implements EquipmentMan {
 	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#setEquipmentUsedEntry(java.util.Date, java.lang.String, java.lang.String, long, double)
 	 */
 	@Override
-	public void setEquipmentUsedEntry(Date activity, String type, String usedEquipment, long usedTime, double usedDistance) throws Exception {
+	public void setEquipmentUsedEntry(long activity, String type, String usedEquipment, long usedTime, double usedDistance) throws Exception {
 		if (usedEquipment == null) {
 			return;
 		}
@@ -160,7 +160,7 @@ public class EquipmentManImpl implements EquipmentMan {
 		EquipmentUsedEntry entry = getEquipmentUsedEntry(activity, type);
 		if (entry == null) {
 			entry = new EquipmentUsedEntry();
-			entry.setActivity(activity);
+			entry.setActivity(new Date(activity));
 			entry.setType(type);
 			equipment.getEquipmentUsedEntryList().add(entry);
 		}
@@ -174,13 +174,13 @@ public class EquipmentManImpl implements EquipmentMan {
 	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#removeEquipmentUsedEntry(java.util.Date, java.lang.String)
 	 */
 	@Override
-	public void removeEquipmentUsedEntry(Date activity, String type) throws Exception {
+	public void removeEquipmentUsedEntry(long activity, String type) throws Exception {
 		EquipmentUsedEntry entry = getEquipmentUsedEntry(activity, type);
 		equipment.getEquipmentUsedEntryList().remove(entry);
 		save();
 	}
 	
-	private EquipmentUsedEntry getEquipmentUsedEntry(Date activity, String type) {
+	private EquipmentUsedEntry getEquipmentUsedEntry(long activity, String type) {
 		for(EquipmentUsedEntry entry : equipment.getEquipmentUsedEntryList()) {
 			if (entry.getActivity().equals(activity) && entry.getType().equals(type)) {
 				return entry;
@@ -234,11 +234,20 @@ public class EquipmentManImpl implements EquipmentMan {
 		equipment.getEquipmentDefinitionList().add(new EquipmentDefinition(type));
 	}
 
-	/* (non-Javadoc)
-	 * @see de.acwhadk.rz.filemyrun.gui.EquipmentMan#getEquipmentUsedEntryList()
-	 */
-	@Override
 	public List<EquipmentUsedEntry> getEquipmentUsedEntryList() {
 		return equipment.getEquipmentUsedEntryList();
+	}
+
+	@Override
+	public double getEquipmentUsedTotalDistance(Long itemId) {
+		List<EquipmentUsedEntry> uses = equipment.getEquipmentUsedEntryList();
+		double dist = 0.0;
+		for(EquipmentUsedEntry use : uses) {
+			if (use.getId() != itemId) {
+				continue;
+			}
+			dist += use.getUsedDistance();
+		}
+		return dist;
 	}
 }

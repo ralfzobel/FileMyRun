@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
-import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentUsedEntry;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,15 +67,8 @@ public class GuiTabEquipment {
 			for(Entry<Long, String> entry : items.entrySet()) {
 				Long id = entry.getKey();
 				String name = entry.getValue();
-				List<EquipmentUsedEntry> uses = eqman.getEquipmentUsedEntryList();
-				Double y = 0.0;
-				for(EquipmentUsedEntry use : uses) {
-					if (use.getId() != id) {
-						continue;
-					}
-					y += use.getUsedDistance();
-				}
-				series.getData().add(new XYChart.Data<String,Number>(name, y));
+				double dist = eqman.getEquipmentUsedTotalDistance(id);
+				series.getData().add(new XYChart.Data<String,Number>(name, dist));
 			}
 			chart.getData().add(series);			
 		} catch (Exception e) {

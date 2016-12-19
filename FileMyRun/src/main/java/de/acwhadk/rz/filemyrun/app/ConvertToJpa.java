@@ -2,6 +2,7 @@ package de.acwhadk.rz.filemyrun.app;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,7 +15,6 @@ import org.apache.log4j.Logger;
 import de.acwhadk.rz.filemyrun.core.gui.ExceptionDialog;
 import de.acwhadk.rz.filemyrun.core.gui.ProgressDialog;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
-import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.core.model.Lap;
 import de.acwhadk.rz.filemyrun.core.model.ObjectFactory;
 import de.acwhadk.rz.filemyrun.core.model.Position;
@@ -27,6 +27,9 @@ import de.acwhadk.rz.filemyrun.jpa.data.EquipmentItem;
 import de.acwhadk.rz.filemyrun.jpa.data.EquipmentType;
 import de.acwhadk.rz.filemyrun.jpa.data.Track;
 import de.acwhadk.rz.filemyrun.jpa.model.ObjectFactoryImpl;
+import de.acwhadk.rz.filemyrun.jpa.model.TrainingFileManImpl;
+import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentUsedEntry;
+import de.acwhadk.rz.filemyrun.xml.model.EquipmentManImpl;
 import javafx.concurrent.Task;
 
 public class ConvertToJpa {
@@ -91,7 +94,9 @@ public class ConvertToJpa {
 							break;
 						}
 					}
+					logger.info("committing converted activities");
 					em.getTransaction().commit();
+					logger.info("conversion of activities finished");
 				} catch(Exception e) {
 					em.getTransaction().rollback();
 					Exception e2 = new RuntimeException(e.getMessage(), e);
@@ -172,11 +177,15 @@ public class ConvertToJpa {
 	}
 
 	public static void convertEquipment(ObjectFactory objectFactoryXml, ObjectFactoryImpl objectFactoryJpa) {
-		EquipmentMan equipMan = objectFactoryXml.createEquipmentMan();
+		EquipmentManImpl equipMan = (EquipmentManImpl) objectFactoryXml.createEquipmentMan();
+		TrainingFileManImpl trainingFileManJpa = (TrainingFileManImpl) objectFactoryJpa.createTrainingFileMan();
+		SortedMap<Date, TrainingFile> files = trainingFileManJpa.getTrainingFiles();
+		List<de.acwhadk.rz.filemyrun.jpa.data.Activity> activities = trainingFileManJpa.getActivities();
 		EntityManager em = objectFactoryJpa.getEntityManager();
 		em.getTransaction().begin();
 		try {
 			List<String> types = equipMan.getEquipmentTypes();
+			Map<Long, EquipmentItem> lookup = new HashMap<>();
 			for(String t : types) {
 				EquipmentType equipmentType = new EquipmentType();
 				equipmentType.setType(t);
@@ -185,15 +194,45 @@ public class ConvertToJpa {
 				Map<Long, String> items = equipMan.getEquipmentItems(t);
 				for(Entry<Long, String> entry : items.entrySet()) {
 					EquipmentItem item = new EquipmentItem();
-//					item.setId();
+					item.setType(equipmentType);
+					item.setName(entry.getValue());
+					item.setInUse(true);
+					em.persist(item);
+					lookup.put(entry.getKey(), item);
 				}
 			}
+			for(EquipmentUsedEntry entry : equipMan.getEquipmentUsedEntryList()) {
+				Date activityDate = entry.getActivity();
+				TrainingFile file = files.get(activityDate);
+				if (file == null) {
+					logger.error("no activity found for equipment");
+					continue;
+				}
+				de.acwhadk.rz.filemyrun.jpa.data.EquipmentUsedEntry e = new de.acwhadk.rz.filemyrun.jpa.data.EquipmentUsedEntry();
+				de.acwhadk.rz.filemyrun.jpa.data.Activity activity = getActivity(activityDate, activities);
+				e.setActivity(activity.getActivityData());
+				EquipmentItem item = lookup.get(entry.getId());
+				e.setItem(item);
+				em.persist(e);
+			}
+			logger.info("committing converted equipment usage");
 			em.getTransaction().commit();
+			logger.info("converting equipment usage finished");
 		} catch(Exception e) {
 			em.getTransaction().rollback();
 			Exception e2 = new RuntimeException(e.getMessage(), e);
 			ExceptionDialog.showException(e2);
 		}
 
+	}
+
+
+	private static de.acwhadk.rz.filemyrun.jpa.data.Activity getActivity(Date activityDate, List<de.acwhadk.rz.filemyrun.jpa.data.Activity> activities) {
+		for(de.acwhadk.rz.filemyrun.jpa.data.Activity a : activities) {
+			if (a.getTime().equals(activityDate)) {
+				return a;
+			}
+		}
+		return null;
 	}
 }

@@ -42,7 +42,7 @@ public class ObjectFactoryImpl implements ObjectFactory {
 	@Override
 	public EquipmentMan createEquipmentMan() {
 		if (equipmentManImpl == null) {
-			equipmentManImpl = new EquipmentManImpl();
+			equipmentManImpl = new EquipmentManImpl(this);
 		}
 		return equipmentManImpl;
 	}

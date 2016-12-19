@@ -54,6 +54,7 @@ public class App extends Application {
 			if (objectFactoryJpa.createTrainingFileMan().getTrainingFiles().isEmpty()) {
 				ObjectFactory objectFactoryXml = new de.acwhadk.rz.filemyrun.xml.model.ObjectFactoryImpl(); 
 				ConvertToJpa.convert(objectFactoryXml, objectFactoryJpa);
+				ConvertToJpa.convertEquipment(objectFactoryXml, objectFactoryJpa);
 			}
 			new GuiControl(controller, objectFactoryJpa, primaryStage);
 			Scene scene = new Scene(root);

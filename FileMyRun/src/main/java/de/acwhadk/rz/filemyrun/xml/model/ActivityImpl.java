@@ -63,6 +63,11 @@ public class ActivityImpl extends AbstractActivity {
 		tcxActivity = activityList.getActivity().get(0);
 	}
 
+	@Override
+	public long getId() {
+		return trainingActivity.getTime().getTime();
+	}
+
 	/* (non-Javadoc)
 	 * @see de.acwhadk.rz.filemyrun.gui.ActivityX#getName()
 	 */

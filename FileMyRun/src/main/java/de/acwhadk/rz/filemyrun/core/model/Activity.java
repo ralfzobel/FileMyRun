@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface Activity {
 
+	long getId();
+
 	String getName();
 	void setName(String name);
 

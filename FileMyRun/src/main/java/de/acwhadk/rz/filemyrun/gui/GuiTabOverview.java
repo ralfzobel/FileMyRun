@@ -110,8 +110,8 @@ public class GuiTabOverview {
 			ComboBox<String> cbx = getEquipmentComboBox(i);
 			String type = getEquipmentType(i, types);
 			if (type != null) {
-				String item = eqman.getEquipmentUsedName(activity.getDate(), type);
-				if (item.isEmpty()) {
+				String item = eqman.getEquipmentUsedName(activity.getId(), type);
+				if (item == null || item.isEmpty()) {
 					cbx.getSelectionModel().select(null);
 					cbx.setPromptText(type);
 				} else {
@@ -202,7 +202,7 @@ public class GuiTabOverview {
 				cbx.setEditable(false);
 				setCbxEquipmentEditable(cbx, false);
 				if (activity != null) {
-					String name = eqman.getEquipmentUsedName(activity.getDate(), type);
+					String name = eqman.getEquipmentUsedName(activity.getId(), type);
 					if (!name.isEmpty()) {
 						cbx.getSelectionModel().select(name);
 					}
@@ -315,7 +315,7 @@ public class GuiTabOverview {
 			String type = getEquipmentType(i, types);
 			if (cbx != null && type != null) {
 				String usedEquipment = cbx.getSelectionModel().getSelectedItem();
-				eqman.setEquipmentUsedEntry(activity.getDate(), type, usedEquipment, activity.getTotalTime(), activity.getDistance());
+				eqman.setEquipmentUsedEntry(activity.getDate().getTime(), type, usedEquipment, activity.getTotalTime(), activity.getDistance());
 			}
 		}
     }	

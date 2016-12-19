@@ -9,10 +9,15 @@ import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import javax.xml.bind.JAXBException;
 
 import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
+import de.acwhadk.rz.filemyrun.jpa.data.Activity;
 
 public class TrainingFileManImpl implements TrainingFileMan {
 
@@ -25,18 +30,15 @@ public class TrainingFileManImpl implements TrainingFileMan {
 	@Override
 	public SortedMap<Date, TrainingFile> getTrainingFiles() {
 		
-		SortedMap<Date, de.acwhadk.rz.filemyrun.core.model.TrainingFile> map = new TreeMap<>(new Comparator<Date>() {
+		SortedMap<Date, TrainingFile> map = new TreeMap<>(new Comparator<Date>() {
 			@Override
 			public int compare(Date o1, Date o2) {				
 				return o2.compareTo(o1);
 			}
 		});
 		
-		EntityManager em = objectFactory.getEntityManager();
-		TypedQuery<de.acwhadk.rz.filemyrun.jpa.data.Activity> query = 
-				em.createQuery("from Activity", de.acwhadk.rz.filemyrun.jpa.data.Activity.class);
-		List<de.acwhadk.rz.filemyrun.jpa.data.Activity> activities = query.getResultList();
-		for(de.acwhadk.rz.filemyrun.jpa.data.Activity a : activities) {
+		List<Activity> activities = getActivities();
+		for(Activity a : activities) {
 			TrainingFile tf = new TrainingFileImpl(a);
 			map.put(tf.getTime(), tf);
 		}
@@ -61,4 +63,10 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		
 	}
 
+	public List<Activity> getActivities() {
+		EntityManager em = objectFactory.getEntityManager();
+		TypedQuery<Activity> query = em.createQuery("from Activity", Activity.class);
+		return query.getResultList();
+	}
+	
 }

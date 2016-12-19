@@ -1,18 +1,13 @@
 package de.acwhadk.rz.filemyrun.jpa.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 
-import de.acwhadk.rz.filemyrun.core.algo.Formatter;
 import de.acwhadk.rz.filemyrun.core.model.Activity;
 import de.acwhadk.rz.filemyrun.core.model.Lap;
-import de.acwhadk.rz.filemyrun.core.model.Track;
 import de.acwhadk.rz.filemyrun.core.model.TrackPoint;
 import de.acwhadk.rz.filemyrun.core.model.TrainingFile;
 import de.acwhadk.rz.filemyrun.jpa.data.ActivityData;
@@ -26,6 +21,11 @@ public class ActivityImpl implements Activity {
 		this.objectFactoryImpl = objectFactory;
 		EntityManager em = objectFactoryImpl.getEntityManager();
 		activityData = em.find(ActivityData.class, Integer.parseInt(trainingFile.getTrainingFile()));
+	}
+
+	@Override
+	public long getId() {
+		return activityData.getId();
 	}
 
 	@Override

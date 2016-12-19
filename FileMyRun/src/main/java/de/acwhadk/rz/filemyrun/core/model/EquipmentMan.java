@@ -1,10 +1,7 @@
 package de.acwhadk.rz.filemyrun.core.model;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import de.acwhadk.rz.filemyrun.xml.equipment.EquipmentUsedEntry;
 
 public interface EquipmentMan {
 
@@ -14,18 +11,18 @@ public interface EquipmentMan {
 
 	void setEquipmentItems(String type, Map<Long, String> itemMap);
 
-	long getEquipmentUsedId(Date activity, String type);
+	long getEquipmentUsedId(long activity, String type);
 
-	String getEquipmentUsedName(Date activity, String type);
+	String getEquipmentUsedName(long activity, String type);
 
-	long getEquipmentUsedTime(Date activity, String type);
+	long getEquipmentUsedTime(long activity, String type);
 
-	double getEquipmentUsedDistance(Date activity, String type);
+	double getEquipmentUsedDistance(long activity, String type);
 
-	void setEquipmentUsedEntry(Date activity, String type, String usedEquipment, long usedTime, double usedDistance)
+	void setEquipmentUsedEntry(long activity, String type, String usedEquipment, long usedTime, double usedDistance)
 			throws Exception;
 
-	void removeEquipmentUsedEntry(Date activity, String type) throws Exception;
+	void removeEquipmentUsedEntry(long activity, String type) throws Exception;
 
 	void save() throws Exception;
 
@@ -33,6 +30,6 @@ public interface EquipmentMan {
 
 	void addType(String type);
 
-	List<EquipmentUsedEntry> getEquipmentUsedEntryList();
+	double getEquipmentUsedTotalDistance(Long itemId);
 
 }
