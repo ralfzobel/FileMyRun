@@ -1,6 +1,8 @@
 package de.acwhadk.rz.filemyrun.xml.model;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +20,7 @@ import java.util.TreeMap;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.garmin.tcdbv2.ActivityLapT;
 import com.garmin.tcdbv2.ActivityT;
 import com.garmin.tcdbv2.TrainingCenterDatabaseT;
 
@@ -29,6 +32,7 @@ import de.acwhadk.rz.filemyrun.core.model.TrainingFileMan;
 import de.acwhadk.rz.filemyrun.core.setup.Const;
 import de.acwhadk.rz.filemyrun.core.setup.Lang;
 import de.acwhadk.rz.filemyrun.core.setup.Setup;
+import de.acwhadk.rz.filemyrun.gui.GuiControl;
 import de.acwhadk.rz.filemyrun.xml.data.TrainingActivity;
 import de.acwhadk.rz.filemyrun.xml.file.TrainingFile;
 import de.acwhadk.rz.filemyrun.xml.file.TrainingFileContainer;
@@ -151,6 +155,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 				}
 				TcxLoader tcxLoader = new TcxLoader();
 				TrainingCenterDatabaseT tcx = tcxLoader.loadTcx(file);
+				importLapDataFromCSV();
 				TrainingFile tf = getTrainingFile(tcx);
 				if (tf == null) {
 					TrainingActivity activity = new TrainingActivity();
@@ -172,6 +177,97 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		}
 	}
 
+	private void importLapDataFromCSV(String tcxFilename, TrainingCenterDatabaseT tcx) {
+		String filename = tcxFilename.replace(".tcx", ".csv");
+		File file = new File(filename);
+		if (!file.exists() || !file.isFile()) {
+			return;
+		}
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+			String line;
+			int i=0;
+			List<LapFromCsv> laps = new ArrayList<>();
+			while ((line = br.readLine()) != null) {
+				String[] parts = line.split(",");
+				if (parts.length < 4) {
+					continue;
+				}
+				if (i==0) {
+					// check columns
+					if (!"Zwischenzeit".equals(parts[0])) {
+						GuiControl.showException(new RuntimeException("CSV-Format has changed"));
+					}
+					if (!"Zeit".equals(parts[1])) {
+						GuiControl.showException(new RuntimeException("CSV-Format has changed"));
+					}
+					if (!"Distanz".equals(parts[3])) {
+						GuiControl.showException(new RuntimeException("CSV-Format has changed"));
+					}
+				} else {
+					// import data
+					if ("Summary".equals(parts[0])) {
+						continue;
+					}
+					int n = Integer.parseInt(parts[0]);
+					if (n != i) {
+						GuiControl.showException(new RuntimeException("CSV-Format has invalid line count"));
+					}
+					double time = getTotalTime(parts[1]);					
+					double distance = Double.parseDouble(parts[3]) * 1000.0;
+					LapFromCsv lap = new LapFromCsv(n-1, time, distance);
+					laps.add(lap);
+				}
+				++i;
+			}
+			ActivityT activity = tcx.getActivities().getActivity().get(0);
+			if (laps.size() != activity.getLap().size()) {
+				GuiControl.showException(new RuntimeException("CSV-Format has invalid lap count"));
+			}
+			for(LapFromCsv lap : laps) {
+				ActivityLapT activityLap = activity.getLap().get(lap.n);
+				activityLap.setTotalTimeSeconds(lap.time);
+				activityLap.setDistanceMeters(lap.distance);
+			}
+		} catch (Exception e) {
+			GuiControl.showException(e);
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+	  				GuiControl.showException(e);
+				}
+			}
+		}
+		moveFile(file);
+	}
+
+	private double getTotalTime(String t) {
+		String[] parts = t.split("[:\\.]");
+		if (parts.length != 4) {
+			throw new RuntimeException("invalid total time: " + t);
+		}
+		int hours = Integer.parseInt(parts[0]);
+		int minutes = Integer.parseInt(parts[1]);
+		int seconds = Integer.parseInt(parts[2]);
+		int millis = Integer.parseInt(parts[3]);
+		return hours*3600.0 + minutes*60.0 + seconds + millis/1000.0;
+	}
+
+	private class LapFromCsv {
+		int n;
+		double time;
+		double distance;
+		public LapFromCsv(int n, double time, double distance) {
+			super();
+			this.n = n;
+			this.time = time;
+			this.distance = distance;
+		}
+	}
+	
 	private void moveFile(File file) {
 		String oldPathName = file.getAbsolutePath();
 		String newPathName = importeddir + File.separator + file.getName();
