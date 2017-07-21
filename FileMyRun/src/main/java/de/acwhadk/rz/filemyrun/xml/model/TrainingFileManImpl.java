@@ -155,7 +155,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 				}
 				TcxLoader tcxLoader = new TcxLoader();
 				TrainingCenterDatabaseT tcx = tcxLoader.loadTcx(file);
-				importLapDataFromCSV();
+				importLapDataFromCSV(file.getAbsolutePath(), tcx);
 				TrainingFile tf = getTrainingFile(tcx);
 				if (tf == null) {
 					TrainingActivity activity = new TrainingActivity();
