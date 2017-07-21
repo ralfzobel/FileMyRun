@@ -11,6 +11,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.log4j.Logger;
+
 import de.acwhadk.rz.filemyrun.core.model.EquipmentMan;
 import de.acwhadk.rz.filemyrun.jpa.data.ActivityData;
 import de.acwhadk.rz.filemyrun.jpa.data.EquipmentItem;
@@ -19,6 +21,8 @@ import de.acwhadk.rz.filemyrun.jpa.data.EquipmentUsedEntry;
 
 public class EquipmentManImpl implements EquipmentMan {
 
+	final static Logger logger = Logger.getLogger(EquipmentManImpl.class);
+	
 	private ObjectFactoryImpl objectFactory;
 	public EquipmentManImpl(ObjectFactoryImpl objectFactory) {
 		this.objectFactory = objectFactory;
@@ -41,7 +45,7 @@ public class EquipmentManImpl implements EquipmentMan {
 		TypedQuery<EquipmentItem> query = em.createQuery("from EquipmentItem", EquipmentItem.class);
 		Map<Long, String> items = new HashMap<>();
 		for(EquipmentItem i : query.getResultList()) {
-			if (i.getType().equals(type)) {
+			if (i.getType().getType().equals(type)) {
 				items.put((long) i.getId(), i.getName());
 			}
 		}
@@ -79,7 +83,6 @@ public class EquipmentManImpl implements EquipmentMan {
 
 	@Override
 	public double getEquipmentUsedDistance(long activity, String type) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -116,8 +119,19 @@ public class EquipmentManImpl implements EquipmentMan {
 
 	@Override
 	public double getEquipmentUsedTotalDistance(Long itemId) {
-		// TODO Auto-generated method stub
-		return 0;
+		logger.debug("getEquipmentUsedTotalDistance(itemId) " + itemId + " entered");
+		List<EquipmentUsedEntry> uses = getEquipmentUse();
+		double totaldist = 0.0;
+		for(EquipmentUsedEntry use : uses) {
+			int id = use.getItem().getId();
+			if ((long) id == itemId) {
+				ActivityData a = use.getActivity();
+				Double distance = a.getActivity().getDistance();
+				totaldist += distance;
+			}
+		}
+		logger.debug("getEquipmentUsedTotalDistance(itemId) " + itemId + " returned " + totaldist);
+		return totaldist;
 	}
 	
 	private ActivityData getActivity(long id) {

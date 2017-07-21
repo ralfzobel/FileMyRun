@@ -263,8 +263,9 @@ public class GuiTabOverview {
        			activity.setType(controller.getCbxActivityType().getSelectionModel().getSelectedItem());
        			activity.setName(controller.getTxtActivityName().getText());
        			activity.setDescription(controller.getTxtAreaDescription().getText());
-   				double d = Double.parseDouble(controller.getTxtActivityDistance().getText());
-       			activity.setDistance(d);
+// TODO decode '7,53 km' to distance       			
+//   				double d = Double.parseDouble(controller.getTxtActivityDistance().getText().replace(',', '.'));
+//       			activity.setDistance(d);
        			
        			guiControl.save();
 				

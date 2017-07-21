@@ -12,8 +12,10 @@ public interface TrainingFileMan {
 
 	TrainingFile getTrainingFile(Date date);
 
-	void save() throws IOException, JAXBException;
+	void commit() throws IOException, JAXBException;
 
 	void deleteFile(de.acwhadk.rz.filemyrun.core.model.TrainingFile trainingFileImplXml);
+
+	void beginTransaction();
 
 }

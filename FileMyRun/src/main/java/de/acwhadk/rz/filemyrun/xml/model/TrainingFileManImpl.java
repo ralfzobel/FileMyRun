@@ -60,7 +60,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		this.importeddir = Setup.getInstance().getImportedFolder();
 		readTrainingFileListXML();
 		importTrainingFilesFromTcx();
-		save();
+		commit();
 	}
 
 	@Override
@@ -217,7 +217,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 	}
 	
 	@Override
-	public void save() throws IOException, JAXBException {
+	public void commit() throws IOException, JAXBException {
 		TrainingFileContainer container = new TrainingFileContainer();
 		container.setFileList(files);
 		TrainingFileContainerToXML.save(workdir + File.separator + Const.INDEX_FILE, container);
@@ -228,7 +228,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		files.remove(trainingFileImplXml);
 
 		try {
-			save();
+			commit();
 		} catch (IOException | JAXBException e) {
 			String msg = Lang.get().text(Lang.TFM_SAVE_INDEX_FAILED);
 			Exception e2 = new RuntimeException(msg, e);
@@ -241,6 +241,10 @@ public class TrainingFileManImpl implements TrainingFileMan {
 			Exception e = new RuntimeException(msg);
 			ExceptionDialog.showException(e);
 		}
+	}
+
+	@Override
+	public void beginTransaction() {
 	}
 	
 }

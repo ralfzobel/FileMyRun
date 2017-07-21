@@ -110,13 +110,14 @@ public class GuiControl {
 			return;
 		}
 		activity.save();
-			
-		TrainingFile tf = trainingFileMan .getTrainingFile(activity.getDate());
+		
+		trainingFileMan.beginTransaction();	
+		TrainingFile tf = trainingFileMan.getTrainingFile(activity.getDate());
    		tf.setType(activity.getType());
    		tf.setName(activity.getName());
    	    tf.setDistance(activity.getDistance());
    	    tf.setComment(activity.getDescription());
-		trainingFileMan.save();
+		trainingFileMan.commit();
 	}
 	
 	private void initialize() {

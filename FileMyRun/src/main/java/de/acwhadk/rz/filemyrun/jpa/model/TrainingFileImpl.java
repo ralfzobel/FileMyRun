@@ -20,7 +20,8 @@ public class TrainingFileImpl implements TrainingFile {
 
 	@Override
 	public void setName(String name) {
-		throw new UnsupportedOperationException();
+		activity.setName(name);
+//		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -50,7 +51,8 @@ public class TrainingFileImpl implements TrainingFile {
 
 	@Override
 	public void setDistance(Double distance) {
-		throw new UnsupportedOperationException();
+		activity.setDistance(distance);
+//		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -60,7 +62,8 @@ public class TrainingFileImpl implements TrainingFile {
 
 	@Override
 	public void setType(String type) {
-		throw new UnsupportedOperationException();
+		activity.getActivityData().setType(type);
+//		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -70,7 +73,8 @@ public class TrainingFileImpl implements TrainingFile {
 
 	@Override
 	public void setComment(String comment) {
-		throw new UnsupportedOperationException();
+		activity.getActivityData().setDescription(comment);
+//		throw new UnsupportedOperationException();
 	}
 
 }

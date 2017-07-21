@@ -5,7 +5,7 @@
 /.classpath
 /changes.txt
 /dependency-reduced-pom.xml
-/FileMyRun.log
+/FileMyRun.log*
 /howto-git.txt
 /bin/
 /FileMyRun.log.1

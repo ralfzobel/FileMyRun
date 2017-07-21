@@ -47,14 +47,7 @@ public class TrainingFileManImpl implements TrainingFileMan {
 
 	@Override
 	public TrainingFile getTrainingFile(Date date) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void save() throws IOException, JAXBException {
-		// TODO Auto-generated method stub
-		
+		return getTrainingFiles().get(date);
 	}
 
 	@Override
@@ -68,5 +61,20 @@ public class TrainingFileManImpl implements TrainingFileMan {
 		TypedQuery<Activity> query = em.createQuery("from Activity", Activity.class);
 		return query.getResultList();
 	}
+
+	@Override
+	public void beginTransaction() {
+		EntityManager em = objectFactory.getEntityManager();
+		if (em.getTransaction().isActive()) {
+			em.getTransaction().rollback();
+		}
+		em.getTransaction().begin();
+	}
 	
+	@Override
+	public void commit() throws IOException, JAXBException {
+		EntityManager em = objectFactory.getEntityManager();
+		em.getTransaction().commit();
+	}
+
 }
